@@ -126,3 +126,6 @@ app.*.map.json
 !.idea/runConfigurations/
 
 lib/firebase_options/firebase_options_dev.dart
+android/app/src/development/google-services.json
+ios/Runner/GoogleService-Info.plist
+ios/firebase_app_id_file.json
