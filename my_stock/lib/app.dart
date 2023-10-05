@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -7,25 +6,46 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              FirebaseAuth _auth = FirebaseAuth.instance;
-              await _auth.verifyPhoneNumber(
-                phoneNumber: "+821000000000",
-                verificationCompleted: (PhoneAuthCredential credential) {
-                  print("인증 문자 수신");
-                },
-                verificationFailed: (FirebaseAuthException e) {
-                  throw e;
-                },
-                codeSent: (String verificationId, int? resendToken) async {},
-                codeAutoRetrievalTimeout: (String verificationId) {},
-              );
-            },
-            child: Text("010-0000-0000"),
-          ),
+      home: MyApp(),
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.area_chart,
+              size: 200,
+              color: Colors.red,
+            ),
+            const SizedBox(height: 20),
+            Container(
+              width: 200,
+              height: 50,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.grey,
+                  )),
+              child: Center(
+                child: Text(
+                  '구글 로그인',
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
