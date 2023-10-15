@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:my_stock/app/presentation/screen/entry_flow/sign_in_screen/sign_in_screen.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -6,48 +8,17 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyApp(),
-    );
-  }
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.area_chart,
-              size: 200,
-              color: Colors.red,
-            ),
-            const SizedBox(height: 20),
-            Container(
-              width: 200,
-              height: 50,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: Colors.white,
-                  border: Border.all(
-                    color: Colors.grey,
-                  )),
-              child: Center(
-                child: Text(
-                  '구글 로그인',
-                  style: TextStyle(
-                    fontSize: 30,
-                  ),
-                ),
-              ),
-            ),
-          ],
+      theme: ThemeData(
+        colorScheme: const ColorScheme.light(
+          background: Colors.white,
         ),
+        fontFamily: "pretendard",
       ),
+      routes: {
+        SignInScreen.routeName: (context) => SignInScreen(),
+      },
+      initialRoute: SignInScreen.routeName,
+      builder: EasyLoading.init(),
     );
   }
 }
