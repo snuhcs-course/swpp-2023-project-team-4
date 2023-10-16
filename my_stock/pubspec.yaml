@@ -11,7 +11,10 @@ dependencies:
   firebase_core: ^2.16.0
   flutter:
     sdk: flutter
-flutter_easyloading: ^3.0.5
+  flutter_easyloading: ^3.0.5
+  get_it: ^7.6.4
+  google_sign_in: ^6.1.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -22,3 +25,25 @@ flutter:
   assets:
     - assets/
     - assets/images/
+
+ fonts:
+    - family: pretendard
+      fonts:
+        - asset: assets/fonts/Pretendard-Thin.otf
+          weight: 100
+        - asset: assets/fonts/Pretendard-ExtraLight.otf
+          weight: 200
+        - asset: assets/fonts/Pretendard-Light.otf
+          weight: 300
+        - asset: assets/fonts/Pretendard-Regular.otf
+          weight: 400
+        - asset: assets/fonts/Pretendard-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Pretendard-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/Pretendard-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Pretendard-ExtraBold.otf
+          weight: 800
+        - asset: assets/fonts/Pretendard-Black.otf
+          weight: 900
