@@ -166,7 +166,10 @@ AUTHENTICATION_BACKENDS = (
 
 REST_AUTH = {
     'USE_JWT': True,
+    'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
 }
+
+ACCOUNT_ADAPTER = 'user.adapters.CustomAccountAdapter'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
