@@ -10,6 +10,22 @@ from django.conf import settings
 DUMMY_PW = getattr(settings, 'DUMMY_PW', None)
 
 
+class SignInView(APIView):
+    permission_classes = (IsAuthenticated,)
+    
+    def post(self, request):
+        req_url = request.build_absolute_uri(reverse('signin').replace('signin/', 'dj-rest-auth/login/'))
+        req_payload = {'google_id': request.data['google_id'], 'username': request.data['google_id'], 'password': DUMMY_PW}
+        
+        r = requests.post(req_url, data=req_payload)
+        if r.status_code == 200:
+            res_payload = {"access_token": r.json()['access'], "refresh_token": r.json()['refresh']}
+            return Response(res_payload, status=200)
+        else:
+            res_payload = {"message": f"User with Google id '{request.data['google_id']}' doesn’t exist."}
+            return Response(res_payload, status=401)
+
+
 class SignUpView(APIView):
     permission_classes = (AllowAny,)
 
