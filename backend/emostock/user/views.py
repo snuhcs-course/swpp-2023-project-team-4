@@ -40,3 +40,16 @@ class SignUpView(APIView):
             return Response(res_payload, status=201)
         else:
             return Response(r.json(), status=400)
+
+
+class SignOutView(APIView):
+    permission_classes = (IsAuthenticated,)
+    
+    def post(self, request):
+        req_url = request.build_absolute_uri(reverse('signout').replace('signout/', 'dj-rest-auth/logout/'))
+
+        r = requests.post(req_url)
+        if r.status_code == 200:
+            return Response({"message: Signout Success"}, status=200)
+        else:
+            return Response(r.json(), status=401)
