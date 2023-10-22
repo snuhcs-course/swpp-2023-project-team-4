@@ -14,8 +14,8 @@ class _SelectableBottomNavigationBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       asset,
-      width: isSelected ? 33 : 28,
-      height: isSelected ? 33 : 28,
+      width: isSelected ? 28 : 24,
+      height: isSelected ? 28 : 24,
       fit: BoxFit.fill,
       color: isSelected ? IconColor.selected : null,
     );
