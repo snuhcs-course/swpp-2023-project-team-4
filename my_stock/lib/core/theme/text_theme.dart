@@ -60,3 +60,4 @@ extension MyTextColor on TextStyle {
 
   TextStyle get white => copyWith(color: Colors.white);
 }
+

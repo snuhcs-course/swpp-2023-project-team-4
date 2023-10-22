@@ -37,7 +37,6 @@ class _MainIndexedStackScreenState extends State<MainIndexedStackScreen> {
           onTap: (index) {
             setState(() {
               currentIndex = index;
-              print(currentIndex);
             });
           },
           showSelectedLabels: false,

@@ -99,3 +99,6 @@ class _NicknameScreenState extends State<NicknameScreen> {
     );
   }
 }
+
+
+my_stock/lib/app/presentation/screen/bottom_nav_0_main_indexed_stack_screen/widgets/selectable_bottom_navigation_bar_item.dart

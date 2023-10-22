@@ -3,3 +3,4 @@ int getDaysInMonth({required int year, required int month}) {
   DateTime firstDayOfNextMonth = DateTime(year, month + 1, 1);
   return firstDayOfNextMonth.difference(firstDayOfMonth).inDays;
 }
+
