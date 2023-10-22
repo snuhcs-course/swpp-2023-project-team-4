@@ -1,4 +1,6 @@
-class Date {
+import 'package:equatable/equatable.dart';
+
+class Date extends Equatable {
   final int year;
   final int month;
   final int day;
@@ -16,4 +18,6 @@ class Date {
       day: dateTime.day,
     );
   }
+  @override
+  List<Object?> get props => [year, month, day];
 }
