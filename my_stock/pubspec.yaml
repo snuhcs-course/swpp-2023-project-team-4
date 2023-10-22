@@ -7,17 +7,18 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  dio: ^5.3.3
   equatable: ^2.0.5
   firebase_auth: ^4.10.0
   firebase_core: ^2.16.0
   flutter:
     sdk: flutter
+  flutter_easyloading: ^3.0.5
+  flutter_holo_date_picker: ^1.1.2+1
   get_it: ^7.6.4
   google_sign_in: ^6.1.5
-  flutter_holo_date_picker: ^1.1.2+1
-  flutter_easyloading: ^3.0.5
-
-
+  provider: ^6.0.5
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -29,7 +30,34 @@ flutter:
   assets:
     - assets/
     - assets/images/
-   fonts:
+  fonts:
     - family: Pretendard
       fonts:
-
+        - asset: assets/fonts/Pretendard-Thin.otf
+          weight: 100
+        - asset: assets/fonts/Pretendard-ExtraLight.otf
+          weight: 200
+        - asset: assets/fonts/Pretendard-Light.otf
+          weight: 300
+        - asset: assets/fonts/Pretendard-Regular.otf
+          weight: 400
+        - asset: assets/fonts/Pretendard-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Pretendard-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/Pretendard-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Pretendard-ExtraBold.otf
+          weight: 800
+        - asset: assets/fonts/Pretendard-Black.otf
+          weight: 900
+    - family: NanumBarunGothic
+      fonts:
+        - asset: assets/fonts/NanumBarunGothicLight.otf
+          weight: 300
+        - asset: assets/fonts/NanumBarunGothic.otf
+          weight: 400
+    - family: TiltNeon
+      fonts:
+        - asset: assets/fonts/TiltNeon-Regular.ttf
+          weight: 400
