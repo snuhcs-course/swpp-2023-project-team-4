@@ -9,7 +9,12 @@ class _RecordEmotionDialog extends StatelessWidget {
     EmotionVMEnum.sadder,
   ];
 
-  _RecordEmotionDialog({super.key});
+  final void Function(EmotionVMEnum emotion) onEmotionSelected;
+
+  _RecordEmotionDialog({
+    super.key,
+    required this.onEmotionSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +43,18 @@ class _RecordEmotionDialog extends StatelessWidget {
     for (int i = 0; i < emotions.length; i++) {
       children.add(
         Expanded(
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: emotions[i].color,
+          child: GestureDetector(
+            onTap: () {
+              onEmotionSelected(emotions[i]);
+              MyNavigator.pop();
+            },
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: emotions[i].color,
+                ),
               ),
             ),
           ),
