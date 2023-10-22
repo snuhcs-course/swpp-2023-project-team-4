@@ -8,5 +8,5 @@ class DateEmotionVM {
   DateEmotionVM({
     this.date,
     this.emotion,
-  }) : assert((date == null && emotion == null) || (date != null && emotion != null));
+  });
 }
