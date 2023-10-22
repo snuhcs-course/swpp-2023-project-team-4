@@ -31,7 +31,7 @@ flutter:
     - assets/
     - assets/images/
   fonts:
-    - family: Pretendard
+    - family: pretendard
       fonts:
         - asset: assets/fonts/Pretendard-Thin.otf
           weight: 100

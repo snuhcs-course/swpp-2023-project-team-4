@@ -25,7 +25,7 @@ abstract class LogoColor {
 
 abstract class BackgroundColor {
   static const white = Color(0xfffbfbfb);
-  static const defaultColor = Color(0xfff9f6e9);
+  static const defaultColor = Color(0xfff9e6e9);
 }
 
 abstract class IconColor {
