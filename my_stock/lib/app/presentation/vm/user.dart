@@ -1,7 +1,7 @@
-class User {
+class UserVM {
   final String nickname;
 
-  User({
+  const UserVM({
     required this.nickname,
   });
 }

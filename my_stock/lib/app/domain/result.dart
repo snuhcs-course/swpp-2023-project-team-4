@@ -1,24 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:my_stock/app/presentation/screen/entry_flow/sign_in_screen/sign_in_screen.dart';
-
-class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: const ColorScheme.light(
-          background: Colors.white,
-        ),
-        fontFamily: "pretendard",
-      ),
-      routes: {
-        SignInScreen.routeName: (context) => SignInScreen(),
-      },
-      initialRoute: SignInScreen.routeName,
-      builder: EasyLoading.init(),
-    );
+sealed class Result<D, I extends Enum?> {
+  factory Result.success(D data) {
+    return Success<D, I>(data);
   }
+
+  factory Result.fail(I issue) {
+    return Fail<D, I>(issue);
+  }
+}
+
+class Success<D, I extends Enum?> implements Result<D, I> {
+  Success(this.data);
+
+  final D data;
+}
+
+class Fail<D, I extends Enum?> implements Result<D, I> {
+  Fail(this.issue);
+
+  final I issue;
+}
+
+enum DefaultIssue {
+  unknown,
+  badRequest,
+  unAuthorized,
 }

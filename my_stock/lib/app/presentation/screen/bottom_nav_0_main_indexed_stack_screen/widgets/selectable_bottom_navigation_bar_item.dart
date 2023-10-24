@@ -21,4 +21,3 @@ class _SelectableBottomNavigationBarItem extends StatelessWidget {
     );
   }
 }
-

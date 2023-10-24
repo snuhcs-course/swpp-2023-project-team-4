@@ -5,4 +5,3 @@ enum Emotion {
   sad,
   sadder,
 }
-

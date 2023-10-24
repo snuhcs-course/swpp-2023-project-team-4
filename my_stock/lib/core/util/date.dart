@@ -18,6 +18,7 @@ class Date extends Equatable {
       day: dateTime.day,
     );
   }
+
   @override
   List<Object?> get props => [year, month, day];
 }

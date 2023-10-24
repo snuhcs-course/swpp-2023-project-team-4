@@ -12,4 +12,3 @@ class GraphScreen extends StatelessWidget {
     );
   }
 }
-
