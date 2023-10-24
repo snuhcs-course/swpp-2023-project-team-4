@@ -1,3 +1,5 @@
+import 'package:my_stock/app/domain/result.dart';
+
 import '../service_interface/auth_service.dart';
 
 class SignInUseCase {
@@ -7,7 +9,17 @@ class SignInUseCase {
     required AuthService authService,
   }) : _authService = authService;
 
-  Future<void> call() async {
-    await _authService.signInByGoogle();
+  Future<void> call({
+    required void Function() onSuccess,
+    required void Function() onFail,
+  }) async {
+    final result = await _authService.signInByGoogle();
+
+    switch (result) {
+      case Success(:final data):
+        onSuccess();
+      case Fail(:final issue):
+        onFail();
+    }
   }
 }

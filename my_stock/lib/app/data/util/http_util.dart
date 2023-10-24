@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class HttpUtil {
   Dio _dio = Dio();
   SharedPreferences _pref = GetIt.I.get<SharedPreferences>();
@@ -21,8 +20,14 @@ class HttpUtil {
 
   static HttpUtil get I => _httpUtil;
 
-  void saveAccessToken(String accessToken) async {
+  bool get isAuthorized => _pref.get('access_token') != null;
+
+  Future<void> saveAccessToken(String accessToken) async {
     await _pref.setString('access_token', accessToken);
+  }
+
+  Future<void> deleteAccessToken() async {
+    await _pref.remove('access_token');
   }
 
   Future<Response<T>> get<T>(String endpoint, {Map<String, dynamic>? queryParameters}) async {

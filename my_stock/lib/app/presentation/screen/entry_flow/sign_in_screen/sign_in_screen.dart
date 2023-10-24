@@ -20,9 +20,9 @@ class SignInScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Image.asset("assets/images/logo.png"),
+                Image.asset(
+                  "assets/images/logo.png",
+                  width: 180,
                 ),
                 const SizedBox(height: 100),
                 Builder(builder: (context) {
@@ -33,32 +33,34 @@ class SignInScreen extends StatelessWidget {
                     child: Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(
-                        vertical: 17,
-                        horizontal: 20,
+                        vertical: 10,
+                        horizontal: 10,
                       ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
+                        borderRadius: BorderRadius.circular(20),
                         color: Colors.white,
                         border: Border.all(
                           color: Colors.blue,
                         ),
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Image.asset(
                             "assets/images/google_logo.png",
                             width: 30,
                             height: 30,
+                            fit: BoxFit.fill,
                           ),
-                          Spacer(),
                           Text(
                             "Google로 로그인",
                             style: TextStyle(
-                              fontSize: 22,
+                              fontSize: 15,
                               fontWeight: FontWeight.w400,
+                              fontFamily: "Pretendard",
                             ),
                           ),
-                          Spacer(),
+                          const SizedBox(width: 40),
                         ],
                       ),
                     ),
