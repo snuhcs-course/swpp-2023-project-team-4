@@ -29,13 +29,19 @@ class CalendarScreenViewModel with ChangeNotifier {
     isSelectedMap.clear();
 
     int days = getDaysInMonth(year: yearMonth.year, month: yearMonth.month);
+    Date currentDate = Date.fromDateTime(DateTime.now());
     for (int i = 1; i <= days; i++) {
       Date date = Date(
         year: yearMonth.year,
         month: yearMonth.month,
         day: i,
       );
-      dateEmotionList.add(DateEmotionVM(date: date, emotion: EmotionVMEnum.notFilled));
+      print(date);
+      EmotionVMEnum? fillEmotion = EmotionVMEnum.notFilled;
+      if (date > currentDate) {
+        fillEmotion = null;
+      }
+      dateEmotionList.add(DateEmotionVM(date: date, emotion: fillEmotion));
       isSelectedMap[date] = false;
     }
 

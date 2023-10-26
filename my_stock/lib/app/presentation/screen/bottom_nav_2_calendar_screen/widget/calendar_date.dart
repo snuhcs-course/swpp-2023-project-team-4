@@ -17,6 +17,7 @@ class _CalendarDate extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (dateEmotionVM.date == null) return;
+        if (dateEmotionVM.emotion == null) return;
         onTap(dateEmotionVM.date!);
       },
       child: Column(
