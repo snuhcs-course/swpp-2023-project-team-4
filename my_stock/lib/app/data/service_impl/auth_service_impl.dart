@@ -9,13 +9,13 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<Result<void, Enum>> signInByGoogle() async {
     final GoogleSignInAccount? googleUser;
+    String googleId;
     try {
       googleUser = await GoogleSignIn().signIn();
+      googleId = googleUser!.id;
     } catch (e) {
       return Fail(DefaultIssue.badRequest);
     }
-    String googleId = googleUser!.id;
-
     print("googleId: $googleId");
     return Success(null);
   }
