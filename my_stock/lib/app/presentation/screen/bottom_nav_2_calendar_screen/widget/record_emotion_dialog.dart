@@ -21,7 +21,7 @@ class _RecordEmotionDialog extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 27).copyWith(
         top: 26,
-        bottom: 33,
+        bottom: 30,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -33,6 +33,28 @@ class _RecordEmotionDialog extends StatelessWidget {
           Text("오늘 하루를 기록해주세요", style: BodyTextStyle.nanum14.writeText),
           const SizedBox(height: 24),
           _buildEmotionRow(),
+          const SizedBox(height: 24),
+          Container(
+            height: 70,
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: StrokeColor.writeText,
+                width: 1,
+              ),
+            ),
+            child: TextFormField(
+              maxLines: null,
+              style: BodyTextStyle.nanum14.writeText,
+              decoration: InputDecoration(
+                isCollapsed: true,
+                border: InputBorder.none,
+                hintText: "당신의 오늘 하루는 어땠나요?",
+                hintStyle: BodyTextStyle.nanum14.writeText,
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -36,7 +36,6 @@ class CalendarScreenViewModel with ChangeNotifier {
         month: yearMonth.month,
         day: i,
       );
-      print(date);
       EmotionVMEnum? fillEmotion = EmotionVMEnum.notFilled;
       if (date > currentDate) {
         fillEmotion = null;
