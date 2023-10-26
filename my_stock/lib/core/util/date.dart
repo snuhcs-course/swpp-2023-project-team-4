@@ -19,6 +19,19 @@ class Date extends Equatable {
     );
   }
 
+  bool operator >(covariant Date other) {
+    if (this.year == other.year) {
+      if (this.month == other.month) {
+        if (this.day > other.day) {
+          return true;
+        }
+        return false;
+      }
+      return this.month > other.month;
+    }
+    return this.year > other.year;
+  }
+
   @override
   List<Object?> get props => [year, month, day];
 }
