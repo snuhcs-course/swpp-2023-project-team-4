@@ -7,7 +7,7 @@ class HttpUtil {
   SharedPreferences _pref = GetIt.I.get<SharedPreferences>();
 
   HttpUtil._() {
-    _dio.options.baseUrl = 'https://api.github.com';
+    _dio.options.baseUrl = 'https://emostock-18fz.onrender.com';
     _dio.interceptors.add(
       InterceptorsWrapper(onRequest: (options, handler) {
         options.headers['Authorization'] = 'Bearer ${_pref.getString('access_token')}';
