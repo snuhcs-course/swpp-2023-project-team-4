@@ -4,6 +4,8 @@ import 'package:my_stock/app/domain/result.dart';
 import 'package:my_stock/app/domain/service_interface/auth_service.dart';
 
 class AuthServiceImpl implements AuthService {
+  final HttpUtil _httpUtil = HttpUtil.I;
+
   @override
   Future<Result<void, Enum>> signInByGoogle() async {
     final GoogleSignInAccount? googleUser;
@@ -13,6 +15,7 @@ class AuthServiceImpl implements AuthService {
       return Fail(DefaultIssue.badRequest);
     }
     String googleId = googleUser!.id;
+
     print("googleId: $googleId");
     return Success(null);
   }
