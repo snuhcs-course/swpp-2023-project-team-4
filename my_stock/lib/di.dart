@@ -12,5 +12,6 @@ void setup() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   getIt.registerSingleton<SharedPreferences>(prefs);
   getIt.registerSingleton<AuthService>(AuthServiceImpl());
+
   getIt.registerSingleton<LocalRepository>(LocalRepositoryImpl());
 }
