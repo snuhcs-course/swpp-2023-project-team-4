@@ -24,7 +24,24 @@ class App extends StatelessWidget {
         MainIndexedStackScreen.routeName: (context) => MainIndexedStackScreen(),
       },
       initialRoute: SignInScreen.routeName,
-      builder: EasyLoading.init(),
+      builder: EasyLoading.init(
+        builder: (context, child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: ScrollConfiguration(
+              behavior: _MyScrollBehavior(),
+              child: child!,
+            ),
+          );
+        },
+      ),
     );
+  }
+}
+
+class _MyScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
   }
 }
