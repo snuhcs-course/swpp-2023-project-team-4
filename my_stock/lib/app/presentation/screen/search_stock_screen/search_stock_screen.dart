@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_stock/app/presentation/util/my_navigator.dart';
+import 'package:my_stock/app/presentation/vm/stock.dart';
 import 'package:my_stock/core/theme/color_theme.dart';
 import 'package:my_stock/core/theme/text_theme.dart';
 import 'package:provider/provider.dart';
@@ -68,8 +69,8 @@ class SearchStockScreen extends StatelessWidget {
                       physics: ClampingScrollPhysics(),
                       itemBuilder: (context, index) {
                         return _SearchedTile(
-                          imageUrl: "",
-                          companyName: viewModel.searchedList[index],
+                          key: ValueKey(viewModel.searchedList[index]),
+                          stock: viewModel.searchedList[index],
                           searchKeyword: viewModel.controller.text,
                         );
                       },
