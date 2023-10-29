@@ -95,3 +95,25 @@ class EmotionUpdateView(APIView):
             
         res_payload = {"message": "Record Success"}
         return Response(res_payload, status=200)
+        
+    def delete(self, request, *args, **kwargs):
+        try:
+            target_date = self.check_date(kwargs['year'], kwargs['month'], kwargs['day'])
+        except DateNotValid:
+            res_payload = {"message": "Not allowed to modify emotions from before this week or future."}
+            return Response(res_payload, status=405)
+        
+        try:
+            target_emotion_list = self.get_queryset()
+        except User.DoesNotExist:
+            res_payload = {"message": f"User with Google id '{kwargs['google_id']}' doesn’t exist."}
+            return Response(res_payload, 404)
+        
+        if target_emotion_list:
+            emotion = target_emotion_list[0]
+            emotion.delete()
+            res_payload = {"message": "Delete Success"}
+            return Response(res_payload, status=200)
+        else:
+            res_payload = {"message": "No emotion record for that date"}
+            return Response(res_payload, status=404)
