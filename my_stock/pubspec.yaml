@@ -21,6 +21,7 @@ dependencies:
   shared_preferences: ^2.2.2
   freezed: ^2.4.1
   cached_network_image: ^3.3.0
+  intl: ^0.18.1
 
 dev_dependencies:
   build_runner: ^2.4.6
