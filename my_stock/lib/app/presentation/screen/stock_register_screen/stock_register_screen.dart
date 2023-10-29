@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_stock/app/presentation/screen/stock_register_screen/add_buy_history_screen/add_buy_history_screen.dart';
+import 'package:my_stock/app/presentation/util/my_navigator.dart';
 import 'package:my_stock/app/presentation/vm/stock.dart';
 import 'package:my_stock/core/theme/color_theme.dart';
 import 'package:my_stock/core/theme/text_theme.dart';
@@ -80,7 +82,12 @@ class StockRegisterScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
               child: Column(
                 children: [
-                  _Button(onTap: () {}, text: "구매내역 추가하기", borderColor: StrokeColor.buy),
+                  _Button(
+                      onTap: () {
+                        MyNavigator.push(AddBuyHistoryScreen());
+                      },
+                      text: "구매내역 추가하기",
+                      borderColor: StrokeColor.buy),
                   const SizedBox(height: 20),
                   _Button(onTap: () {}, text: "판매내역 추가하기", borderColor: StrokeColor.sell),
                 ],
