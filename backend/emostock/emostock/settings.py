@@ -14,8 +14,6 @@ from pathlib import Path
 from datetime import timedelta
 import os
 
-DUMMY_PW = 'dummypw12'
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -160,6 +158,7 @@ ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 AUTHENTICATION_BACKENDS = (
+    'user.auth_backend.CustomAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
@@ -167,6 +166,7 @@ AUTHENTICATION_BACKENDS = (
 REST_AUTH = {
     'USE_JWT': True,
     'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
+    'LOGIN_SERIALIZER': 'user.serializers.CustomLoginSerializer',
 }
 
 ACCOUNT_ADAPTER = 'user.adapters.CustomAccountAdapter'
