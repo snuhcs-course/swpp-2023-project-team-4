@@ -1,11 +1,12 @@
-part of '../stock_register_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:my_stock/core/theme/text_theme.dart';
 
-class _Button extends StatelessWidget {
+class Button extends StatelessWidget {
   final void Function() onTap;
   final String text;
   final Color borderColor;
 
-  const _Button({
+  const Button({
     super.key,
     required this.onTap,
     required this.text,
