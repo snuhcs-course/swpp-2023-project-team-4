@@ -65,6 +65,7 @@ class SearchStockScreen extends StatelessWidget {
                 child: Consumer<SearchStockScreenViewModel>(
                   builder: (_, viewModel, __) {
                     return ListView.separated(
+                      physics: ClampingScrollPhysics(),
                       itemBuilder: (context, index) {
                         return _SearchedTile(
                           imageUrl: "",
