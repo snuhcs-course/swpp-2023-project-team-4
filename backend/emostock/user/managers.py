@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
             **extra_fields
         )
 
-        user.set_password(getattr(settings, 'DUMMY_PW', None))
+        user.set_unusable_password()
         user.save()
 
         return user

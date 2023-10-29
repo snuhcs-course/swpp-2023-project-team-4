@@ -19,5 +19,6 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/user/<str:google_id>/emotions/', include('emotion.urls')),
     path('api/user/', include('user.urls')),
 ]
