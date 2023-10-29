@@ -23,11 +23,17 @@ class _SearchedTile extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 9),
       child: Row(
         children: [
+          const SizedBox(width: 10),
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
             child: CachedNetworkImage(
+              width: 38,
+              height: 38,
+              fit: BoxFit.fill,
               imageUrl: imageUrl,
               errorWidget: (context, url, error) => Container(
+                width: 38,
+                height: 38,
                 color: Colors.grey,
               ),
             ),
