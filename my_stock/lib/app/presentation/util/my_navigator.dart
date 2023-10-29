@@ -8,6 +8,11 @@ abstract class MyNavigator {
     Navigator.pushNamed(context, routeName);
   }
 
+  static void push(Widget widget) {
+    BuildContext context = NavigatorKey.key.currentContext!;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
+  }
+
   static void pushReplacementNamed(String routeName) {
     BuildContext context = NavigatorKey.key.currentContext!;
     Navigator.pushReplacementNamed(context, routeName);

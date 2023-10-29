@@ -12,6 +12,16 @@ abstract class HeaderTextStyle {
         fontSize: 18,
         fontWeight: FontWeight.w400,
       );
+
+  static TextStyle get nanum20Bold => TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+      );
+
+  static TextStyle get nanum24 => TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w400,
+      );
 }
 
 abstract class BodyTextStyle {

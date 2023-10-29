@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:my_stock/app/presentation/screen/stock_register_screen/stock_register_screen.dart';
 import 'package:my_stock/app/presentation/util/my_navigator.dart';
 import 'package:my_stock/app/presentation/vm/stock.dart';
 import 'package:my_stock/core/theme/color_theme.dart';

@@ -3,6 +3,8 @@ import 'dart:ui';
 abstract class StrokeColor {
   static const writeText = Color(0xffbdbdbd);
   static const button = Color(0xffb9e1ff);
+  static const buy = Color(0xfff7c1bc);
+  static const sell = Color(0xffa59ec7);
 }
 
 abstract class TextColor {

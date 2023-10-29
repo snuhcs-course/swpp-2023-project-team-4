@@ -18,7 +18,9 @@ class _SearchedTile extends StatelessWidget {
     String second = companyName.substring(index, index + searchKeyword.length);
     String third = companyName.substring(index + searchKeyword.length);
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        MyNavigator.push(StockRegisterScreen(stock));
+      },
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 9),
@@ -41,24 +43,25 @@ class _SearchedTile extends StatelessWidget {
             ),
             const SizedBox(width: 13),
             RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: first,
-                      style: OtherTextStyle.button.writeText,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: first,
+                    style: OtherTextStyle.button.writeText,
+                  ),
+                  TextSpan(
+                    text: second,
+                    style: OtherTextStyle.button.writeText.copyWith(
+                      color: IconColor.selected,
                     ),
-                    TextSpan(
-                      text: second,
-                      style: OtherTextStyle.button.writeText.copyWith(
-                        color: IconColor.selected,
-                      ),
-                    ),
-                    TextSpan(
-                      text: third,
-                      style: OtherTextStyle.button.writeText,
-                    ),
-                  ],
-                ))
+                  ),
+                  TextSpan(
+                    text: third,
+                    style: OtherTextStyle.button.writeText,
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
