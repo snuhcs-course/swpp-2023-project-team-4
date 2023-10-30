@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AddBuyHistoryScreenViewModel with ChangeNotifier {
+class AddHistoryScreenViewModel with ChangeNotifier {
   TextEditingController priceController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
   TextEditingController otherController = TextEditingController();
   FocusNode priceFocusNode = FocusNode();
   FocusNode quantityFocusNode = FocusNode();
 
-  AddBuyHistoryScreenViewModel() {
+  final bool buy;
+
+  AddHistoryScreenViewModel({
+    required this.buy,
+  }) {
     final _formatter = NumberFormat("#,###");
     priceFocusNode.addListener(() {
       notifyListeners();

@@ -8,21 +8,23 @@ import 'package:my_stock/core/theme/color_theme.dart';
 import 'package:my_stock/core/theme/text_theme.dart';
 import 'package:provider/provider.dart';
 
-import 'add_buy_history_screen_view_model.dart';
+import 'add_history_screen_view_model.dart';
 
-class AddBuyHistoryScreen extends StatelessWidget {
+class AddHistoryScreen extends StatelessWidget {
   final StockVM stock;
+  final bool buy;
 
-  const AddBuyHistoryScreen(
+  const AddHistoryScreen(
     this.stock, {
     super.key,
+    required this.buy,
   });
 
   @override
   Widget build(BuildContext context) {
     final NumberFormat formatter = NumberFormat("#,###");
     return ChangeNotifierProvider(
-      create: (context) => AddBuyHistoryScreenViewModel(),
+      create: (context) => AddHistoryScreenViewModel(buy: buy),
       child: Scaffold(
         backgroundColor: BackgroundColor.defaultColor,
         body: SafeArea(
@@ -62,10 +64,17 @@ class AddBuyHistoryScreen extends StatelessWidget {
                                 style: BodyTextStyle.nanum12Light.black,
                               ),
                               const SizedBox(width: 10),
-                              Text(
-                                "-2.5%",
-                                style:
-                                    BodyTextStyle.nanum12Light.copyWith(color: IconColor.selected),
+                              Builder(
+                                builder: (context) {
+                                  return Text(
+                                    "-2.5%",
+                                    style: BodyTextStyle.nanum12Light.copyWith(
+                                      color: context.read<AddHistoryScreenViewModel>().buy
+                                          ? IconColor.selected
+                                          : StrokeColor.sell,
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -81,15 +90,15 @@ class AddBuyHistoryScreen extends StatelessWidget {
               Builder(
                 builder: (context) {
                   FocusNode priceFocusNode =
-                      context.watch<AddBuyHistoryScreenViewModel>().priceFocusNode;
+                      context.watch<AddHistoryScreenViewModel>().priceFocusNode;
                   FocusNode quantityFocusNode =
-                      context.watch<AddBuyHistoryScreenViewModel>().quantityFocusNode;
+                      context.watch<AddHistoryScreenViewModel>().quantityFocusNode;
                   TextEditingController priceController =
-                      context.read<AddBuyHistoryScreenViewModel>().priceController;
+                      context.read<AddHistoryScreenViewModel>().priceController;
                   TextEditingController quantityController =
-                      context.read<AddBuyHistoryScreenViewModel>().quantityController;
+                      context.read<AddHistoryScreenViewModel>().quantityController;
                   TextEditingController otherController =
-                      context.read<AddBuyHistoryScreenViewModel>().otherController;
+                      context.read<AddHistoryScreenViewModel>().otherController;
                   return NumberKeyboard(
                     controller: priceFocusNode.hasFocus
                         ? priceController
@@ -101,11 +110,15 @@ class AddBuyHistoryScreen extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Button(
-                  onTap: () {},
-                  text: "구매내역 추가하기",
-                  borderColor: StrokeColor.buy,
-                ),
+                child: Builder(builder: (context) {
+                  return Button(
+                    onTap: () {},
+                    text: "${context.read<AddHistoryScreenViewModel>().buy ? "구매" : "판매"}내역 추가하기",
+                    borderColor: context.read<AddHistoryScreenViewModel>().buy
+                        ? StrokeColor.buy
+                        : StrokeColor.sell,
+                  );
+                }),
               ),
               const SizedBox(height: 15),
             ],
@@ -136,7 +149,7 @@ class _PriceQuantityInputState extends State<_PriceQuantityInput> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<AddBuyHistoryScreenViewModel>().priceFocusNode.requestFocus();
+      context.read<AddHistoryScreenViewModel>().priceFocusNode.requestFocus();
     });
   }
 
@@ -148,13 +161,14 @@ class _PriceQuantityInputState extends State<_PriceQuantityInput> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("구매가격", style: HeaderTextStyle.nanum18),
+          Text("${context.read<AddHistoryScreenViewModel>().buy ? "구매" : "판매"}가격",
+              style: HeaderTextStyle.nanum18),
           const SizedBox(height: 8),
           Row(
             children: [
               FitTextField(
-                focusNode: context.read<AddBuyHistoryScreenViewModel>().priceFocusNode,
-                controller: context.read<AddBuyHistoryScreenViewModel>().priceController,
+                focusNode: context.read<AddHistoryScreenViewModel>().priceFocusNode,
+                controller: context.read<AddHistoryScreenViewModel>().priceController,
                 textStyle: HeaderTextStyle.nanum24.black,
                 hintText: _formatter.format(widget.stock.price),
               ),
@@ -163,14 +177,14 @@ class _PriceQuantityInputState extends State<_PriceQuantityInput> {
           ),
           const SizedBox(height: 20),
           FitTextField(
-            focusNode: context.read<AddBuyHistoryScreenViewModel>().quantityFocusNode,
-            controller: context.read<AddBuyHistoryScreenViewModel>().quantityController,
+            focusNode: context.read<AddHistoryScreenViewModel>().quantityFocusNode,
+            controller: context.read<AddHistoryScreenViewModel>().quantityController,
             textStyle: HeaderTextStyle.nanum24.black,
-            hintText: "몇 주 구매하셨나요?",
+            hintText: "몇 주 ${context.read<AddHistoryScreenViewModel>().buy ? "구매" : "판매"}하셨나요?",
             minWidth: 200,
           ),
           const SizedBox(height: 8),
-          Consumer<AddBuyHistoryScreenViewModel>(builder: (_, viewModel, __) {
+          Consumer<AddHistoryScreenViewModel>(builder: (_, viewModel, __) {
             if (viewModel.priceController.text.isEmpty || viewModel.quantityController.text.isEmpty)
               return SizedBox.shrink();
             int price = int.parse(viewModel.priceController.text.replaceAll(",", ""));
@@ -194,7 +208,11 @@ class _PriceQuantityInputState extends State<_PriceQuantityInput> {
             }
             return Text(
               "${textList.join()}원",
-              style: HeaderTextStyle.nanum16.copyWith(color: IconColor.selected),
+              style: HeaderTextStyle.nanum16.copyWith(
+                color: context.read<AddHistoryScreenViewModel>().buy
+                    ? IconColor.selected
+                    : StrokeColor.sell,
+              ),
             );
           }),
         ],
