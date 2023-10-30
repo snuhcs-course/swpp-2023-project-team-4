@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/user/<str:google_id>/emotions/', include('emotion.urls')),
     path('api/user/', include('user.urls')),
+    path('', include('stock.urls')),
 ]

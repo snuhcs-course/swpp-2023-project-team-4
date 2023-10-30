@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_extensions',
     'user',
     'rest_framework',
     'rest_framework.authtoken',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'emotion',
+    'stock',
 ]
 
 MIDDLEWARE = [
