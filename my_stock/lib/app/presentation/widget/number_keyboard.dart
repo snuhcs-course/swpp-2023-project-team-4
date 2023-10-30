@@ -21,7 +21,22 @@ class _KeyboardTile extends StatelessWidget {
       onTap: onTap ??
           () {
             if (disabled) return;
-            controller.text = controller.text + text;
+            String currentText = controller.text.replaceAll(",", "");
+            currentText += text;
+            List<String> segments = [];
+
+            for (int i = currentText.length - 3; i >= -2; i -= 3) {
+              segments.add(currentText.substring(i < 0 ? 0 : i, i + 3));
+            }
+            List<String> commaSegments = [];
+            segments = segments.reversed.toList();
+            commaSegments.add(segments.first);
+            for (int i = 1; i < segments.length; i++) {
+              commaSegments.add(",");
+              commaSegments.add(segments[i]);
+            }
+
+            controller.text = commaSegments.join();
           },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 20),
@@ -129,7 +144,27 @@ class NumberKeyboard extends StatelessWidget {
                 text: "←",
                 onTap: () {
                   if (controller.text.isEmpty) return;
-                  controller.text = controller.text.substring(0, controller.text.length - 1);
+                  String currentText = controller.text.replaceAll(",", "");
+                  currentText = currentText.substring(0, currentText.length - 1);
+
+                  if (currentText.isEmpty) {
+                    controller.text = "";
+                    return;
+                  }
+                  List<String> segments = [];
+
+                  for (int i = currentText.length - 3; i >= -2; i -= 3) {
+                    segments.add(currentText.substring(i < 0 ? 0 : i, i + 3));
+                  }
+                  List<String> commaSegments = [];
+                  segments = segments.reversed.toList();
+                  commaSegments.add(segments.first);
+                  for (int i = 1; i < segments.length; i++) {
+                    commaSegments.add(",");
+                    commaSegments.add(segments[i]);
+                  }
+
+                  controller.text = commaSegments.join();
                 },
               ),
             ),

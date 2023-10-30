@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:my_stock/core/theme/color_theme.dart';
 
 class FitTextField extends StatefulWidget {
@@ -23,8 +22,6 @@ class FitTextField extends StatefulWidget {
 }
 
 class FitTextFieldState extends State<FitTextField> {
-  final intl.NumberFormat _formatter = intl.NumberFormat("#,###");
-
   @override
   void initState() {
     // TODO: implement initState
@@ -38,9 +35,16 @@ class FitTextFieldState extends State<FitTextField> {
   Widget build(BuildContext context) {
     // Use TextPainter to calculate the width of our text
     TextSpan ts = new TextSpan(style: widget.textStyle, text: widget.controller.text);
-    TextPainter tp = new TextPainter(text: ts, textDirection: TextDirection.ltr);
-    tp.layout();
-    var textWidth = tp.width; // We will use this width for the container wrapping our TextField
+    TextPainter tp = new TextPainter(
+      text: ts,
+      textDirection: TextDirection.ltr,
+      maxLines: 1,
+      textAlign: TextAlign.left,
+    )..layout();
+    var textWidth =
+        tp.size.width; // We will use this width for the container wrapping our TextField
+
+    print(textWidth);
 
     // Enforce a minimum width
     if (textWidth < widget.minWidth) {

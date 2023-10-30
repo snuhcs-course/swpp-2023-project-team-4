@@ -185,8 +185,10 @@ class _PriceQuantityInputState extends State<_PriceQuantityInput> {
           ),
           const SizedBox(height: 8),
           Consumer<AddHistoryScreenViewModel>(builder: (_, viewModel, __) {
-            if (viewModel.priceController.text.isEmpty || viewModel.quantityController.text.isEmpty)
+            if (viewModel.priceController.text.isEmpty ||
+                viewModel.quantityController.text.isEmpty) {
               return SizedBox.shrink();
+            }
             int price = int.parse(viewModel.priceController.text.replaceAll(",", ""));
             int quantity = int.parse(viewModel.quantityController.text.replaceAll(",", ""));
             int total = price * quantity;
