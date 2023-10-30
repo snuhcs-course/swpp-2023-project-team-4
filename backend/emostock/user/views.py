@@ -1,3 +1,4 @@
+import jwt
 import requests
 
 from django.shortcuts import render
@@ -5,6 +6,11 @@ from django.urls import reverse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
+
+from django.conf import settings
+SIMPLE_JWT = getattr(settings, 'SIMPLE_JWT')
+
+from .models import User
 
 
 class SignInView(APIView):
@@ -51,3 +57,26 @@ class SignOutView(APIView):
             return Response({"message: Signout Success"}, status=200)
         else:
             return Response(r.json(), status=401)
+
+
+class UserInfoView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            token = request.data['access_token']
+        except KeyError:
+            return Response({"message": "Access toekn not provided"}, status=400)
+
+        try:
+            decoded = jwt.decode(
+                token,
+                SIMPLE_JWT['SIGNING_KEY'],
+                algorithms=[SIMPLE_JWT['ALGORITHM']]
+            )
+        except Exception:
+            return Response({"message": "Invalid token"}, status=400)
+
+        user = User.objects.get(id=decoded['user_id'])
+        decoded.update({"google_id": str(user)})
+        return Response(decoded, status=200)
