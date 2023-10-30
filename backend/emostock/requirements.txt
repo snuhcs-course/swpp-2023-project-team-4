@@ -11,6 +11,7 @@ django-dotenv==1.4.2
 django-extensions==3.2.3
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.0
+exchange_calendars==4.5
 idna==3.4
 oauthlib==3.2.2
 pandas==2.1.2
