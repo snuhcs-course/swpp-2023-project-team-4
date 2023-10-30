@@ -169,6 +169,34 @@ class _PriceQuantityInputState extends State<_PriceQuantityInput> {
             hintText: "몇 주 구매하셨나요?",
             minWidth: 200,
           ),
+          const SizedBox(height: 8),
+          Consumer<AddBuyHistoryScreenViewModel>(builder: (_, viewModel, __) {
+            if (viewModel.priceController.text.isEmpty || viewModel.quantityController.text.isEmpty)
+              return SizedBox.shrink();
+            int price = int.parse(viewModel.priceController.text.replaceAll(",", ""));
+            int quantity = int.parse(viewModel.quantityController.text.replaceAll(",", ""));
+            int total = price * quantity;
+            List<String> textList = [];
+            if (total >= 100000000) {
+              int first = total ~/ 100000000;
+              int second = (total % 100000000) ~/ 10000;
+              int third = total % 10000;
+              textList.add("${_formatter.format(first)}억");
+              if (second != 0) textList.add(" ${_formatter.format(second)}만");
+              if (third != 0) textList.add(" ${_formatter.format(third)}");
+            } else if (total >= 10000) {
+              int first = total ~/ 10000;
+              int second = total % 10000;
+              textList.add("${_formatter.format(first)}만");
+              if (second != 0) textList.add(" ${_formatter.format(second)}");
+            } else {
+              textList.add("${_formatter.format(total)}");
+            }
+            return Text(
+              "${textList.join()}원",
+              style: HeaderTextStyle.nanum16.copyWith(color: IconColor.selected),
+            );
+          }),
         ],
       ),
     );

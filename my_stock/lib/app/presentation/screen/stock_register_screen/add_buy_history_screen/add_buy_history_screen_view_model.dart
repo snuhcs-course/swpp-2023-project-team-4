@@ -21,6 +21,7 @@ class AddBuyHistoryScreenViewModel with ChangeNotifier {
       priceController.text = _formatter.format(int.parse(priceController.text.replaceAll(",", "")));
       priceController.selection =
           TextSelection.fromPosition(TextPosition(offset: priceController.text.length));
+      notifyListeners();
     });
     quantityController.addListener(() {
       if (quantityController.text.isEmpty) return;
@@ -28,6 +29,7 @@ class AddBuyHistoryScreenViewModel with ChangeNotifier {
           _formatter.format(int.parse(quantityController.text.replaceAll(",", "")));
       quantityController.selection =
           TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
+      notifyListeners();
     });
   }
 }
