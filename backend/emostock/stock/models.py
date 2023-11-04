@@ -26,3 +26,18 @@ class Stock(BaseModel):
         verbose_name = "Stock"
         verbose_name_plural = "Stocks"
         ordering = ["ticker", ]
+
+
+class MyStock(BaseModel):
+    stock = models.ForeignKey(
+        "stock.Stock", on_delete=models.CASCADE, related_name="my_stocks"
+    )
+    purchase_price = models.IntegerField(default=0)
+    user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="my_stocks")
+    purchase_date = models.DateTimeField(auto_now_add=True)
+    quantity = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = "My_Stock"
+        verbose_name_plural = "My_Stocks"
+        ordering = ["stock", ]
