@@ -4,8 +4,7 @@ from django.db import models
 from user.models import User
 
 class UserEmotionQuerySet(models.query.QuerySet):
-    def filter_by_user_and_month(self, google_id, year, month):
-        user = User.objects.get(google_id=google_id)
+    def filter_by_user_and_month(self, user, year, month):
         return self.filter(user=user, date__year=year, date__month=month)
 
 class Emotion(models.Model):

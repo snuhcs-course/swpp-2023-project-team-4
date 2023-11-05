@@ -16,10 +16,14 @@ from user.models import User
 
 class EmotionListJSONRenderer(JSONRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        res_payload = {'emotions': []}
-        for emotion in data:
-            day = datetime.strptime(emotion['date'], "%Y-%m-%d").day
-            res_payload['emotions'].append({'date': day, 'emotion': emotion['value'], 'text': emotion['text']})
+        if 'code' in data:
+            res_payload = {"message": "Token is not provided or invalid."}
+        else:
+            res_payload = {'emotions': []}
+            for emotion in data:
+                day = datetime.strptime(emotion['date'], "%Y-%m-%d").day
+                res_payload['emotions'].append({'date': day, 'emotion': emotion['value'], 'text': emotion['text']})
+    
         return super(EmotionListJSONRenderer, self).render(res_payload, accepted_media_type, renderer_context)
 
 class EmotionListView(generics.ListAPIView):
@@ -28,14 +32,10 @@ class EmotionListView(generics.ListAPIView):
     renderer_classes = (EmotionListJSONRenderer, )
     
     def get_queryset(self):
-        google_id = self.kwargs['google_id']
         year = self.kwargs['year']
         month = self.kwargs['month']
 
-        try:
-            return Emotion.objects.filter_by_user_and_month(google_id, year, month).order_by('date')
-        except User.DoesNotExist:
-            pass
+        return Emotion.objects.filter_by_user_and_month(self.request.user, year, month).order_by('date')
 
 
 class DateNotValid(Exception):
@@ -57,12 +57,11 @@ class EmotionUpdateView(APIView):
             return target_date
 
     def get_queryset(self):
-        google_id = self.kwargs['google_id']
         year = self.kwargs['year']
         month = self.kwargs['month']
         day = self.kwargs['day']
 
-        return Emotion.objects.filter_by_user_and_month(google_id, year, month).filter(date__day=day)
+        return Emotion.objects.filter_by_user_and_month(self.request.user, year, month).filter(date__day=day)
     
     def put(self, request, *args, **kwargs):
         try:
@@ -71,11 +70,7 @@ class EmotionUpdateView(APIView):
             res_payload = {"message": "Not allowed to modify emotions from before this week or future"}
             return Response(res_payload, status=405)
         
-        try:
-            target_emotion_list = self.get_queryset()
-        except User.DoesNotExist:
-            res_payload = {"message": f"User with Google id '{kwargs['google_id']}' doesn’t exist."}
-            return Response(res_payload, status=404)
+        target_emotion_list = self.get_queryset()
         
         try:
             if target_emotion_list:
@@ -84,17 +79,19 @@ class EmotionUpdateView(APIView):
                 emotion.text = request.data['text']
                 emotion.full_clean()
                 emotion.save()
+                status = 200
             else:
                 emotion = Emotion(date=target_date, value=request.data['emotion'], text=request.data['text'])
                 emotion.full_clean()
                 emotion.save()
-                emotion.user.add(User.objects.get(google_id=kwargs['google_id']))
+                emotion.user.add(self.request.user)
+                status = 201
         except ValidationError:
             res_payload = {"message": "The Emotion value must be an integer between -2 and 2."}
             return Response(res_payload, status=400)
             
         res_payload = {"message": "Record Success"}
-        return Response(res_payload, status=200)
+        return Response(res_payload, status=status)
         
     def delete(self, request, *args, **kwargs):
         try:
@@ -103,11 +100,7 @@ class EmotionUpdateView(APIView):
             res_payload = {"message": "Not allowed to modify emotions from before this week or future."}
             return Response(res_payload, status=405)
         
-        try:
-            target_emotion_list = self.get_queryset()
-        except User.DoesNotExist:
-            res_payload = {"message": f"User with Google id '{kwargs['google_id']}' doesn’t exist."}
-            return Response(res_payload, 404)
+        target_emotion_list = self.get_queryset()
         
         if target_emotion_list:
             emotion = target_emotion_list[0]

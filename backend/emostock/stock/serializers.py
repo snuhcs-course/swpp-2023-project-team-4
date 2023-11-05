@@ -1,17 +1,20 @@
 from rest_framework import serializers
 
+from emostock.common.enum_field import SerializerEnumCharField
 from stock.models import Stock, MyStock
 
 
 class StockSerializer(serializers.ModelSerializer):
+    market_type = SerializerEnumCharField()
+
     class Meta:
         model = Stock
         fields = [
             "ticker",
             "name",
             "current_price",
-            "highest_price",
-            "lowest_price",
+            "closing_price",
+            "fluctuation_rate",
             "market_type",
         ]
 
@@ -23,8 +26,8 @@ class MyStockSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "stock",
-            "purchase_price",
+            "price",
             "user",
-            "purchase_date",
+            "transaction_type",
             "quantity",
         ]
