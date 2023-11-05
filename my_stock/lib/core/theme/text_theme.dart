@@ -35,6 +35,11 @@ abstract class BodyTextStyle {
         fontWeight: FontWeight.w300,
       );
 
+  static TextStyle get nanum12 => TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+      );
+
   static TextStyle get nanum14 => TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w400,
@@ -57,6 +62,26 @@ abstract class OtherTextStyle {
   static TextStyle get guide => TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.w400,
+        fontFamily: 'Pretendard',
+      );
+}
+
+abstract class PretendardTextStyle {
+  static TextStyle get semiBold15 => TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w600,
+        fontFamily: 'Pretendard',
+      );
+
+  static TextStyle get regular14 => TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        fontFamily: 'Pretendard',
+      );
+
+  static TextStyle get light13 => TextStyle(
+        fontSize: 13,
+        fontWeight: FontWeight.w300,
         fontFamily: 'Pretendard',
       );
 }
