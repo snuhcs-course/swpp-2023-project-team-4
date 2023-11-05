@@ -14,8 +14,8 @@ class CalendarScreenViewModel with ChangeNotifier {
   }
 
   YearMonth yearMonth = YearMonth(
-    year: 2023,
-    month: 10,
+    year: DateTime.now().year,
+    month: DateTime.now().month,
   );
 
   void setYearMonth(YearMonth yearMonth) {
