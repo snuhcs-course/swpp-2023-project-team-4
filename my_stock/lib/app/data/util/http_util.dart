@@ -10,7 +10,9 @@ class HttpUtil {
     _dio.options.baseUrl = 'http://ec2-52-78-75-7.ap-northeast-2.compute.amazonaws.com:3000';
     _dio.interceptors.add(
       InterceptorsWrapper(onRequest: (options, handler) {
-        options.headers['Authorization'] = 'Bearer ${_pref.getString('access_token')}';
+        if (this.isAuthorized) {
+          options.headers['Authorization'] = 'Bearer ${_pref.getString('access_token')}';
+        }
         return handler.next(options);
       }),
     );

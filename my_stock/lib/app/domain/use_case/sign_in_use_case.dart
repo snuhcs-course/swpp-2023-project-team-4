@@ -11,6 +11,7 @@ class SignInUseCase {
 
   Future<void> call({
     required void Function() onSuccess,
+    required void Function() needRegister,
     required void Function() onFail,
   }) async {
     final result = await _authService.signInByGoogle();
@@ -19,7 +20,12 @@ class SignInUseCase {
       case Success(:final data):
         onSuccess();
       case Fail(:final issue):
-        onFail();
+        switch (issue) {
+          case SignInIssue.badRequest:
+            onFail();
+          case SignInIssue.notRegistered:
+            needRegister();
+        }
     }
   }
 }

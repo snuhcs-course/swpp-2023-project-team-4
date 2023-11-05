@@ -1,22 +1,36 @@
+import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_stock/app/data/dto/token_dto.dart';
 import 'package:my_stock/app/data/util/http_util.dart';
 import 'package:my_stock/app/domain/result.dart';
 import 'package:my_stock/app/domain/service_interface/auth_service.dart';
 
 class AuthServiceImpl implements AuthService {
   final HttpUtil _httpUtil = HttpUtil.I;
+  GoogleSignInAccount? _googleUser;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
-  Future<Result<void, Enum>> signInByGoogle() async {
-    final GoogleSignInAccount? googleUser;
+  Future<Result<void, SignInIssue>> signInByGoogle() async {
     String googleId;
     try {
-      googleUser = await GoogleSignIn().signIn();
-      googleId = googleUser!.id;
+      _googleUser = await _googleSignIn.signIn();
+      googleId = _googleUser!.id;
     } catch (e) {
-      return Fail(DefaultIssue.badRequest);
+      return Fail(SignInIssue.badRequest);
     }
-    print("googleId: $googleId");
+    try {
+      final result = await _httpUtil.post("/api/user/signin/", data: {"google_id": googleId});
+      final TokenDTO tokenDto = TokenDTO.fromJson(result.data);
+      await _httpUtil.saveAccessToken(tokenDto.accessToken);
+      _googleSignIn.signOut();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401) {
+        return Fail(SignInIssue.notRegistered);
+      }
+      _googleSignIn.signOut();
+      return Fail(SignInIssue.badRequest);
+    }
     return Success(null);
   }
 
@@ -36,8 +50,23 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
-  Future<Result<void, Enum>> signUpByGoogle({required String nickname}) {
-    // TODO: implement signUpByGoogle
-    throw UnimplementedError();
+  Future<Result<void, Enum>> signUpByGoogle({required String nickname}) async {
+    String googleId = _googleUser!.id;
+    try {
+      final result = await _httpUtil.post(
+        "/api/user/signup/",
+        data: {
+          "google_id": googleId,
+          "nickname": nickname,
+        },
+      );
+      final TokenDTO tokenDto = TokenDTO.fromJson(result.data);
+      await _httpUtil.saveAccessToken(tokenDto.accessToken);
+      _googleSignIn.signOut();
+    } on DioException catch (e) {
+      print(e);
+      return Fail(DefaultIssue.badRequest);
+    }
+    return Success(null);
   }
 }
