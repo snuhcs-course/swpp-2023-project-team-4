@@ -1,4 +1,3 @@
-import jwt
 import requests
 
 from django.shortcuts import render
@@ -14,7 +13,7 @@ from .models import User
 
 
 class SignInView(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     
     def post(self, request):
         req_url = request.build_absolute_uri(reverse('signin').replace('signin/', 'dj-rest-auth/login/'))
@@ -63,20 +62,6 @@ class UserInfoView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        try:
-            token = request.data['access_token']
-        except KeyError:
-            return Response({"message": "Access toekn not provided"}, status=400)
-
-        try:
-            decoded = jwt.decode(
-                token,
-                SIMPLE_JWT['SIGNING_KEY'],
-                algorithms=[SIMPLE_JWT['ALGORITHM']]
-            )
-        except Exception:
-            return Response({"message": "Invalid token"}, status=400)
-
-        user = User.objects.get(id=decoded['user_id'])
-        decoded.update({"google_id": str(user)})
-        return Response(decoded, status=200)
+        user = self.request.user
+        res_payload = {"user_id": user.id, "google_id": str(user), "nickname": user.get_nickname()}
+        return Response(res_payload, status=200)
