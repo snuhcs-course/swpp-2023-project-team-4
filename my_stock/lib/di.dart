@@ -8,7 +8,7 @@ import 'app/domain/service_interface/auth_service.dart';
 
 GetIt getIt = GetIt.instance;
 
-void setup() async {
+Future<void> setup() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   getIt.registerSingleton<SharedPreferences>(prefs);
   getIt.registerSingleton<AuthService>(AuthServiceImpl());
