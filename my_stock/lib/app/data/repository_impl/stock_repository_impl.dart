@@ -12,7 +12,10 @@ class StockRepositoryImpl implements StockRepository {
   Future<Result<List<Stock>, DefaultIssue>> searchStocks({required String pattern}) async {
     try {
       final response = await _httpUtil.get("/stock/", queryParameters: {"name": pattern});
-      List<SearchedStockDTO> dtos = response.data.map((e) => SearchedStockDTO.fromJson(e));
+      List<SearchedStockDTO> dtos = [];
+      for (var map in response.data) {
+        dtos.add(SearchedStockDTO.fromJson(map));
+      }
       List<Stock> stockList = [];
       for (var dto in dtos) {
         if (dto.name.contains(pattern))
