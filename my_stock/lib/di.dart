@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:my_stock/app/data/repository_impl/local_repository_impl.dart';
+import 'package:my_stock/app/data/repository_impl/stock_repository_impl.dart';
 import 'package:my_stock/app/domain/repository_interface/local_repository.dart';
+import 'package:my_stock/app/domain/repository_interface/stock_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/data/service_impl/auth_service_impl.dart';
@@ -13,4 +15,5 @@ Future<void> setup() async {
   getIt.registerSingleton<SharedPreferences>(prefs);
   getIt.registerSingleton<AuthService>(AuthServiceImpl());
   getIt.registerSingleton<LocalRepository>(LocalRepositoryImpl());
+  getIt.registerSingleton<StockRepository>(StockRepositoryImpl());
 }

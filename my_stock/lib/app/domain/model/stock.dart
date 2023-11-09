@@ -1,15 +1,13 @@
-class StockVM {
+class Stock {
   final String ticker;
   final String name;
-  final String imageUrl;
-  final int price;
+  final int currentPrice;
   final double fluctuationRate;
 
-  const StockVM({
+  const Stock({
     required this.ticker,
     required this.name,
-    required this.imageUrl,
-    required this.price,
+    required this.currentPrice,
     required this.fluctuationRate,
   });
 }
