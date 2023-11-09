@@ -32,4 +32,15 @@ class StockRepositoryImpl implements StockRepository {
       return Fail(DefaultIssue.badRequest);
     }
   }
+
+  @override
+  Future<Result<void, DefaultIssue>> createTransaction(
+      {required String ticker,
+      required int price,
+      required int quantity,
+      required bool buy,
+      required int userId}) {
+    // TODO: implement createTransaction
+    throw UnimplementedError();
+  }
 }

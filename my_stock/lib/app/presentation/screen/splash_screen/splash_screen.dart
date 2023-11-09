@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_stock/app/domain/repository_interface/user_repository.dart';
 import 'package:my_stock/app/domain/service_interface/auth_service.dart';
 import 'package:my_stock/app/domain/use_case/auto_sign_in_use_case.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_0_main_indexed_stack_screen/main_indexed_stack_screen.dart';
@@ -19,6 +20,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   AutoSignInUseCase _autoSignInUseCase = AutoSignInUseCase(
     authService: getIt<AuthService>(),
+    userRepository: getIt<UserRepository>(),
   );
 
   @override
