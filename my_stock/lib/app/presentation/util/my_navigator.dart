@@ -3,23 +3,27 @@ import 'package:flutter/material.dart';
 import 'navigator_key.dart';
 
 abstract class MyNavigator {
-  static void toNamed(String routeName) {
+  static Future<T?> toNamed<T extends Object?>(String routeName) {
     BuildContext context = NavigatorKey.key.currentContext!;
-    Navigator.pushNamed(context, routeName);
+    return Navigator.pushNamed<T?>(context, routeName);
   }
 
-  static void push(Widget widget) {
+  static Future<T?> push<T extends Object?>(Widget widget, {String? name}) {
     BuildContext context = NavigatorKey.key.currentContext!;
-    Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
+    return Navigator.push<T?>(
+      context,
+      MaterialPageRoute(
+          settings: name != null ? RouteSettings(name: name) : null, builder: (context) => widget),
+    );
   }
 
-  static void pushReplacementNamed(String routeName) {
+  static Future<T?> pushReplacementNamed<T extends Object?>(String routeName) {
     BuildContext context = NavigatorKey.key.currentContext!;
-    Navigator.pushReplacementNamed(context, routeName);
+    return Navigator.pushReplacementNamed(context, routeName);
   }
 
-  static void pop() {
+  static void pop<T extends Object?>([T? result]) {
     BuildContext context = NavigatorKey.key.currentContext!;
-    Navigator.pop(context);
+    Navigator.pop(context, result);
   }
 }
