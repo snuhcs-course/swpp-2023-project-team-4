@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_2_calendar_screen/record_emotion_screen/record_emotion_screen_view_model.dart';
+import 'package:my_stock/app/presentation/screen/search_stock_screen/search_stock_screen.dart';
 import 'package:my_stock/app/presentation/util/my_navigator.dart';
 import 'package:my_stock/app/presentation/vm/emotion_vm_enum.dart';
 import 'package:my_stock/app/presentation/vm/stock_transaction.dart';
@@ -132,25 +133,43 @@ class RecordEmotionScreen extends StatelessWidget {
                           children: [
                             Text("추가할 거래내역이 있으신가요?", style: PretendardTextStyle.semiBold15.black),
                             const SizedBox(height: 18),
-                            GapColumn(
-                              gap: 10,
-                              children: [
-                                Row(
+                            Builder(
+                              builder: (context) {
+                                void Function(StockTransactionVM) addTransaction = context.read<RecordEmotionScreenViewModel>().addTransaction;
+                                List<StockTransactionVM> transactionList = context.watch<RecordEmotionScreenViewModel>().transactionList;
+                                List<_TransactionTile> transactionTiles = transactionList.map((e) => _TransactionTile((e))).toList();
+                                return GapColumn(
+                                  gap: 10,
                                   children: [
-                                    Container(
-                                      width: 45,
-                                      height: 45,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: EmotionColor.notFilled,
+                                    ...transactionTiles,
+                                    GestureDetector(
+                                      onTap: () {
+                                        MyNavigator.push(SearchStockScreen()).then((value) {
+                                          if (value != null) {
+                                            addTransaction(value as StockTransactionVM);
+                                          }
+                                        });
+                                      },
+                                      behavior: HitTestBehavior.opaque,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 45,
+                                            height: 45,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(15),
+                                              color: EmotionColor.notFilled,
+                                            ),
+                                            child: Icon(Icons.add, size: 25, color: Colors.grey),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text("주식 거래내역 추가하기", style: PretendardTextStyle.light13.black),
+                                        ],
                                       ),
-                                      child: Icon(Icons.add, size: 25, color: Colors.grey),
                                     ),
-                                    const SizedBox(width: 10),
-                                    Text("주식 거래내역 추가하기", style: PretendardTextStyle.light13.black),
                                   ],
-                                ),
-                              ],
+                                );
+                              }
                             ),
                           ],
                         ),

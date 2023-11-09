@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_stock/app/presentation/vm/emotion_vm_enum.dart';
+import 'package:my_stock/app/presentation/vm/stock_transaction.dart';
 import 'package:my_stock/core/util/pair.dart';
 
 class RecordEmotionScreenViewModel with ChangeNotifier {
   final TextEditingController textEditingController = TextEditingController();
+  final List<StockTransactionVM> transactionList = [];
 
   List<Pair<EmotionVMEnum, bool>> selectList = [
     Pair<EmotionVMEnum, bool>(EmotionVMEnum.happier, false),
@@ -24,5 +26,10 @@ class RecordEmotionScreenViewModel with ChangeNotifier {
       }
       notifyListeners();
     };
+  }
+
+  void addTransaction(StockTransactionVM transaction) {
+    transactionList.add(transaction);
+    notifyListeners();
   }
 }
