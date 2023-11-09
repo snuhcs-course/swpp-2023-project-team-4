@@ -12,4 +12,5 @@ abstract class EmotionRepository {
 
 enum CreateEmotionIssue {
   beforeThisWeek,
+  unknown,
 }

@@ -39,8 +39,18 @@ class StockRepositoryImpl implements StockRepository {
       required int price,
       required int quantity,
       required bool buy,
-      required int userId}) {
-    // TODO: implement createTransaction
-    throw UnimplementedError();
+      required int userId}) async {
+    try {
+      final result = await _httpUtil.post("/mystock/", data: {
+        "stock": ticker,
+        "price": price,
+        "quantity": quantity,
+        "transaction_type": buy ? "buy" : "sell",
+        "user": userId,
+      });
+      return Success(null);
+    } on DioException catch (e) {
+      return Fail(DefaultIssue.badRequest);
+    }
   }
 }

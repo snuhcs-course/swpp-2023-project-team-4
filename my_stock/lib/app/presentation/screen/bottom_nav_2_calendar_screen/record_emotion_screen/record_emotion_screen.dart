@@ -24,7 +24,7 @@ class RecordEmotionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => RecordEmotionScreenViewModel(),
+      create: (_) => RecordEmotionScreenViewModel(date: date),
       child: Scaffold(
         backgroundColor: BackgroundColor.defaultColor,
         body: Container(
@@ -185,20 +185,22 @@ class RecordEmotionScreen extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              GestureDetector(
-                onTap: () {},
-                behavior: HitTestBehavior.opaque,
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.bottom,
-                    bottom: MediaQuery.of(context).padding.bottom,
+              Builder(builder: (context) {
+                return GestureDetector(
+                  onTap: context.read<RecordEmotionScreenViewModel>().onSubmitButtonTap,
+                  behavior: HitTestBehavior.opaque,
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).padding.bottom,
+                      bottom: MediaQuery.of(context).padding.bottom,
+                    ),
+                    color: EmotionColor.notFilled,
+                    alignment: Alignment.center,
+                    child: Text("기록하기", style: HeaderTextStyle.nanum18.black),
                   ),
-                  color: EmotionColor.notFilled,
-                  alignment: Alignment.center,
-                  child: Text("기록하기", style: HeaderTextStyle.nanum18.black),
-                ),
-              ),
+                );
+              }),
             ],
           ),
         ),
