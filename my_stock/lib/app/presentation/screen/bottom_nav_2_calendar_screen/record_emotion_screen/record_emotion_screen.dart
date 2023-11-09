@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_2_calendar_screen/record_emotion_screen/record_emotion_screen_view_model.dart';
 import 'package:my_stock/app/presentation/util/my_navigator.dart';
 import 'package:my_stock/app/presentation/vm/emotion_vm_enum.dart';
+import 'package:my_stock/app/presentation/vm/stock_transaction.dart';
 import 'package:my_stock/app/presentation/widget/gap_layout.dart';
 import 'package:my_stock/core/theme/color_theme.dart';
 import 'package:my_stock/core/theme/text_theme.dart';
@@ -9,6 +10,7 @@ import 'package:my_stock/core/util/date.dart';
 import 'package:provider/provider.dart';
 
 part 'widget/selectable_box.dart';
+part 'widget/transaction_tile.dart';
 
 class RecordEmotionScreen extends StatelessWidget {
   final Date date;
@@ -133,22 +135,6 @@ class RecordEmotionScreen extends StatelessWidget {
                             GapColumn(
                               gap: 10,
                               children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 45,
-                                      height: 45,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: EmotionColor.notFilled,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Text("삼성전자", style: PretendardTextStyle.regular14.black),
-                                    Spacer(),
-                                    Text("2주 구매", style: PretendardTextStyle.regular14.black),
-                                  ],
-                                ),
                                 Row(
                                   children: [
                                     Container(
