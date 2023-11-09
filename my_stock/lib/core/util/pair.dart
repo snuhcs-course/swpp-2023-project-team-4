@@ -1,8 +1,8 @@
 class Pair<T1, T2> {
-  final T1 first;
-  final T2 second;
+  T1 first;
+  T2 second;
 
-  const Pair(this.first, this.second);
+  Pair(this.first, this.second);
 }
 
 class ThirdPair<T1, T2, T3> {
