@@ -27,12 +27,13 @@ class RecordEmotionScreen extends StatelessWidget {
       create: (_) => RecordEmotionScreenViewModel(),
       child: Scaffold(
         backgroundColor: BackgroundColor.defaultColor,
-        body: SafeArea(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              children: [
-                Stack(
+        body: Container(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Stack(
                   children: [
                     Container(
                       width: double.infinity,
@@ -53,7 +54,10 @@ class RecordEmotionScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SingleChildScrollView(
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Container(
@@ -133,52 +137,69 @@ class RecordEmotionScreen extends StatelessWidget {
                           children: [
                             Text("추가할 거래내역이 있으신가요?", style: PretendardTextStyle.semiBold15.black),
                             const SizedBox(height: 18),
-                            Builder(
-                              builder: (context) {
-                                void Function(StockTransactionVM) addTransaction = context.read<RecordEmotionScreenViewModel>().addTransaction;
-                                List<StockTransactionVM> transactionList = context.watch<RecordEmotionScreenViewModel>().transactionList;
-                                List<_TransactionTile> transactionTiles = transactionList.map((e) => _TransactionTile((e))).toList();
-                                return GapColumn(
-                                  gap: 10,
-                                  children: [
-                                    ...transactionTiles,
-                                    GestureDetector(
-                                      onTap: () {
-                                        MyNavigator.push(SearchStockScreen()).then((value) {
-                                          if (value != null) {
-                                            addTransaction(value as StockTransactionVM);
-                                          }
-                                        });
-                                      },
-                                      behavior: HitTestBehavior.opaque,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 45,
-                                            height: 45,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(15),
-                                              color: EmotionColor.notFilled,
-                                            ),
-                                            child: Icon(Icons.add, size: 25, color: Colors.grey),
+                            Builder(builder: (context) {
+                              void Function(StockTransactionVM) addTransaction =
+                                  context.read<RecordEmotionScreenViewModel>().addTransaction;
+                              List<StockTransactionVM> transactionList =
+                                  context.watch<RecordEmotionScreenViewModel>().transactionList;
+                              List<_TransactionTile> transactionTiles =
+                                  transactionList.map((e) => _TransactionTile((e))).toList();
+                              return GapColumn(
+                                gap: 10,
+                                children: [
+                                  ...transactionTiles,
+                                  GestureDetector(
+                                    onTap: () {
+                                      MyNavigator.push(SearchStockScreen()).then((value) {
+                                        if (value != null) {
+                                          addTransaction(value as StockTransactionVM);
+                                        }
+                                      });
+                                    },
+                                    behavior: HitTestBehavior.opaque,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 45,
+                                          height: 45,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(15),
+                                            color: EmotionColor.notFilled,
                                           ),
-                                          const SizedBox(width: 10),
-                                          Text("주식 거래내역 추가하기", style: PretendardTextStyle.light13.black),
-                                        ],
-                                      ),
+                                          child: Icon(Icons.add, size: 25, color: Colors.grey),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text("주식 거래내역 추가하기",
+                                            style: PretendardTextStyle.light13.black),
+                                      ],
                                     ),
-                                  ],
-                                );
-                              }
-                            ),
+                                  ),
+                                ],
+                              );
+                            }),
                           ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              Spacer(),
+              GestureDetector(
+                onTap: () {},
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.bottom,
+                    bottom: MediaQuery.of(context).padding.bottom,
+                  ),
+                  color: EmotionColor.notFilled,
+                  alignment: Alignment.center,
+                  child: Text("기록하기", style: HeaderTextStyle.nanum18.black),
+                ),
+              ),
+            ],
           ),
         ),
       ),
