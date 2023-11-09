@@ -7,12 +7,12 @@ part 'verify_dto.g.dart';
   explicitToJson: true,
 )
 class VerifyDTO {
-  final String tokenType;
+  final String nickname;
   final int userId;
   final String googleId;
 
   const VerifyDTO({
-    required this.tokenType,
+    required this.nickname,
     required this.userId,
     required this.googleId,
   });

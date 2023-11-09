@@ -11,7 +11,9 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<User, DefaultIssue>> fetchUser() async {
     try {
-      final result = await _httpUtil.get("/api/user/verify/");
+      print("start");
+      final result = await _httpUtil.post("/api/user/verify/");
+      print(result.data);
       final verifyDto = VerifyDTO.fromJson(result.data);
       return Success(
         User(
@@ -20,7 +22,8 @@ class UserRepositoryImpl implements UserRepository {
           googleId: verifyDto.googleId,
         ),
       );
-    } on DioException {
+    } on DioException catch (e) {
+      print(e);
       return Fail(DefaultIssue.badRequest);
     }
   }
