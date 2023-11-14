@@ -45,7 +45,6 @@ class RecordEmotionScreen extends StatelessWidget {
                             style: HeaderTextStyle.nanum16),
                       ),
                       Positioned(
-                        left: 5,
                         top: 20,
                         child: IconButton(
                           onPressed: () {
