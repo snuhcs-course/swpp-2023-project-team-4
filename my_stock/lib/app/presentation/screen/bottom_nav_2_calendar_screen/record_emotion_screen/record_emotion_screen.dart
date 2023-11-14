@@ -45,13 +45,13 @@ class RecordEmotionScreen extends StatelessWidget {
                             style: HeaderTextStyle.nanum16),
                       ),
                       Positioned(
-                        right: 5,
+                        left: 5,
                         top: 20,
                         child: IconButton(
                           onPressed: () {
                             MyNavigator.pop();
                           },
-                          icon: Icon(Icons.close, size: 32),
+                          icon: Image.asset('assets/images/arrow_back.png'),
                         ),
                       ),
                     ],
