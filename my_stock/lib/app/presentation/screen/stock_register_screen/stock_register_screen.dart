@@ -21,19 +21,20 @@ class StockRegisterScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                children: [
-                  const SizedBox(width: 15),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+            Row(
+              children: [
+                const SizedBox(width: 15),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  behavior: HitTestBehavior.opaque,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                     child: Image.asset("assets/images/arrow_back.png", width: 24),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             Spacer(flex: 1),
             Padding(
