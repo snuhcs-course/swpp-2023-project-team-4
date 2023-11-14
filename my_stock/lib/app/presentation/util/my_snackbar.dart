@@ -8,6 +8,7 @@ abstract class MySnackBar {
   static void show(String msg, {Color? backgroundColor}) {
     FToast fToast = FToast();
     fToast.init(NavigatorKey.key.currentContext!);
+    fToast.removeCustomToast();
     fToast.showToast(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
