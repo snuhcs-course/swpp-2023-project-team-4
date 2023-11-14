@@ -34,6 +34,10 @@ class Date extends Equatable {
 
   @override
   List<Object?> get props => [year, month, day];
+
+  DateTime toDateTime() {
+    return DateTime(year, month, day);
+  }
 }
 
 extension DateExtension on Date {

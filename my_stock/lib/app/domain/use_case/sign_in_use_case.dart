@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:my_stock/app/domain/model/user.dart';
 import 'package:my_stock/app/domain/repository_interface/user_repository.dart';
 import 'package:my_stock/app/domain/result.dart';
 
