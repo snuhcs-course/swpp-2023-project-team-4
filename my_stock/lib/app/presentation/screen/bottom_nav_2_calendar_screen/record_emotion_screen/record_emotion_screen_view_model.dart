@@ -5,6 +5,7 @@ import 'package:my_stock/app/domain/repository_interface/emotion_repostory.dart'
 import 'package:my_stock/app/domain/repository_interface/stock_repository.dart';
 import 'package:my_stock/app/domain/use_case/record_emotion_stock_use_case.dart';
 import 'package:my_stock/app/presentation/util/my_navigator.dart';
+import 'package:my_stock/app/presentation/util/my_snackbar.dart';
 import 'package:my_stock/app/presentation/vm/emotion_vm_enum.dart';
 import 'package:my_stock/app/presentation/vm/stock_transaction.dart';
 import 'package:my_stock/core/util/date.dart';
@@ -53,6 +54,7 @@ class RecordEmotionScreenViewModel with ChangeNotifier {
     try {
       selectedEmotionVM = selectList.firstWhere((element) => element.second).first;
     } catch (e) {
+      MySnackBar.show("감정을 선택해주세요.");
       return;
     }
     EasyLoading.show();
