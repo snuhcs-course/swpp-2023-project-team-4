@@ -19,21 +19,13 @@ class GraphScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
+                const SizedBox(height: 10),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: Image.asset("assets/images/search.png"),
-                      ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Image.asset("assets/images/settings.png"),
-                      ),
-                    ],
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "나의 잔고",
+                    style: HeaderTextStyle.nanum20Bold,
                   ),
                 ),
                 Container(
