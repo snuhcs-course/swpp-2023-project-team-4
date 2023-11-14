@@ -11,10 +11,24 @@ import 'search_stock_screen_view_model.dart';
 
 part 'widget/searched_tile.dart';
 
-class SearchStockScreen extends StatelessWidget {
+class SearchStockScreen extends StatefulWidget {
   static const routeName = "/search-stock";
 
-  const SearchStockScreen({super.key});
+  SearchStockScreen({super.key});
+
+  @override
+  State<SearchStockScreen> createState() => _SearchStockScreenState();
+}
+
+class _SearchStockScreenState extends State<SearchStockScreen> {
+  final FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    focusNode.requestFocus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,42 +39,49 @@ class SearchStockScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                decoration: BoxDecoration(
-                    border: Border(
-                  bottom: BorderSide(
-                    color: StrokeColor.writeText,
-                    width: 2,
-                  ),
-                )),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        MyNavigator.pop();
-                      },
+              Row(
+                children: [
+                  const SizedBox(width: 15),
+                  GestureDetector(
+                    onTap: () {
+                      MyNavigator.pop();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Image.asset("assets/images/arrow_back.png", width: 24),
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        focusNode.requestFocus();
+                      },
+                      behavior: HitTestBehavior.opaque,
                       child: Builder(builder: (context) {
                         return TextFormField(
                           controller: context.read<SearchStockScreenViewModel>().controller,
+                          focusNode: focusNode,
                           decoration: InputDecoration(
                             isCollapsed: true,
                             hintText: "검색어를 입력하세요",
                             hintStyle: OtherTextStyle.button.writeText,
                             border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(vertical: 15),
                           ),
                           cursorColor: StrokeColor.writeText,
                           style: OtherTextStyle.button.writeText,
                         );
                       }),
                     ),
-                    const SizedBox(width: 25),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 40),
+                ],
+              ),
+              Container(
+                width: double.infinity,
+                height: 2,
+                color: StrokeColor.writeText,
               ),
               const SizedBox(height: 16),
               Expanded(
