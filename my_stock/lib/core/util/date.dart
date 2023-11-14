@@ -62,4 +62,13 @@ extension DateExtension on Date {
         return "";
     }
   }
+
+  bool isSameWeek(Date other) {
+    DateTime datetime1 = this.toDateTime();
+    DateTime datetime2 = other.toDateTime();
+    int weekday1 = datetime1.weekday;
+    int weekday2 = datetime2.weekday;
+    return datetime1.subtract(Duration(days: weekday1)) ==
+        datetime2.subtract(Duration(days: weekday2));
+  }
 }
