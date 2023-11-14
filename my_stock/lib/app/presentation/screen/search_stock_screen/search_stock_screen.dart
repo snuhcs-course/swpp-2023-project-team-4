@@ -46,6 +46,7 @@ class _SearchStockScreenState extends State<SearchStockScreen> {
                     onTap: () {
                       MyNavigator.pop();
                     },
+                    behavior: HitTestBehavior.opaque,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Image.asset("assets/images/arrow_back.png", width: 24),
