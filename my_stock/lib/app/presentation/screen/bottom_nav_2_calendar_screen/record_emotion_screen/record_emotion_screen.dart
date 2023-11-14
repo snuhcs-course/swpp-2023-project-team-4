@@ -15,8 +15,9 @@ part 'widget/transaction_tile.dart';
 
 class RecordEmotionScreen extends StatelessWidget {
   final Date date;
+  final FocusNode focusNode = FocusNode();
 
-  const RecordEmotionScreen({
+  RecordEmotionScreen({
     super.key,
     required this.date,
   });
@@ -111,6 +112,7 @@ class RecordEmotionScreen extends StatelessWidget {
                                 ),
                                 child: Builder(builder: (context) {
                                   return TextFormField(
+                                    focusNode: focusNode,
                                     controller: context
                                         .read<RecordEmotionScreenViewModel>()
                                         .textEditingController,
@@ -152,6 +154,7 @@ class RecordEmotionScreen extends StatelessWidget {
                                     ...transactionTiles,
                                     GestureDetector(
                                       onTap: () {
+                                        focusNode.unfocus();
                                         MyNavigator.push(SearchStockScreen()).then((value) {
                                           if (value != null) {
                                             addTransaction(value as StockTransactionVM);
