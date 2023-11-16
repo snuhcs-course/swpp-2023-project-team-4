@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_stock/app/presentation/util/my_navigator.dart';
 import 'package:my_stock/app/presentation/vm/stock.dart';
+import 'package:my_stock/app/presentation/vm/stock_transaction.dart';
 import 'package:my_stock/app/presentation/widget/button.dart';
 import 'package:my_stock/app/presentation/widget/fit_text_field.dart';
 import 'package:my_stock/app/presentation/widget/number_keyboard.dart';
@@ -33,7 +35,6 @@ class AddHistoryScreen extends StatelessWidget {
             children: [
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 8),
                 alignment: Alignment.center,
                 child: Stack(
                   children: [
@@ -43,14 +44,16 @@ class AddHistoryScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.pop(context);
                         },
+                        behavior: HitTestBehavior.opaque,
                         child: Container(
-                          padding: EdgeInsets.only(left: 15),
+                          padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
                           child: Image.asset("assets/images/arrow_back.png", width: 24),
                         ),
                       ),
                     ),
                     Container(
                       width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 15),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -112,7 +115,24 @@ class AddHistoryScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Builder(builder: (context) {
                   return Button(
-                    onTap: () {},
+                    onTap: () {
+                      TextEditingController priceController =
+                          context.read<AddHistoryScreenViewModel>().priceController;
+                      TextEditingController quantityController =
+                          context.read<AddHistoryScreenViewModel>().quantityController;
+                      if (priceController.text.isEmpty || quantityController.text.isEmpty) {
+                        return;
+                      }
+                      StockTransactionVM transaction = StockTransactionVM(
+                        ticker: stock.ticker,
+                        imageUrl: stock.imageUrl,
+                        name: stock.name,
+                        price: int.parse(priceController.text.replaceAll(",", "")),
+                        quantity: int.parse(quantityController.text.replaceAll(",", "")),
+                        buy: context.read<AddHistoryScreenViewModel>().buy,
+                      );
+                      MyNavigator.pop(transaction);
+                    },
                     text: "${context.read<AddHistoryScreenViewModel>().buy ? "구매" : "판매"}내역 추가하기",
                     borderColor: context.read<AddHistoryScreenViewModel>().buy
                         ? StrokeColor.buy

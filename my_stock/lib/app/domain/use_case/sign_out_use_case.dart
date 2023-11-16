@@ -1,3 +1,5 @@
+import 'package:get_it/get_it.dart';
+import 'package:my_stock/app/domain/model/user.dart';
 import 'package:my_stock/app/domain/service_interface/auth_service.dart';
 
 class SignOutUseCase {
@@ -9,5 +11,6 @@ class SignOutUseCase {
 
   Future<void> call() async {
     await _authService.signOut();
+    GetIt.instance.unregister<User>(instance: User);
   }
 }

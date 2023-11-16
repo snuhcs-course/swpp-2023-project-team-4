@@ -24,10 +24,10 @@ class _MainIndexedStackScreenState extends State<MainIndexedStackScreen> {
     return Scaffold(
       body: IndexedStack(
         index: currentIndex,
-        children: const [
+        children: [
           GraphScreen(),
-          CalendarScreen(),
-          ReportScreen(),
+          const CalendarScreen(),
+          const ReportScreen(),
         ],
       ),
       bottomNavigationBar: Container(

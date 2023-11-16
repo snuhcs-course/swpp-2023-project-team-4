@@ -16,23 +16,6 @@ class NicknameScreen extends StatefulWidget {
 }
 
 class _NicknameScreenState extends State<NicknameScreen> {
-  final TextEditingController controller = TextEditingController();
-  bool boxActive = false;
-
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(() {
-      setState(() {
-        if (controller.text.isEmpty) {
-          boxActive = false;
-        } else {
-          boxActive = true;
-        }
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -74,17 +57,19 @@ class _NicknameScreenState extends State<NicknameScreen> {
                 ),
               ),
               const SizedBox(height: 60),
-              NicknameForm(
-                controller,
-              ),
-              Spacer(),
               Builder(builder: (context) {
+                return NicknameForm(
+                  context.read<NicknameScreenViewModel>().controller,
+                );
+              }),
+              Spacer(),
+              Consumer<NicknameScreenViewModel>(builder: (context, viewModel, __) {
                 return GestureDetector(
-                  onTap: boxActive
+                  onTap: viewModel.boxActive
                       ? context.read<NicknameScreenViewModel>().onArrowButtonClicked
                       : null,
                   child: Image.asset(
-                    boxActive
+                    viewModel.boxActive
                         ? 'assets/images/active_arrow_box.png'
                         : 'assets/images/inactive_arrow_box.png',
                     width: 60,

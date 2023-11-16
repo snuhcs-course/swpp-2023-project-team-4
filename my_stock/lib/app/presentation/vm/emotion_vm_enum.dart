@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:my_stock/app/domain/model/emotion.dart';
 import 'package:my_stock/core/theme/color_theme.dart';
 
 enum EmotionVMEnum {
@@ -26,6 +27,22 @@ enum EmotionVMEnum {
       return EmotionColor.notFilled;
     } else {
       throw Exception("EmotionVM에 해당하는 색상이 없습니다.");
+    }
+  }
+
+  EmotionEnum get toEmotionEnum {
+    if (this == EmotionVMEnum.happier) {
+      return EmotionEnum.happier;
+    } else if (this == EmotionVMEnum.happy) {
+      return EmotionEnum.happy;
+    } else if (this == EmotionVMEnum.neutral) {
+      return EmotionEnum.neutral;
+    } else if (this == EmotionVMEnum.sad) {
+      return EmotionEnum.sad;
+    } else if (this == EmotionVMEnum.sadder) {
+      return EmotionEnum.sadder;
+    } else {
+      throw Exception("EmotionVM에 해당하는 EmotionEnum이 없습니다.");
     }
   }
 }

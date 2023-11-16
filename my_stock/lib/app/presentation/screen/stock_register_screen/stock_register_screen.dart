@@ -21,19 +21,20 @@ class StockRegisterScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                children: [
-                  const SizedBox(width: 15),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+            Row(
+              children: [
+                const SizedBox(width: 15),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  behavior: HitTestBehavior.opaque,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                     child: Image.asset("assets/images/arrow_back.png", width: 24),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             Spacer(flex: 1),
             Padding(
@@ -66,9 +67,10 @@ class StockRegisterScreen extends StatelessWidget {
                     Text("어제보다", style: BodyTextStyle.nanum12Light.black),
                     const SizedBox(width: 5),
                     Text(
-                      "-130원 (2.5%)",
+                      "${stock.fluctuationRate > 0 ? "+" : "-"}원 (${stock.fluctuationRate}}%)",
                       style: BodyTextStyle.nanum12Light.copyWith(
-                        color: EmotionColor.sadder,
+                        color:
+                            stock.fluctuationRate >= 0 ? EmotionColor.happier : EmotionColor.sadder,
                       ),
                     ),
                   ],
@@ -85,7 +87,11 @@ class StockRegisterScreen extends StatelessWidget {
                     onTap: () {
                       MyNavigator.push(
                         AddHistoryScreen(stock, buy: true),
-                      );
+                      ).then((value) {
+                        if (value != null) {
+                          MyNavigator.pop(value);
+                        }
+                      });
                     },
                     text: "구매내역 추가하기",
                     borderColor: StrokeColor.buy,
@@ -95,7 +101,11 @@ class StockRegisterScreen extends StatelessWidget {
                     onTap: () {
                       MyNavigator.push(
                         AddHistoryScreen(stock, buy: false),
-                      );
+                      ).then((value) {
+                        if (value != null) {
+                          MyNavigator.pop(value);
+                        }
+                      });
                     },
                     text: "판매내역 추가하기",
                     borderColor: StrokeColor.sell,

@@ -34,4 +34,41 @@ class Date extends Equatable {
 
   @override
   List<Object?> get props => [year, month, day];
+
+  DateTime toDateTime() {
+    return DateTime(year, month, day);
+  }
+}
+
+extension DateExtension on Date {
+  String get dayOfWeek {
+    final dayOfWeek = DateTime(year, month, day).weekday;
+    switch (dayOfWeek) {
+      case DateTime.monday:
+        return "월";
+      case DateTime.tuesday:
+        return "화";
+      case DateTime.wednesday:
+        return "수";
+      case DateTime.thursday:
+        return "목";
+      case DateTime.friday:
+        return "금";
+      case DateTime.saturday:
+        return "토";
+      case DateTime.sunday:
+        return "일";
+      default:
+        return "";
+    }
+  }
+
+  bool isSameWeek(Date other) {
+    DateTime datetime1 = this.toDateTime();
+    DateTime datetime2 = other.toDateTime();
+    int weekday1 = datetime1.weekday;
+    int weekday2 = datetime2.weekday;
+    return datetime1.subtract(Duration(days: weekday1)) ==
+        datetime2.subtract(Duration(days: weekday2));
+  }
 }

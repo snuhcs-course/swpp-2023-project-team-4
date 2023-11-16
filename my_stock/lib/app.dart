@@ -4,6 +4,7 @@ import 'package:my_stock/app/presentation/screen/bottom_nav_0_main_indexed_stack
 import 'package:my_stock/app/presentation/screen/entry_flow/nickname_screen/nickname_screen.dart';
 import 'package:my_stock/app/presentation/screen/entry_flow/sign_in_screen/sign_in_screen.dart';
 import 'package:my_stock/app/presentation/screen/search_stock_screen/search_stock_screen.dart';
+import 'package:my_stock/app/presentation/screen/splash_screen/splash_screen.dart';
 import 'package:my_stock/app/presentation/util/navigator_key.dart';
 
 class App extends StatelessWidget {
@@ -20,12 +21,13 @@ class App extends StatelessWidget {
         fontFamily: "NanumBarunGothic",
       ),
       routes: {
+        SplashScreen.routeName: (context) => SplashScreen(),
         SignInScreen.routeName: (context) => SignInScreen(),
         NicknameScreen.routeName: (context) => NicknameScreen(),
         MainIndexedStackScreen.routeName: (context) => MainIndexedStackScreen(),
         SearchStockScreen.routeName: (context) => SearchStockScreen(),
       },
-      initialRoute: SignInScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       builder: EasyLoading.init(
         builder: (context, child) {
           return MediaQuery(

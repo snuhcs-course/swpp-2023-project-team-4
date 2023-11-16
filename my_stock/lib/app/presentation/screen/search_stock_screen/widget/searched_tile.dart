@@ -19,7 +19,11 @@ class _SearchedTile extends StatelessWidget {
     String third = companyName.substring(index + searchKeyword.length);
     return InkWell(
       onTap: () {
-        MyNavigator.push(StockRegisterScreen(stock));
+        MyNavigator.push(StockRegisterScreen(stock)).then((value) {
+          if (value != null) {
+            MyNavigator.pop(value);
+          }
+        });
       },
       child: Container(
         width: double.infinity,
