@@ -35,7 +35,6 @@ class AddHistoryScreen extends StatelessWidget {
             children: [
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 8),
                 alignment: Alignment.center,
                 child: Stack(
                   children: [
@@ -45,14 +44,16 @@ class AddHistoryScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.pop(context);
                         },
+                        behavior: HitTestBehavior.opaque,
                         child: Container(
-                          padding: EdgeInsets.only(left: 15),
+                          padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
                           child: Image.asset("assets/images/arrow_back.png", width: 24),
                         ),
                       ),
                     ),
                     Container(
                       width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 15),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
