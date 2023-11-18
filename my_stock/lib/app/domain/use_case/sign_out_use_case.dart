@@ -9,7 +9,9 @@ class SignOutUseCase {
     required AuthService authService,
   }) : _authService = authService;
 
-  Future<void> call() async {
+  Future<void> call({
+    required void Function() onSuccess,
+  }) async {
     await _authService.signOut();
     GetIt.instance.unregister<User>(instance: User);
   }
