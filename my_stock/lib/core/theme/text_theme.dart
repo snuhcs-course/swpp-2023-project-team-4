@@ -44,6 +44,11 @@ abstract class BodyTextStyle {
         fontSize: 14,
         fontWeight: FontWeight.w400,
       );
+
+  static TextStyle get nanum15 => TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w400,
+      );
 }
 
 abstract class OtherTextStyle {
