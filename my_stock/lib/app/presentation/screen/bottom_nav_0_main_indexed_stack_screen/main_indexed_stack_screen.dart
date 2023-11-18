@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_1_graph_screen/graph_screen.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_2_calendar_screen/calendar_screen.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_3_report_screen/report_screen.dart';
+import 'package:my_stock/app/presentation/screen/bottom_nav_4_settings_screen/settings_screen.dart';
 import 'package:my_stock/core/theme/color_theme.dart';
 
 part 'widgets/selectable_bottom_navigation_bar_item.dart';
@@ -28,43 +29,50 @@ class _MainIndexedStackScreenState extends State<MainIndexedStackScreen> {
           GraphScreen(),
           const CalendarScreen(),
           const ReportScreen(),
+          const SettingsScreen(),
         ],
       ),
-      bottomNavigationBar: Container(
-        child: BottomNavigationBar(
-          backgroundColor: EmotionColor.notFilled,
-          currentIndex: currentIndex,
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: [
-            BottomNavigationBarItem(
-              icon: _SelectableBottomNavigationBarItem(
-                isSelected: currentIndex == 0,
-                asset: "assets/images/graph.png",
-              ),
-              label: '',
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: EmotionColor.notFilled,
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: [
+          BottomNavigationBarItem(
+            icon: _SelectableBottomNavigationBarItem(
+              isSelected: currentIndex == 0,
+              icon: Icons.auto_graph_outlined,
             ),
-            BottomNavigationBarItem(
-              icon: _SelectableBottomNavigationBarItem(
-                isSelected: currentIndex == 1,
-                asset: "assets/images/calendar.png",
-              ),
-              label: '',
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: _SelectableBottomNavigationBarItem(
+              isSelected: currentIndex == 1,
+              icon: Icons.calendar_today_outlined,
             ),
-            BottomNavigationBarItem(
-              icon: _SelectableBottomNavigationBarItem(
-                isSelected: currentIndex == 2,
-                asset: "assets/images/report.png",
-              ),
-              label: '',
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: _SelectableBottomNavigationBarItem(
+              isSelected: currentIndex == 2,
+              icon: Icons.article_outlined,
             ),
-          ],
-        ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: _SelectableBottomNavigationBarItem(
+              isSelected: currentIndex == 3,
+              icon: Icons.settings_outlined,
+            ),
+            label: '',
+          ),
+        ],
       ),
     );
   }
