@@ -28,6 +28,23 @@ class MyStockView(viewsets.ModelViewSet):
             serialized_data = [self.get_serializer(item).data for item in mystock]
             return Response(serialized_data)
 
+
+    def list(self, request, *args, **kwargs):
+        qs = self.filter_queryset(self.get_queryset())
+        if self.request.query_params:
+            if "year" in self.request.query_params:
+                year = self.request.query_params["year"]
+                qs = qs.filter(purchase_date__year=year)
+            if "month" in self.request.query_params:
+                month = self.request.query_params["month"]
+                qs = qs.filter(purchase_date__month=month)
+            if "day" in self.request.query_params:
+                day = self.request.query_params["day"]
+                qs = qs.filter(purchase_date__day=day)
+        serialized_data = [self.get_serializer(item).data for item in qs]
+        return Response(serialized_data)
+
+
 class UserBalanceView(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserBalanceSerializer
