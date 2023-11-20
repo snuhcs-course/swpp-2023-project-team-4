@@ -28,7 +28,7 @@ class Stock(BaseModel):
 
 class MyStock(BaseModel):
     stock = models.ForeignKey(
-        "stock.Stock", on_delete=models.CASCADE, related_name="my_stocks"
+        "stock.Stock",  on_delete=models.CASCADE, related_name="my_stocks"
     )
     price = models.IntegerField(default=0)
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="my_stocks")
