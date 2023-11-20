@@ -2,7 +2,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 
 from stock.models import Stock, MyStock
-from stock.serializers import StockSerializer, MyStockSerializer
+from stock.serializers import StockSerializer, MyStockSerializer, UserBalanceSerializer
 
 
 class StockView(viewsets.ModelViewSet):
@@ -27,3 +27,24 @@ class MyStockView(viewsets.ModelViewSet):
         else:
             serialized_data = [self.get_serializer(item).data for item in mystock]
             return Response(serialized_data)
+
+class UserBalanceView(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserBalanceSerializer
+
+    def get_queryset(self):
+        return MyStock.objects.filter(user=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        quantity, total = MyStock.calculate_balance(self.request.user)
+        serialized_data = []
+        for key in quantity.keys():
+            serialized_data.append(
+                {
+                    "ticker": key,
+                    "quantity": quantity[key],
+                    "balance": total[key],
+                    "return": total[key] - quantity[key] * Stock.objects.get(ticker=key).current_price,
+                }
+            )
+        return Response(serialized_data)
