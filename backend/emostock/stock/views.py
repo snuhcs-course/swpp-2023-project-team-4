@@ -1,5 +1,8 @@
+import json
+
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from stock.models import Stock, MyStock
 from stock.serializers import StockSerializer, MyStockSerializer, UserBalanceSerializer
@@ -65,3 +68,28 @@ class UserBalanceView(viewsets.ModelViewSet):
                 }
             )
         return Response(serialized_data)
+
+    @action(detail=False, methods=["get"])
+    def validate_quantity(self, request, *args, **kwargs):
+        is_valid = False
+        try:
+            json_data = json.loads(self.request.body)
+        except json.JSONDecodeError as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        if "ticker" not in json_data:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        ticker = json_data["ticker"]
+        if "quantity" not in json_data:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        quantity = json_data["quantity"]
+        if not quantity.isdigit():
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        # ticker validate도 해주기
+        quantity = int(quantity)
+        dict_quantity, _ = MyStock.calculate_balance(self.request.user)
+        current_quantity = dict_quantity.get(ticker, 0)
+        if quantity > current_quantity:
+            return Response(is_valid)
+        else:
+            is_valid = True
+            return Response(is_valid)
