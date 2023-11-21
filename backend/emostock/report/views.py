@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from rest_framework import viewsets, permissions
 
-# Create your views here.
+from report.models import ReportSummary
+from report.serializers import ReportSummarySerializer
+
+
+class ReportView(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = ReportSummary.objects.all()
+    serializer_class = ReportSummarySerializer
+
