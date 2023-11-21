@@ -28,7 +28,7 @@ class Stock(BaseModel):
 
 class MyStock(BaseModel):
     stock = models.ForeignKey(
-        "stock.Stock", on_delete=models.CASCADE, related_name="my_stocks"
+        "stock.Stock",  on_delete=models.CASCADE, related_name="my_stocks"
     )
     price = models.IntegerField(default=0)
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="my_stocks")
@@ -40,3 +40,25 @@ class MyStock(BaseModel):
         verbose_name = "My_Stock"
         verbose_name_plural = "My_Stocks"
         ordering = ["stock", ]
+
+    @classmethod
+    def calculate_balance(cls, user):
+        my_stocks = MyStock.objects.filter(user=user)
+        quantity = {}
+        total = {}
+        for my_stock in my_stocks:
+            if my_stock.stock.ticker in quantity:
+                if my_stock.transaction_type == TransactionType.BUY:
+                    quantity[my_stock.stock.ticker] += my_stock.quantity
+                    total[my_stock.stock.ticker] += my_stock.quantity * my_stock.price
+                else:
+                    quantity[my_stock.stock.ticker] -= my_stock.quantity
+                    total[my_stock.stock.ticker] -= my_stock.quantity * my_stock.price
+                    if quantity[my_stock.stock.ticker] == 0:
+                        del quantity[my_stock.stock.ticker]
+                        del total[my_stock.stock.ticker]
+            else:
+                quantity[my_stock.stock.ticker] = my_stock.quantity
+                total[my_stock.stock.ticker] = my_stock.quantity * my_stock.price
+
+        return quantity, total

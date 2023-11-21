@@ -1,8 +1,11 @@
+import json
+
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from stock.models import Stock, MyStock
-from stock.serializers import StockSerializer, MyStockSerializer
+from stock.serializers import StockSerializer, MyStockSerializer, UserBalanceSerializer
 
 
 class StockView(viewsets.ModelViewSet):
@@ -27,3 +30,66 @@ class MyStockView(viewsets.ModelViewSet):
         else:
             serialized_data = [self.get_serializer(item).data for item in mystock]
             return Response(serialized_data)
+
+
+    def list(self, request, *args, **kwargs):
+        qs = self.filter_queryset(self.get_queryset())
+        if self.request.query_params:
+            if "year" in self.request.query_params:
+                year = self.request.query_params["year"]
+                qs = qs.filter(purchase_date__year=year)
+            if "month" in self.request.query_params:
+                month = self.request.query_params["month"]
+                qs = qs.filter(purchase_date__month=month)
+            if "day" in self.request.query_params:
+                day = self.request.query_params["day"]
+                qs = qs.filter(purchase_date__day=day)
+        serialized_data = [self.get_serializer(item).data for item in qs]
+        return Response(serialized_data)
+
+
+class UserBalanceView(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserBalanceSerializer
+
+    def get_queryset(self):
+        return MyStock.objects.filter(user=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        quantity, total = MyStock.calculate_balance(self.request.user)
+        serialized_data = []
+        for key in quantity.keys():
+            serialized_data.append(
+                {
+                    "ticker": key,
+                    "quantity": quantity[key],
+                    "balance": total[key],
+                    "return": total[key] - quantity[key] * Stock.objects.get(ticker=key).current_price,
+                }
+            )
+        return Response(serialized_data)
+
+    @action(detail=False, methods=["get"])
+    def validate_quantity(self, request, *args, **kwargs):
+        is_valid = False
+        try:
+            json_data = json.loads(self.request.body)
+        except json.JSONDecodeError as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        if "ticker" not in json_data:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        ticker = json_data["ticker"]
+        if "quantity" not in json_data:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        quantity = json_data["quantity"]
+        if not quantity.isdigit():
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        # ticker validate도 해주기
+        quantity = int(quantity)
+        dict_quantity, _ = MyStock.calculate_balance(self.request.user)
+        current_quantity = dict_quantity.get(ticker, 0)
+        if quantity > current_quantity:
+            return Response(is_valid)
+        else:
+            is_valid = True
+            return Response(is_valid)

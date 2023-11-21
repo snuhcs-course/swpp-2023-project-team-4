@@ -31,3 +31,14 @@ class MyStockSerializer(serializers.ModelSerializer):
             "transaction_type",
             "quantity",
         ]
+
+class UserBalanceSerializer(serializers.Serializer):
+
+    class Meta:
+        fields = [
+            "ticker",
+            "quantity",
+            "balance",
+            "return",
+        ]
+
