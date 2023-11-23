@@ -26,7 +26,7 @@ class AddHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final NumberFormat formatter = NumberFormat("#,###");
     return ChangeNotifierProvider(
-      create: (context) => AddHistoryScreenViewModel(buy: buy),
+      create: (context) => AddHistoryScreenViewModel(buy: buy, defaultPrice: stock.price),
       child: Scaffold(
         backgroundColor: BackgroundColor.defaultColor,
         body: SafeArea(
@@ -169,7 +169,7 @@ class _PriceQuantityInputState extends State<_PriceQuantityInput> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<AddHistoryScreenViewModel>().priceFocusNode.requestFocus();
+      context.read<AddHistoryScreenViewModel>().quantityFocusNode.requestFocus();
     });
   }
 

@@ -12,8 +12,10 @@ class AddHistoryScreenViewModel with ChangeNotifier {
 
   AddHistoryScreenViewModel({
     required this.buy,
+    required int defaultPrice,
   }) {
     final _formatter = NumberFormat("#,###");
+    priceController.text = _formatter.format(defaultPrice);
     priceFocusNode.addListener(() {
       notifyListeners();
     });
