@@ -133,4 +133,13 @@ class CalendarScreenViewModel with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  bool hasRecord(Date date) {
+    for (DateEmotionVM dateEmotion in dateEmotionList) {
+      if (dateEmotion.date == date) {
+        return dateEmotion.emotion != null && dateEmotion.emotion != EmotionVMEnum.notFilled;
+      }
+    }
+    return false;
+  }
 }
