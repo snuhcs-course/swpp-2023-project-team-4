@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from report.models import ReportSummary
+from report.models import Report
 
 
-class ReportSummarySerializer(serializers.ModelSerializer):
+class ReportSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ReportSummary
+        model = Report
         fields = [
             "date",
             "summary",
