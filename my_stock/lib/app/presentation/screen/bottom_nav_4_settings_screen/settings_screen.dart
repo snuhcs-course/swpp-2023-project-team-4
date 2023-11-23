@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_stock/app/domain/model/user.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_4_settings_screen/settings_screen_view_model.dart';
+import 'package:my_stock/app/presentation/util/my_navigator.dart';
 import 'package:my_stock/app/presentation/util/my_snackbar.dart';
 import 'package:my_stock/core/theme/color_theme.dart';
 import 'package:my_stock/core/theme/text_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
+part 'announcement_web_view.dart';
+part 'faq_web_view.dart';
+part 'how_to_use_web_view.dart';
 part 'widget/content_box.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -65,19 +70,21 @@ class SettingsScreen extends StatelessWidget {
                       icon: Icons.announcement_outlined,
                       text: "공지사항",
                       onTap: () {
-                        MySnackBar.show("공지사항");
+                        MyNavigator.push(_AnnouncementWebView());
                       },
                     ),
                     _ContentVM(
                       icon: Icons.article_outlined,
                       text: "사용방법",
-                      onTap: () {},
+                      onTap: () {
+                        MyNavigator.push(_HowToUseWebView());
+                      },
                     ),
                     _ContentVM(
                       icon: Icons.help,
                       text: "FAQ",
                       onTap: () {
-                        MySnackBar.show("FAQ");
+                        MyNavigator.push(_FaqWebView());
                       },
                     ),
                   ],
