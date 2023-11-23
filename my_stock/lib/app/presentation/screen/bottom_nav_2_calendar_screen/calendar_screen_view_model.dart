@@ -124,4 +124,13 @@ class CalendarScreenViewModel with ChangeNotifier {
       },
     );
   }
+
+  void updateDateEmotion(DateEmotionVM dateEmotion) {
+    for (int i = 0; i < dateEmotionList.length; i++) {
+      if (dateEmotionList[i].date == dateEmotion.date) {
+        dateEmotionList[i] = dateEmotion;
+      }
+    }
+    notifyListeners();
+  }
 }

@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:my_stock/app/domain/repository_interface/emotion_repostory.dart';
 import 'package:my_stock/app/domain/repository_interface/stock_repository.dart';
 import 'package:my_stock/app/domain/use_case/record_emotion_stock_use_case.dart';
+import 'package:my_stock/app/presentation/screen/bottom_nav_2_calendar_screen/date_emotion.dart';
 import 'package:my_stock/app/presentation/util/my_navigator.dart';
 import 'package:my_stock/app/presentation/util/my_snackbar.dart';
 import 'package:my_stock/app/presentation/vm/emotion_vm_enum.dart';
@@ -64,7 +65,12 @@ class RecordEmotionScreenViewModel with ChangeNotifier {
       emotion: selectedEmotionVM.toEmotionEnum,
       text: textEditingController.text,
       onSuccess: () {
-        MyNavigator.pop();
+        MyNavigator.pop(
+          DateEmotionVM(
+            date: date,
+            emotion: selectedEmotionVM,
+          ),
+        );
       },
       onFail: () {},
       beforeThisWeek: () {},
