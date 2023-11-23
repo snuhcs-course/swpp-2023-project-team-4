@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'emotion',
     'stock',
+    'report',
 ]
 
 MIDDLEWARE = [
