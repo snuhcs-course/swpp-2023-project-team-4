@@ -13,6 +13,7 @@ class SignOutUseCase {
     required void Function() onSuccess,
   }) async {
     await _authService.signOut();
-    GetIt.instance.unregister<User>(instance: User);
+    GetIt.instance.unregister<User>();
+    onSuccess();
   }
 }

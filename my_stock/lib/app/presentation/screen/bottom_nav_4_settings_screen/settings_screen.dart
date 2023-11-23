@@ -7,13 +7,16 @@ import 'package:my_stock/core/theme/color_theme.dart';
 import 'package:my_stock/core/theme/text_theme.dart';
 import 'package:provider/provider.dart';
 
+part 'widget/content_box.dart';
+
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SettingsScreenViewModel>(builder: (_, __, ___) {
-      return Scaffold(
+    return ChangeNotifierProvider<SettingsScreenViewModel>(
+      create: (_) => SettingsScreenViewModel(),
+      child: Scaffold(
         backgroundColor: BackgroundColor.defaultColor,
         body: SafeArea(
           child: Padding(
@@ -21,137 +24,69 @@ class SettingsScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 40),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text("계정", style: HeaderTextStyle.nanum18.writeText),
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: StrokeColor.writeText, width: 1),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.person, size: 24, color: Colors.black.withOpacity(0.7)),
-                            const SizedBox(width: 10),
-                            Text("${GetIt.I.get<User>().nickname}",
-                                style: BodyTextStyle.nanum15.writeText),
-                            Spacer(),
-                            Builder(builder: (context) {
-                              return GestureDetector(
-                                onTap: () {
-                                  context.read<SettingsScreenViewModel>().signOut();
-                                },
-                                behavior: HitTestBehavior.opaque,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 4),
-                                  child: Text(
-                                    "로그아웃하기",
-                                    style: BodyTextStyle.nanum15.copyWith(color: StrokeColor.sell),
-                                  ),
-                                ),
-                              );
-                            }),
-                          ],
-                        ),
+                Builder(builder: (context) {
+                  return _ContentBox(
+                    title: "계정",
+                    contents: [
+                      _ContentVM(
+                        icon: Icons.person,
+                        text: GetIt.I<User>().nickname,
+                        buttonText: "로그아웃하기",
+                        onTap: context.read<SettingsScreenViewModel>().signOut,
                       ),
                     ],
-                  ),
+                  );
+                }),
+                const SizedBox(height: 20),
+                _ContentBox(
+                  title: "고객센터",
+                  contents: [
+                    _ContentVM(
+                      icon: Icons.star,
+                      text: "별점 남기기",
+                      onTap: () {
+                        MySnackBar.show("별점 5점 감사합니다!");
+                      },
+                    ),
+                    _ContentVM(
+                      icon: Icons.question_answer_outlined,
+                      text: "문의하기",
+                      onTap: () {
+                        MySnackBar.show("답변드렸습니다~");
+                      },
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text("고객센터", style: HeaderTextStyle.nanum18.writeText),
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: StrokeColor.writeText, width: 1),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                const SizedBox(width: 10),
-                                Icon(Icons.message, size: 24, color: Colors.black.withOpacity(0.7)),
-                                const SizedBox(width: 10),
-                                Text("의견 보내기", style: BodyTextStyle.nanum15.writeText),
-                                Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    MySnackBar.show("의견 잘 받았습니다!");
-                                  },
-                                  behavior: HitTestBehavior.opaque,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 4),
-                                    child: Text(
-                                      "보내러 가기",
-                                      style:
-                                          BodyTextStyle.nanum15.copyWith(color: StrokeColor.sell),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                              ],
-                            ),
-                            const SizedBox(height: 13),
-                            Container(
-                              width: double.infinity,
-                              height: 1,
-                              color: StrokeColor.writeText,
-                            ),
-                            const SizedBox(height: 13),
-                            Row(
-                              children: [
-                                const SizedBox(width: 10),
-                                Icon(Icons.star, size: 24, color: Colors.black.withOpacity(0.7)),
-                                const SizedBox(width: 10),
-                                Text("개발자 응원하기", style: BodyTextStyle.nanum15.writeText),
-                                Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    MySnackBar.show("별점 5점 잘 받았습니다!");
-                                  },
-                                  behavior: HitTestBehavior.opaque,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 4),
-                                    child: Text(
-                                      "별점 남기러 가기",
-                                      style:
-                                          BodyTextStyle.nanum15.copyWith(color: StrokeColor.sell),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                _ContentBox(
+                  title: "이용안내",
+                  contents: [
+                    _ContentVM(
+                      icon: Icons.announcement_outlined,
+                      text: "공지사항",
+                      onTap: () {
+                        MySnackBar.show("공지사항");
+                      },
+                    ),
+                    _ContentVM(
+                      icon: Icons.article_outlined,
+                      text: "사용방법",
+                      onTap: () {},
+                    ),
+                    _ContentVM(
+                      icon: Icons.help,
+                      text: "FAQ",
+                      onTap: () {
+                        MySnackBar.show("FAQ");
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }
