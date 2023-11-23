@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 from datetime import datetime, timedelta
 import PyPDF2
+from sshmanager import SSHManager
 
 
 date = (datetime.now() - timedelta(days=1))
@@ -199,9 +200,15 @@ def articles_to_dict(articlelinks):
 
 
 def save_as_json(new_db):
-    with open('data.json', 'w', encoding='UTF-8-sig') as file:
+    with open('input.json', 'w', encoding='UTF-8-sig') as file:
         file.write(json.dumps(new_db, ensure_ascii=False, indent=4))
         file.close()
+
+def send_to_server():
+    ssh_manager = SSHManager()
+    ssh_manager.create_ssh_client("35.200.126.91", "g123jellybean")
+    ssh_manager.send_file("input.json", "/srv/ml-server/input/input.json")
+    ssh_manager.close_ssh_client()
 
 def run():
     url = get_url(date)
@@ -211,3 +218,4 @@ def run():
     read_articles(articlelinks)
     new_dataset = articles_to_dict(articlelinks)
     save_as_json(new_dataset)
+    send_to_server()
