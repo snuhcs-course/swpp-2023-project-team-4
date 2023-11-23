@@ -69,6 +69,7 @@ class RecordEmotionScreenViewModel with ChangeNotifier {
           DateEmotionVM(
             date: date,
             emotion: selectedEmotionVM,
+            text: textEditingController.text,
           ),
         );
       },

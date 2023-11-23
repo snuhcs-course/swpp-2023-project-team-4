@@ -4,9 +4,11 @@ import 'package:my_stock/core/util/date.dart';
 class DateEmotionVM {
   Date? date;
   EmotionVMEnum? emotion;
+  String text;
 
   DateEmotionVM({
     this.date,
     this.emotion,
+    this.text = "",
   });
 }
