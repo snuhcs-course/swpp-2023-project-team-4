@@ -32,7 +32,7 @@ class MyStock(BaseModel):
     )
     price = models.IntegerField(default=0)
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="my_stocks")
-    purchase_date = models.DateTimeField(auto_now_add=True)
+    purchase_date = models.DateField(auto_now_add=True)
     quantity = models.PositiveIntegerField(default=0)
     transaction_type = build_enum_field(TransactionType, null=True, blank=True)
 
