@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import json
 from datetime import datetime, timedelta
 import PyPDF2
-from sshmanager import SSHManager
+from .sshmanager import SSHManager
 
 
 date = (datetime.now() - timedelta(days=1))
