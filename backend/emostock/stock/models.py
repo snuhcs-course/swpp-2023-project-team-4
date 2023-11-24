@@ -62,3 +62,42 @@ class MyStock(BaseModel):
                 total[my_stock.stock.ticker] = my_stock.quantity * my_stock.price
 
         return quantity, total
+
+    @classmethod
+    def calculate_return(cls, user, sdate, edate):
+        from emotion.models import Emotion
+        from datetime import timedelta, datetime
+
+        def get_or_set_value(d, key, value):
+            if key in d:
+                original_value = d[key]
+                updated_value = (original_value[0] + value[0], original_value[1] + value[1])
+                d[key] = updated_value
+            else:
+                d[key] = value
+
+        def calculate_price(my_stocks):
+            net_price = 0
+            total_price = 0
+            for my_stock in my_stocks:
+                if my_stock.transaction_type == TransactionType.BUY:
+                    end_price = Stock.objects.filter(ticker=my_stock.stock.ticker)[0].closing_price
+                    quantity = my_stock.quantity
+                    net_price += end_price * quantity - my_stock.price * quantity
+                    total_price += my_stock.price * quantity
+
+            return net_price, total_price
+
+        sdate = datetime.strptime(sdate, "%Y-%m-%d")
+        edate = datetime.strptime(edate, "%Y-%m-%d")
+        emotions = Emotion.objects.filter(user=user, date__range=[sdate, edate])
+        my_stocks = MyStock.objects.filter(user=user, purchase_date__range=[sdate, edate])
+        return_rate = {}
+        for date in (sdate + timedelta(n) for n in range(5)):
+            emotion = emotions.filter(date=date)
+            my_stock = my_stocks.filter(purchase_date=date)
+            if emotion:
+                emotion = emotion[0].value
+                value = calculate_price(my_stock)
+                get_or_set_value(return_rate, emotion, value)
+        return return_rate
