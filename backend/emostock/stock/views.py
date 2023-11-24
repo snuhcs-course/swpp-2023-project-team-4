@@ -93,3 +93,26 @@ class UserBalanceView(viewsets.ModelViewSet):
         else:
             is_valid = True
             return Response(is_valid)
+
+    @action(detail=False, methods=["get"])
+    def return_rate(self, request, *args, **kwargs):
+        serialized_data = []
+        try:
+            if "sdate" in self.request.query_params:
+                sdate = self.request.query_params["sdate"]
+            if "edate" in self.request.query_params:
+                edate = self.request.query_params["edate"]
+            if sdate and edate:
+                result = MyStock.calculate_return(self.request.user, sdate, edate)
+                for k, v in result.items():
+                    serialized_data.append(
+                        {
+                            "emotion": k,
+                            "net_price": v[0],
+                            "total_price": v[1],
+                            "return_rate": round(v[0] / v[1] * 100, 2)
+                        }
+                    )
+                return Response(serialized_data)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
