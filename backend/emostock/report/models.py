@@ -5,9 +5,7 @@ class Report(BaseModel):
 
     date = models.DateField()
     summary = models.TextField()
-    stock = models.ForeignKey(
-        "stock.Stock", on_delete=models.CASCADE, related_name="report_summary"
-    )
+    stock = models.CharField(max_length=6)
 
     class Meta:
         verbose_name = "Report_Summary"
