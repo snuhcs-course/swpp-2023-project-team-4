@@ -4,7 +4,7 @@ import json
 from datetime import datetime, timedelta
 import PyPDF2
 from .sshmanager import SSHManager
-
+import re
 
 date = (datetime.now() - timedelta(days=1))
 date = datetime.strftime(date, '%Y-%m-%d')
@@ -199,6 +199,29 @@ def articles_to_dict(articlelinks):
     return new_dataset
 
 
+def revise_contents(dataset):
+    for data in dataset:
+        content = data["content"]
+        lines = content.split('\n')
+        nt = ""
+        for line in lines:
+            if line.strip() and calculate_ratio(line) < 0.3:
+                nt += line.strip()
+                nt += "\n"
+        content = nt
+        content = re.sub(r'\s{2,}', ' ', content)
+        content = re.sub(r'[^\w\s,/.%]', '', content)
+        data["content"] = content
+
+
+def calculate_ratio(line):
+    num_count = sum(c.isdigit() for c in line)  # 숫자 개수 세기
+    total = len(line.replace(" ", ""))  # 공백을 제외한 전체 문자 개수 세기
+    if total == 0:
+        return 0  # 0으로 나누는 경우 예외 처리
+    return num_count / total  # 숫자의 비율 계산
+
+
 def save_as_json(new_db):
     with open('input.json', 'w', encoding='UTF-8-sig') as file:
         file.write(json.dumps(new_db, ensure_ascii=False, indent=4))
@@ -217,5 +240,6 @@ def run():
     articlelinks = get_urls(date, pages)
     read_articles(articlelinks)
     new_dataset = articles_to_dict(articlelinks)
+    revise_contents(new_dataset)
     save_as_json(new_dataset)
     send_to_server()
