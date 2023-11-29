@@ -5,7 +5,7 @@ from report.models import Report
 from stock.models import Stock
 
 def run():
-    with open('output.json', 'r', encoding='UTF-8-sig') as json_file:
+    with open('/srv/Emostock/summary/summary.json', 'r', encoding='UTF-8-sig') as json_file:
         data = json.load(json_file)
         json_file.close()
 
