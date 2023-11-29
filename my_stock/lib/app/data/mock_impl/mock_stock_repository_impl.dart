@@ -16,7 +16,12 @@ class MockStockRepositoryImpl implements StockRepository {
   @override
   Future<Result<List<Stock>, DefaultIssue>> searchStocks({required String pattern}) async {
     return Success([
-      Stock(ticker: "dddddd", name: "삼성전자", currentPrice: 70000, fluctuationRate: 2.5),
+      Stock(
+          ticker: "dddddd",
+          name: "삼성전자",
+          currentPrice: 70000,
+          closingPrice: 69000,
+          fluctuationRate: 2.5),
     ]);
   }
 }

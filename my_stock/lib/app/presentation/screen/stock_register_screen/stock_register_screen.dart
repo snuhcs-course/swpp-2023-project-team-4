@@ -67,7 +67,7 @@ class StockRegisterScreen extends StatelessWidget {
                     Text("어제보다", style: BodyTextStyle.nanum12Light.black),
                     const SizedBox(width: 5),
                     Text(
-                      "${stock.fluctuationRate > 0 ? "+" : "-"}원 (${stock.fluctuationRate}}%)",
+                      "${stock.fluctuationRate >= 0 ? "+" : "-"}${(stock.closingPrice - stock.price).abs()}원 (${stock.fluctuationRate})%",
                       style: BodyTextStyle.nanum12Light.copyWith(
                         color:
                             stock.fluctuationRate >= 0 ? EmotionColor.happier : EmotionColor.sadder,

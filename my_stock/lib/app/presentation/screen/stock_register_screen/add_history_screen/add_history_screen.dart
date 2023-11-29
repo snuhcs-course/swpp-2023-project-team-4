@@ -70,9 +70,9 @@ class AddHistoryScreen extends StatelessWidget {
                               Builder(
                                 builder: (context) {
                                   return Text(
-                                    "-2.5%",
+                                    "${stock.fluctuationRate >= 0 ? "+" : ""}${stock.fluctuationRate}%",
                                     style: BodyTextStyle.nanum12Light.copyWith(
-                                      color: context.read<AddHistoryScreenViewModel>().buy
+                                      color: stock.fluctuationRate >= 0
                                           ? IconColor.selected
                                           : StrokeColor.sell,
                                     ),

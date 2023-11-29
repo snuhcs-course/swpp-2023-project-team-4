@@ -36,6 +36,7 @@ class SearchStockScreenViewModel with ChangeNotifier {
                     name: stock.name,
                     imageUrl: "",
                     price: stock.currentPrice,
+                    closingPrice: stock.closingPrice,
                     fluctuationRate: stock.fluctuationRate,
                   ),
                 );

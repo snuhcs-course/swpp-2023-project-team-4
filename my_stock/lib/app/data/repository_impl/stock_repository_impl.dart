@@ -18,14 +18,21 @@ class StockRepositoryImpl implements StockRepository {
       }
       List<Stock> stockList = [];
       for (var dto in dtos) {
-        if (dto.name.contains(pattern))
+        if (dto.name.contains(pattern)) {
           stockList.add(
             Stock(
-                ticker: dto.ticker,
-                name: dto.name,
-                currentPrice: dto.currentPrice,
-                fluctuationRate: dto.fluctuationRate),
+              ticker: dto.ticker,
+              name: dto.name,
+              currentPrice: dto.currentPrice,
+              closingPrice: dto.closingPrice,
+              fluctuationRate: dto.fluctuationRate,
+            ),
           );
+          print(dto.name);
+          print(dto.currentPrice);
+          print(dto.closingPrice);
+          print(dto.fluctuationRate);
+        }
       }
       return Success(stockList);
     } on DioException catch (e) {
