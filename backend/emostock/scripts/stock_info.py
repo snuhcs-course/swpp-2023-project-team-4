@@ -25,11 +25,11 @@ def generate_df(gen_otp_url, gen_otp_stk, headers):
     otp_stk = request.post(gen_otp_url, gen_otp_stk, headers=headers).text
     down_sector_stk = request.post(down_url, {'code': otp_stk}, headers=headers)
     df_stock = pd.read_csv(BytesIO(down_sector_stk.content), encoding='EUC-KR')
-    new_df = df_stock[['종목코드', '종목명', '시장구분', '종가', '시가', '등락률']]
-    new_df.columns = ['ticker', 'name', 'market_type', 'closing_price', 'current_price', 'fluctuation_rate']
+    new_df = df_stock[['종목코드', '종목명', '시장구분', '종가', '대비', '등락률']]
+    new_df.columns = ['ticker', 'name', 'market_type', 'closing_price', 'difference', 'fluctuation_rate']
     new_df = new_df[new_df['market_type'].isin(['KOSDAQ', 'KOSPI'])]
     new_df = new_df[new_df['ticker'].str.contains('^[0-9]+$')]
-    new_df['ticker'] = new_df['ticker'].astype(str).str.zfill(6)
+    new_df['current_price'] = new_df['closing_price'] + new_df['difference']
     new_df.reset_index(drop=True, inplace=True)
     save_stock_info(new_df)
     return new_df
@@ -37,21 +37,16 @@ def generate_df(gen_otp_url, gen_otp_stk, headers):
 
 def save_stock_info(df):
     for i in range(len(df)):
-        stock, created = Stock.objects.get_or_create(
+        Stock.objects.update_or_create(
             ticker=df['ticker'][i],
-            name=df['name'][i],
-            market_type=df['market_type'][i],
-            current_price=df['current_price'][i],
-            closing_price=df['closing_price'][i],
-            fluctuation_rate=df['fluctuation_rate'][i],
+            defaults={
+                'name': df['name'][i],
+                'market_type': df['market_type'][i],
+                'current_price': df['current_price'][i],
+                'closing_price': df['closing_price'][i],
+                'fluctuation_rate': df['fluctuation_rate'][i],
+            }
         )
-
-        if not created:
-            stock.current_price = df['current_price'][i]
-            closing_price = df['closing_price'][i]
-            fluctuation_rate = df['fluctuation_rate'][i]
-
-        stock.save()
 
 
 # python manage.py runscript stock_info
