@@ -12,6 +12,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<Result<User, DefaultIssue>> fetchUser() async {
     try {
       final result = await _httpUtil.post("/api/user/verify/");
+      print(result.data);
       final verifyDto = VerifyDTO.fromJson(result.data);
       return Success(
         User(

@@ -16,6 +16,7 @@ class AuthServiceImpl implements AuthService {
     try {
       _googleUser = await _googleSignIn.signIn();
       googleId = _googleUser!.id;
+      print("googleId: $googleId");
     } catch (e) {
       return Fail(SignInIssue.badRequest);
     }
@@ -60,6 +61,7 @@ class AuthServiceImpl implements AuthService {
           "nickname": nickname,
         },
       );
+      print("googleId: $googleId");
       final TokenDTO tokenDto = TokenDTO.fromJson(result.data);
       await _httpUtil.saveAccessToken(tokenDto.accessToken);
       _googleSignIn.signOut();
