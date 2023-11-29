@@ -31,3 +31,10 @@ class LocalRepositoryImpl implements LocalRepository {
     return Success(null);
   }
 }
+
+class LocalRepositoryFactoryImpl implements LocalRepositoryFactory {
+  @override
+  LocalRepository createLocalRepository() {
+    return LocalRepositoryImpl();
+  }
+}

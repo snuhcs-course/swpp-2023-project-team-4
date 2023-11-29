@@ -54,3 +54,10 @@ class StockRepositoryImpl implements StockRepository {
     }
   }
 }
+
+class StockRepositoryFactoryImpl implements StockRepositoryFactory {
+  @override
+  StockRepository createStockRepository() {
+    return StockRepositoryImpl();
+  }
+}

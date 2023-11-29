@@ -70,3 +70,10 @@ class AuthServiceImpl implements AuthService {
     return Success(null);
   }
 }
+
+class AuthServiceFactoryImpl implements AuthServiceFactory {
+  @override
+  AuthService createAuthService() {
+    return AuthServiceImpl();
+  }
+}

@@ -22,3 +22,10 @@ class MockAuthServiceImpl implements AuthService {
     return Success(null);
   }
 }
+
+class MockAuthServiceImplFactory implements AuthServiceFactory {
+  @override
+  AuthService createAuthService() {
+    return MockAuthServiceImpl();
+  }
+}

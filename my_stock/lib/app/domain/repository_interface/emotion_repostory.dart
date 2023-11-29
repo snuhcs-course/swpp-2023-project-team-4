@@ -20,3 +20,7 @@ enum CreateEmotionIssue {
   beforeThisWeek,
   unknown,
 }
+
+abstract class EmotionRepositoryFactory {
+  EmotionRepository createEmotionRepository();
+}

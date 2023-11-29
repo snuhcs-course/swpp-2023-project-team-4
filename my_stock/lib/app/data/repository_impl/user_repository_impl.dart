@@ -28,3 +28,10 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 }
+
+class UserRepositoryFactoryImpl implements UserRepositoryFactory {
+  @override
+  UserRepository createUserRepository() {
+    return UserRepositoryImpl();
+  }
+}

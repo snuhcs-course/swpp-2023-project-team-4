@@ -17,3 +17,10 @@ class MockEmotionRepositoryImpl implements EmotionRepository {
     return Success([]);
   }
 }
+
+class MockEmotionRepositoryImplFactory implements EmotionRepositoryFactory {
+  @override
+  EmotionRepository createEmotionRepository() {
+    return MockEmotionRepositoryImpl();
+  }
+}

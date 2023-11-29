@@ -12,3 +12,7 @@ abstract class StockRepository {
     required int userId,
   });
 }
+
+abstract class StockRepositoryFactory {
+  StockRepository createStockRepository();
+}

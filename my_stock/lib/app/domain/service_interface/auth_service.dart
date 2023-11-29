@@ -14,3 +14,7 @@ enum SignInIssue {
   badRequest,
   notRegistered,
 }
+
+abstract class AuthServiceFactory {
+  AuthService createAuthService();
+}

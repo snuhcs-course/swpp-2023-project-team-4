@@ -20,3 +20,10 @@ class MockStockRepositoryImpl implements StockRepository {
     ]);
   }
 }
+
+class MockStockRepositoryImplFactory implements StockRepositoryFactory {
+  @override
+  StockRepository createStockRepository() {
+    return MockStockRepositoryImpl();
+  }
+}
