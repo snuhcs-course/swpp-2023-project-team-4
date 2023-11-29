@@ -5,7 +5,7 @@ import 'package:my_stock/core/util/date.dart';
 
 class ReportScreenViewModel with ChangeNotifier {
   Date startDate = Date.now().firstDayOfWeek;
-  Date endDate = Date.now().lastDayOfWeek;
+  Date endDate = Date.now().friday;
 
   (int, int, int) get selectedNthWeek => startDate.nthWeek;
 
@@ -28,14 +28,12 @@ class ReportScreenViewModel with ChangeNotifier {
 
   List<DateEmotionVM> get dateEmotions {
     List<DateEmotionVM> dateEmotionVMs = [];
-    print("hello");
     for (Date date in dates) {
       dateEmotionVMs.add(DateEmotionVM(date: date, emotion: EmotionVMEnum.values[date.day % 5]));
     }
     dateEmotionVMs[4].emotion = null;
     // dateEmotionVMs.removeLast();
     // dateEmotionVMs.add(DateEmotionVM(date: endDate, emotion: null));
-    print("dateEmotionVMs: $dateEmotionVMs");
     return dateEmotionVMs;
   }
 }

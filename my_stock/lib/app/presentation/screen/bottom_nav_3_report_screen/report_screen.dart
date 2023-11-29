@@ -103,7 +103,7 @@ class ReportScreen extends StatelessWidget {
                             child: LayoutBuilder(
                               builder: (context, constraints) {
                                 double maxWidth = constraints.maxWidth;
-                                double width = maxWidth / 7;
+                                double width = (maxWidth - 1) / 5;
                                 return Consumer<ReportScreenViewModel>(builder: (_, viewModel, __) {
                                   return Stack(
                                     children: [
@@ -159,7 +159,7 @@ class ReportScreen extends StatelessWidget {
 
   List<Widget> _graphCircles(List<DateEmotionVM> dateEmotions, double width) {
     List<Widget> list = [];
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 5; i++) {
       DateEmotionVM dateEmotion = dateEmotions[i];
       if (dateEmotion.emotion != null) {
         double top = getTop(dateEmotion.emotion!);
@@ -217,11 +217,11 @@ class MyPainter implements CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     List<(double, double)> points = [];
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 5; i++) {
       DateEmotionVM dateEmotion = dateEmotions[i];
       if (dateEmotion.emotion != null) {
         double top = getTop(dateEmotion.emotion!);
-        points.add((size.width / 14 + size.width / 7 * i, top + 4));
+        points.add((size.width / 14 + size.width / 5 * i + 5, top + 4));
       }
     }
     final paint = Paint()

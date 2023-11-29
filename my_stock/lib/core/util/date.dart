@@ -114,4 +114,9 @@ extension DateExtension on Date {
     int weekday = this.weekday;
     return this.add(Duration(days: 7 - weekday));
   }
+
+  Date get friday {
+    int weekday = this.weekday;
+    return this.add(Duration(days: 5 - weekday));
+  }
 }
