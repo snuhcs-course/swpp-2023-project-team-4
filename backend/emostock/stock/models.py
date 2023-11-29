@@ -64,6 +64,23 @@ class MyStock(BaseModel):
         return quantity, total
 
     @classmethod
+    def quantity_not_zero(cls, user):
+        my_stocks = MyStock.objects.filter(user=user)
+        quantity = {}
+        for my_stock in my_stocks:
+            if my_stock.stock.ticker in quantity:
+                if my_stock.transaction_type == TransactionType.BUY:
+                    quantity[my_stock.stock.ticker] += my_stock.quantity
+                else:
+                    quantity[my_stock.stock.ticker] -= my_stock.quantity
+                    if quantity[my_stock.stock.ticker] <= 0:
+                        del quantity[my_stock.stock.ticker]
+            else:
+                quantity[my_stock.stock.ticker] = my_stock.quantity
+
+        return quantity
+
+    @classmethod
     def calculate_return(cls, user, sdate, edate):
         from emotion.models import Emotion
         from datetime import timedelta, datetime

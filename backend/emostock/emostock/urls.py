@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/emotions/', include('emotion.urls')),
     path('api/user/', include('user.urls')),
     path('', include('stock.urls')),
+    path('', include('report.urls')),
 ]
