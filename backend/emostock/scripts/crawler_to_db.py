@@ -14,6 +14,7 @@ def run():
             stock_instance = Stock.objects.get(ticker=item['code'])
 
             report = Report(
+                title=item['title'],
                 date=item['date'],
                 summary=item['summary'],
                 stock=item['code'],
