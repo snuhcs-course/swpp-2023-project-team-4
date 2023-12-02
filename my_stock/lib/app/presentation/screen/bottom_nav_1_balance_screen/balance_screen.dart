@@ -72,10 +72,14 @@ class BalanceScreen extends StatelessWidget {
                         children: [
                           Text("보유 주식", style: PretendardTextStyle.semiBold15.black),
                           const SizedBox(height: 10),
-                          Text(_numberFormat.format(635800), style: HeaderTextStyle.nanum18.black),
+                          Text(_numberFormat.format(viewModel.stockBalanceListVM.totalBalance),
+                              style: HeaderTextStyle.nanum18.black),
                           Text(
-                            "-23.68% (197,350원)",
-                            style: BodyTextStyle.nanum12.copyWith(color: EmotionColor.sadder),
+                            "${viewModel.stockBalanceListVM.totalProfitAndLossRate}% (${viewModel.stockBalanceListVM.totalProfitAndLoss.abs()}원)",
+                            style: BodyTextStyle.nanum12.copyWith(
+                                color: viewModel.stockBalanceListVM.isProfit
+                                    ? EmotionColor.happier
+                                    : EmotionColor.sadder),
                           ),
                         ],
                       ),
@@ -99,46 +103,30 @@ class BalanceScreen extends StatelessWidget {
                           const SizedBox(height: 20),
                           GapColumn(
                             gap: 10,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("CJ ENM", style: HeaderTextStyle.nanum16),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                            children: viewModel.stockBalanceListVM.stockBalanceList
+                                .map(
+                                  (e) => Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("432,800원", style: HeaderTextStyle.nanum16),
-                                      Text(
-                                        "+23.68% (197,350원)",
-                                        style: BodyTextStyle.nanum12
-                                            .copyWith(color: EmotionColor.happier),
+                                      Text(e.name, style: HeaderTextStyle.nanum16),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Text("${_numberFormat.format(e.balance)}원",
+                                              style: HeaderTextStyle.nanum16),
+                                          Text(
+                                            "${e.profitAndLossRate}% (${_numberFormat.format(e.profitAndLoss.abs())}원)",
+                                            style: BodyTextStyle.nanum12.copyWith(
+                                                color: e.isProfit
+                                                    ? EmotionColor.happier
+                                                    : EmotionColor.sadder),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("카카오뱅크", style: HeaderTextStyle.nanum16),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text("203,000원", style: HeaderTextStyle.nanum16),
-                                      Text(
-                                        "-23.68% (197,350원)",
-                                        style: BodyTextStyle.nanum12
-                                            .copyWith(color: EmotionColor.sadder),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                child: Text("+ 주식 추가하기", style: BodyTextStyle.nanum14),
-                              ),
-                            ],
+                                )
+                                .toList(),
                           ),
                         ],
                       ),
