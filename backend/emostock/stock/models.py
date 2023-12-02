@@ -110,7 +110,9 @@ class MyStock(BaseModel):
         emotions = Emotion.objects.filter(user=user, date__range=[sdate, edate])
         my_stocks = MyStock.objects.filter(user=user, purchase_date__range=[sdate, edate])
         return_rate = {}
-        for date in (sdate + timedelta(n) for n in range(5)):
+        length = (edate - sdate).days + 1
+
+        for date in (sdate + timedelta(n) for n in range(length)):
             emotion = emotions.filter(date=date)
             my_stock = my_stocks.filter(purchase_date=date)
             if emotion:
