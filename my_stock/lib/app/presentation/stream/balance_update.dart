@@ -1,7 +1,7 @@
 import 'dart:async';
 
 class BalanceUpdateStream {
-  static final _controller = StreamController<void>();
+  static final _controller = StreamController<void>.broadcast();
 
   static Stream<void> get stream => _controller.stream;
 
