@@ -68,7 +68,7 @@ class SettingsScreen extends StatelessWidget {
                   contents: [
                     _ContentVM(
                       icon: Icons.announcement_outlined,
-                      text: "공지사항",
+                      text: "소개",
                       onTap: () {
                         MyNavigator.push(_AnnouncementWebView());
                       },
