@@ -45,4 +45,19 @@ enum EmotionVMEnum {
       throw Exception("EmotionVM에 해당하는 EmotionEnum이 없습니다.");
     }
   }
+
+  String get text {
+    if (this == EmotionVMEnum.happier) {
+      return "Excited";
+    } else if (this == EmotionVMEnum.happy) {
+      return "Joyous";
+    } else if (this == EmotionVMEnum.neutral) {
+      return "Depressed";
+    } else if (this == EmotionVMEnum.sad) {
+      return "Stressed";
+    } else if (this == EmotionVMEnum.sadder) {
+      return "Anxious";
+    }
+    throw Exception("EmotionVM에 해당하는 텍스트가 없습니다.");
+  }
 }

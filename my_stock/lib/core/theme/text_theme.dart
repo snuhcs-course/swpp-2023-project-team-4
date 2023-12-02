@@ -25,6 +25,11 @@ abstract class HeaderTextStyle {
 }
 
 abstract class BodyTextStyle {
+  static TextStyle get nanum9 => TextStyle(
+        fontSize: 9,
+        fontWeight: FontWeight.w400,
+      );
+
   static TextStyle get nanum10 => TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.w400,
@@ -36,19 +41,19 @@ abstract class BodyTextStyle {
       );
 
   static TextStyle get nanum12 => TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-      );
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+  );
 
   static TextStyle get nanum14 => TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-      );
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  );
 
   static TextStyle get nanum15 => TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.w400,
-      );
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+  );
 }
 
 abstract class OtherTextStyle {
