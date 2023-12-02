@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_stock/app/presentation/screen/bottom_nav_1_graph_screen/graph_screen.dart';
+import 'package:my_stock/app/presentation/screen/bottom_nav_1_balance_screen/balance_screen.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_2_calendar_screen/calendar_screen.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_3_report_screen/report_screen.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_4_settings_screen/settings_screen.dart';
@@ -26,7 +26,7 @@ class _MainIndexedStackScreenState extends State<MainIndexedStackScreen> {
       body: IndexedStack(
         index: currentIndex,
         children: [
-          GraphScreen(),
+          BalanceScreen(),
           const CalendarScreen(),
           const ReportScreen(),
           const SettingsScreen(),
