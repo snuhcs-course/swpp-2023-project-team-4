@@ -64,7 +64,7 @@ class UserBalanceView(viewsets.ModelViewSet):
                     "ticker": key,
                     "quantity": quantity[key],
                     "balance": total[key],
-                    "return": total[key] - quantity[key] * Stock.objects.get(ticker=key).current_price,
+                    "return": quantity[key] * Stock.objects.get(ticker=key).current_price - total[key],
                 }
             )
         return Response(serialized_data)
