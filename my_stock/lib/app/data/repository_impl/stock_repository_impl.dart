@@ -96,6 +96,23 @@ class StockRepositoryImpl implements StockRepository {
       return Fail(DefaultIssue.badRequest);
     }
   }
+
+  @override
+  Future<Result<int, DefaultIssue>> getStockQuantity({required String ticker}) async {
+    try {
+      final response = await _httpUtil.get("/balance/");
+      List<BalanceDTO> balances =
+          response.data.map<BalanceDTO>((e) => BalanceDTO.fromJson(e)).toList();
+      for (var balance in balances) {
+        if (balance.ticker == ticker) {
+          return Success(balance.quantity);
+        }
+      }
+      return Success(0);
+    } on DioException catch (e) {
+      return Fail(DefaultIssue.badRequest);
+    }
+  }
 }
 
 class StockRepositoryFactoryImpl implements StockRepositoryFactory {

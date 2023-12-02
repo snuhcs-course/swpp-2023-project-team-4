@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:my_stock/app/domain/model/stock.dart';
 import 'package:my_stock/app/domain/model/stock_balance.dart';
 import 'package:my_stock/app/domain/repository_interface/stock_repository.dart';
@@ -8,9 +10,9 @@ class MockStockRepositoryImpl implements StockRepository {
   Future<Result<void, DefaultIssue>> createTransaction(
       {required String ticker,
       required int price,
-      required int quantity,
-      required bool buy,
-      required int userId}) async {
+    required int quantity,
+    required bool buy,
+    required int userId}) async {
     return Success(true);
   }
 
@@ -30,6 +32,11 @@ class MockStockRepositoryImpl implements StockRepository {
   Future<Result<List<StockBalance>, DefaultIssue>> getStockBalances() async {
     await Future.delayed(Duration(seconds: 1));
     return Success([]);
+  }
+
+  @override
+  Future<Result<int, DefaultIssue>> getStockQuantity({required String ticker}) async {
+    return Success(Random().nextInt(200));
   }
 }
 

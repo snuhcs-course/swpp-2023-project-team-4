@@ -14,6 +14,8 @@ abstract class StockRepository {
   });
 
   Future<Result<List<StockBalance>, DefaultIssue>> getStockBalances();
+
+  Future<Result<int, DefaultIssue>> getStockQuantity({required String ticker});
 }
 
 abstract class StockRepositoryFactory {
