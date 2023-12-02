@@ -1,4 +1,5 @@
 import 'package:my_stock/app/domain/model/stock.dart';
+import 'package:my_stock/app/domain/model/stock_balance.dart';
 import 'package:my_stock/app/domain/repository_interface/stock_repository.dart';
 import 'package:my_stock/app/domain/result.dart';
 
@@ -23,6 +24,12 @@ class MockStockRepositoryImpl implements StockRepository {
           closingPrice: 69000,
           fluctuationRate: 2.5),
     ]);
+  }
+
+  @override
+  Future<Result<List<StockBalance>, DefaultIssue>> getStockBalances() async {
+    await Future.delayed(Duration(seconds: 1));
+    return Success([]);
   }
 }
 

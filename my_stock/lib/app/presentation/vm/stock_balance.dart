@@ -1,5 +1,32 @@
 import 'package:my_stock/app/domain/model/stock_balance.dart';
 
+class StockBalanceListVM {
+  final List<StockBalanceVM> stockBalanceList;
+
+  const StockBalanceListVM({required this.stockBalanceList});
+
+  factory StockBalanceListVM.fromDomainList(List<StockBalance> stockBalanceList) {
+    return StockBalanceListVM(
+      stockBalanceList: stockBalanceList.map((e) => StockBalanceVM.fromDomain(e)).toList(),
+    );
+  }
+
+  int get totalBalance =>
+      stockBalanceList.fold(0, (previousValue, element) => previousValue + element.balance);
+
+  int get totalProfitAndLoss =>
+      stockBalanceList.fold(0, (previousValue, element) => previousValue + element.profitAndLoss);
+
+  double get totalProfitAndLossRate =>
+      double.parse((totalProfitAndLoss / totalBalance).toStringAsFixed(2));
+
+  bool get isProfit => totalProfitAndLoss >= 0;
+
+  void clear() {
+    stockBalanceList.clear();
+  }
+}
+
 class StockBalanceVM {
   final String name;
   final int quantity;
