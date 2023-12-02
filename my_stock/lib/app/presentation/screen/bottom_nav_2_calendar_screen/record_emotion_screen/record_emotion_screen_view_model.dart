@@ -5,6 +5,7 @@ import 'package:my_stock/app/domain/repository_interface/emotion_repostory.dart'
 import 'package:my_stock/app/domain/repository_interface/stock_repository.dart';
 import 'package:my_stock/app/domain/use_case/record_emotion_stock_use_case.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_2_calendar_screen/date_emotion.dart';
+import 'package:my_stock/app/presentation/stream/balance_update.dart';
 import 'package:my_stock/app/presentation/util/my_navigator.dart';
 import 'package:my_stock/app/presentation/util/my_snackbar.dart';
 import 'package:my_stock/app/presentation/vm/emotion_vm_enum.dart';
@@ -72,6 +73,7 @@ class RecordEmotionScreenViewModel with ChangeNotifier {
             text: textEditingController.text,
           ),
         );
+        BalanceUpdateStream.add();
       },
       onFail: () {},
       beforeThisWeek: () {},
