@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_stock/app/presentation/util/my_navigator.dart';
 import 'package:my_stock/app/presentation/vm/stock.dart';
-import 'package:my_stock/app/presentation/vm/stock_transaction.dart';
 import 'package:my_stock/app/presentation/widget/button.dart';
 import 'package:my_stock/app/presentation/widget/fit_text_field.dart';
 import 'package:my_stock/app/presentation/widget/number_keyboard.dart';
@@ -26,7 +24,7 @@ class AddHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final NumberFormat formatter = NumberFormat("#,###");
     return ChangeNotifierProvider(
-      create: (context) => AddHistoryScreenViewModel(buy: buy, defaultPrice: stock.price),
+      create: (context) => AddHistoryScreenViewModel(buy: buy, stock: stock),
       child: Scaffold(
         backgroundColor: BackgroundColor.defaultColor,
         body: SafeArea(
@@ -115,24 +113,7 @@ class AddHistoryScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Builder(builder: (context) {
                   return Button(
-                    onTap: () {
-                      TextEditingController priceController =
-                          context.read<AddHistoryScreenViewModel>().priceController;
-                      TextEditingController quantityController =
-                          context.read<AddHistoryScreenViewModel>().quantityController;
-                      if (priceController.text.isEmpty || quantityController.text.isEmpty) {
-                        return;
-                      }
-                      StockTransactionVM transaction = StockTransactionVM(
-                        ticker: stock.ticker,
-                        imageUrl: stock.imageUrl,
-                        name: stock.name,
-                        price: int.parse(priceController.text.replaceAll(",", "")),
-                        quantity: int.parse(quantityController.text.replaceAll(",", "")),
-                        buy: context.read<AddHistoryScreenViewModel>().buy,
-                      );
-                      MyNavigator.pop(transaction);
-                    },
+                    onTap: context.read<AddHistoryScreenViewModel>().onTap,
                     text: "${context.read<AddHistoryScreenViewModel>().buy ? "구매" : "판매"}내역 추가하기",
                     borderColor: context.read<AddHistoryScreenViewModel>().buy
                         ? StrokeColor.buy
