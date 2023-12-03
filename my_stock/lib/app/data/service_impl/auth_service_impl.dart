@@ -16,6 +16,7 @@ class AuthServiceImpl implements AuthService {
     try {
       _googleUser = await _googleSignIn.signIn();
       googleId = _googleUser!.id;
+      print("googleId: $googleId");
     } catch (e) {
       return Fail(SignInIssue.badRequest);
     }
@@ -60,6 +61,7 @@ class AuthServiceImpl implements AuthService {
           "nickname": nickname,
         },
       );
+      print("googleId: $googleId");
       final TokenDTO tokenDto = TokenDTO.fromJson(result.data);
       await _httpUtil.saveAccessToken(tokenDto.accessToken);
       _googleSignIn.signOut();
@@ -68,5 +70,29 @@ class AuthServiceImpl implements AuthService {
       return Fail(DefaultIssue.badRequest);
     }
     return Success(null);
+  }
+
+  @override
+  Future<Result<void, Enum>> testSignIn() async {
+    try {
+      final result = await _httpUtil.post("/api/user/signin/", data: {"google_id": "guest"});
+      final TokenDTO tokenDto = TokenDTO.fromJson(result.data);
+      await _httpUtil.saveAccessToken(tokenDto.accessToken);
+      _googleSignIn.signOut();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401) {
+        return Fail(SignInIssue.notRegistered);
+      }
+      _googleSignIn.signOut();
+      return Fail(SignInIssue.badRequest);
+    }
+    return Success(null);
+  }
+}
+
+class AuthServiceFactoryImpl implements AuthServiceFactory {
+  @override
+  AuthService createAuthService() {
+    return AuthServiceImpl();
   }
 }

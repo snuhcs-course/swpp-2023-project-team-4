@@ -117,11 +117,57 @@ class CalendarScreenViewModel with ChangeNotifier {
                   dateEmotion.emotion = EmotionVMEnum.sadder;
                   break;
               }
+              dateEmotion.text = record.text;
             }
           }
         }
         notifyListeners();
       },
     );
+  }
+
+  void updateDateEmotion(DateEmotionVM dateEmotion) {
+    for (int i = 0; i < dateEmotionList.length; i++) {
+      if (dateEmotionList[i].date == dateEmotion.date) {
+        dateEmotionList[i] = dateEmotion;
+      }
+    }
+    notifyListeners();
+  }
+
+  bool hasRecord(Date date) {
+    for (DateEmotionVM dateEmotion in dateEmotionList) {
+      if (dateEmotion.date == date) {
+        return dateEmotion.emotion != null && dateEmotion.emotion != EmotionVMEnum.notFilled;
+      }
+    }
+    return false;
+  }
+
+  EmotionVMEnum get selectedEmotion {
+    for (DateEmotionVM dateEmotion in dateEmotionList) {
+      if (isSelectedMap[dateEmotion.date] == true) {
+        return dateEmotion.emotion!;
+      }
+    }
+    return EmotionVMEnum.notFilled;
+  }
+
+  Date? get selectedDate {
+    for (DateEmotionVM dateEmotion in dateEmotionList) {
+      if (isSelectedMap[dateEmotion.date] == true) {
+        return dateEmotion.date;
+      }
+    }
+    return null;
+  }
+
+  String get selectedText {
+    for (DateEmotionVM dateEmotion in dateEmotionList) {
+      if (isSelectedMap[dateEmotion.date] == true) {
+        return dateEmotion.text;
+      }
+    }
+    return "";
   }
 }

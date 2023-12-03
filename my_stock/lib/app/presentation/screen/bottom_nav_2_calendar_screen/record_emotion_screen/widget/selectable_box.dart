@@ -16,20 +16,26 @@ class _SelectableBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: width,
-        height: width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: isSelected ? Colors.black : StrokeColor.writeText,
-            width: isSelected ? 2 : 1,
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            width: width,
+            height: width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(
+                color: isSelected ? Colors.black : StrokeColor.writeText,
+                width: isSelected ? 2 : 1,
+              ),
+              color: emotion.color,
+            ),
           ),
-          color: emotion.color,
         ),
-      ),
+        const SizedBox(height: 10),
+        Text(emotion.text, style: BodyTextStyle.nanum9),
+      ],
     );
   }
 }

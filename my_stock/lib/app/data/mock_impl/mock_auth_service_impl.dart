@@ -21,4 +21,16 @@ class MockAuthServiceImpl implements AuthService {
   Future<Result<void, Enum>> signUpByGoogle({required String nickname}) async {
     return Success(null);
   }
+
+  @override
+  Future<Result<void, Enum>> testSignIn() async {
+    return Success(null);
+  }
+}
+
+class MockAuthServiceImplFactory implements AuthServiceFactory {
+  @override
+  AuthService createAuthService() {
+    return MockAuthServiceImpl();
+  }
 }

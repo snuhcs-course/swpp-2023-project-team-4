@@ -73,3 +73,10 @@ class EmotionRepositoryImpl implements EmotionRepository {
     }
   }
 }
+
+class EmotionRepositoryFactoryImpl implements EmotionRepositoryFactory {
+  @override
+  EmotionRepository createEmotionRepository() {
+    return EmotionRepositoryImpl();
+  }
+}

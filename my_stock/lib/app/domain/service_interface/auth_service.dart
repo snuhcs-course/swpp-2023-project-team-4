@@ -8,9 +8,15 @@ abstract class AuthService {
   Future<Result<void, Enum>> signUpByGoogle({required String nickname});
 
   Future<Result<void, Enum>> signOut();
+
+  Future<Result<void, Enum>> testSignIn();
 }
 
 enum SignInIssue {
   badRequest,
   notRegistered,
+}
+
+abstract class AuthServiceFactory {
+  AuthService createAuthService();
 }
