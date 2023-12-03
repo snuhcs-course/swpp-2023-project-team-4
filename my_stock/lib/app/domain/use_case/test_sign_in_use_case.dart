@@ -16,7 +16,7 @@ class TestSignInUseCase {
 
   Future<void> call({
     required void Function() onSuccess,
-}) async {
+  }) async {
     final result = await _authService.testSignIn();
 
     switch (result) {
