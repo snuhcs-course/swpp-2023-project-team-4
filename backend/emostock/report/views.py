@@ -30,7 +30,7 @@ class ReportView(viewsets.ModelViewSet):
             serialized_data.append(
                 {
                     "title": "시가총액 TOP 5",
-                    "body": "1. 삼성전자 \n 2. LG에너지솔루션 \n 3. SK하이닉스 \n 4. 삼성바이오로직스 \n 5. 삼성전자우",
+                    "body": "1. 삼성전자 \n2. LG에너지솔루션\n3. SK하이닉스\n4. 삼성바이오로직스\n5. 삼성전자우",
                 }
             )
         return Response(serialized_data)
