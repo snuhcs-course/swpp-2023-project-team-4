@@ -3,6 +3,7 @@ class StockVM {
   final String name;
   final String imageUrl;
   final int price;
+  final int closingPrice;
   final double fluctuationRate;
 
   const StockVM({
@@ -10,6 +11,7 @@ class StockVM {
     required this.name,
     required this.imageUrl,
     required this.price,
+    required this.closingPrice,
     required this.fluctuationRate,
   });
 }

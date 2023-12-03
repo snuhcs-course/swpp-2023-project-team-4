@@ -14,3 +14,10 @@ class MockUserRepositoryImpl implements UserRepository {
     );
   }
 }
+
+class MockUserRepositoryImplFactory implements UserRepositoryFactory {
+  @override
+  UserRepository createUserRepository() {
+    return MockUserRepositoryImpl();
+  }
+}

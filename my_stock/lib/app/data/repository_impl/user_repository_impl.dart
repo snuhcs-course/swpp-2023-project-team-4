@@ -11,14 +11,13 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<User, DefaultIssue>> fetchUser() async {
     try {
-      print("start");
       final result = await _httpUtil.post("/api/user/verify/");
       print(result.data);
       final verifyDto = VerifyDTO.fromJson(result.data);
       return Success(
         User(
           id: verifyDto.userId,
-          nickname: "",
+          nickname: verifyDto.nickname,
           googleId: verifyDto.googleId,
         ),
       );
@@ -26,5 +25,12 @@ class UserRepositoryImpl implements UserRepository {
       print(e);
       return Fail(DefaultIssue.badRequest);
     }
+  }
+}
+
+class UserRepositoryFactoryImpl implements UserRepositoryFactory {
+  @override
+  UserRepository createUserRepository() {
+    return UserRepositoryImpl();
   }
 }

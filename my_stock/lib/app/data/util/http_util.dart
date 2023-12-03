@@ -7,7 +7,7 @@ class HttpUtil {
   SharedPreferences _pref = GetIt.I.get<SharedPreferences>();
 
   HttpUtil._() {
-    _dio.options.baseUrl = 'http://ec2-52-78-75-7.ap-northeast-2.compute.amazonaws.com:3000';
+    _dio.options.baseUrl = 'http://ec2-54-180-107-205.ap-northeast-2.compute.amazonaws.com:3000';
     _dio.interceptors.add(
       InterceptorsWrapper(onRequest: (options, handler) {
         if (this.isAuthorized) {

@@ -6,6 +6,9 @@ from user.models import User
 class UserEmotionQuerySet(models.query.QuerySet):
     def filter_by_user_and_month(self, user, year, month):
         return self.filter(user=user, date__year=year, date__month=month)
+    
+    def filter_by_user_and_date(self, user, start, end):
+        return self.filter(user=user, date__gte=start, date__lte=end)
 
 class Emotion(models.Model):
     user = models.ManyToManyField('user.User')

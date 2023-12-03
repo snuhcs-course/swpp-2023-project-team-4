@@ -32,11 +32,19 @@ class Date extends Equatable {
     return this.year > other.year;
   }
 
+  bool operator <=(covariant Date other) {
+    return !(this > other);
+  }
+
   @override
   List<Object?> get props => [year, month, day];
 
   DateTime toDateTime() {
     return DateTime(year, month, day);
+  }
+
+  factory Date.now() {
+    return Date.fromDateTime(DateTime.now());
   }
 }
 
@@ -70,5 +78,49 @@ extension DateExtension on Date {
     int weekday2 = datetime2.weekday;
     return datetime1.subtract(Duration(days: weekday1)) ==
         datetime2.subtract(Duration(days: weekday2));
+  }
+
+  int get weekday {
+    return DateTime(year, month, day).weekday;
+  }
+
+  Date subtract(Duration duration) {
+    return Date.fromDateTime(this.toDateTime().subtract(duration));
+  }
+
+  Date add(Duration duration) {
+    return Date.fromDateTime(this.toDateTime().add(duration));
+  }
+
+  (int, int, int) get nthWeek {
+    int year = this.year;
+    int weekday = this.weekday;
+    Date thirsday = this.add(Duration(days: 4 - weekday));
+    int thirsdayMonth = thirsday.month;
+
+    int prevCount = 0;
+
+    Date prevDate = thirsday.subtract(Duration(days: 7));
+    while (prevDate.month == thirsdayMonth) {
+      prevCount++;
+      prevDate = prevDate.subtract(Duration(days: 7));
+    }
+
+    return (year, thirsdayMonth, prevCount + 1);
+  }
+
+  Date get firstDayOfWeek {
+    int weekday = this.weekday;
+    return this.subtract(Duration(days: weekday - 1));
+  }
+
+  Date get lastDayOfWeek {
+    int weekday = this.weekday;
+    return this.add(Duration(days: 7 - weekday));
+  }
+
+  Date get friday {
+    int weekday = this.weekday;
+    return this.add(Duration(days: 5 - weekday));
   }
 }

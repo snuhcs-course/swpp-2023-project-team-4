@@ -15,3 +15,7 @@ enum LocalDataKey {
 enum LocalDataIssue {
   notFound,
 }
+
+abstract class LocalRepositoryFactory {
+  LocalRepository createLocalRepository();
+}

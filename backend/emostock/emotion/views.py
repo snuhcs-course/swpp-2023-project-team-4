@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta
 
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
-from django.utils import timezone
+from django.utils import timezone, dateparse
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
@@ -36,6 +36,18 @@ class EmotionListView(generics.ListAPIView):
         month = self.kwargs['month']
 
         return Emotion.objects.filter_by_user_and_month(self.request.user, year, month).order_by('date')
+
+
+class EmotionListByRangeView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = EmotionSerializer
+
+    def get_queryset(self):
+        start = dateparse.parse_date(self.request.GET['sdate'])
+        end = dateparse.parse_date(self.request.GET['edate'])
+
+        return Emotion.objects.filter_by_user_and_date(self.request.user, start, end).order_by('date')
+
 
 
 class DateNotValid(Exception):

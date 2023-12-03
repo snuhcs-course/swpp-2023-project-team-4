@@ -1,4 +1,5 @@
 import 'package:my_stock/app/domain/model/stock.dart';
+import 'package:my_stock/app/domain/model/stock_balance.dart';
 import 'package:my_stock/app/domain/result.dart';
 
 abstract class StockRepository {
@@ -11,4 +12,12 @@ abstract class StockRepository {
     required bool buy,
     required int userId,
   });
+
+  Future<Result<List<StockBalance>, DefaultIssue>> getStockBalances();
+
+  Future<Result<int, DefaultIssue>> getStockQuantity({required String ticker});
+}
+
+abstract class StockRepositoryFactory {
+  StockRepository createStockRepository();
 }
