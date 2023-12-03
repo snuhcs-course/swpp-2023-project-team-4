@@ -3,9 +3,25 @@ import 'package:my_stock/app/presentation/screen/bottom_nav_2_calendar_screen/da
 import 'package:my_stock/app/presentation/vm/emotion_vm_enum.dart';
 import 'package:my_stock/core/util/date.dart';
 
+Date getStartDate() {
+  Date currentDate = Date.now();
+  if (currentDate <= currentDate.friday) {
+    return currentDate.firstDayOfWeek.subtract(Duration(days: 7));
+  }
+  return currentDate.firstDayOfWeek;
+}
+
+Date getEndDate() {
+  Date currentDate = Date.now();
+  if (currentDate <= currentDate.friday) {
+    return currentDate.friday.subtract(Duration(days: 7));
+  }
+  return currentDate.friday;
+}
+
 class ReportScreenViewModel with ChangeNotifier {
-  Date startDate = Date.now().firstDayOfWeek;
-  Date endDate = Date.now().friday;
+  Date startDate = getStartDate();
+  Date endDate = getEndDate();
 
   (int, int, int) get selectedNthWeek => startDate.nthWeek;
 
@@ -31,9 +47,7 @@ class ReportScreenViewModel with ChangeNotifier {
     for (Date date in dates) {
       dateEmotionVMs.add(DateEmotionVM(date: date, emotion: EmotionVMEnum.values[date.day % 5]));
     }
-    dateEmotionVMs[4].emotion = null;
-    // dateEmotionVMs.removeLast();
-    // dateEmotionVMs.add(DateEmotionVM(date: endDate, emotion: null));
+    dateEmotionVMs[endDate.day % 5].emotion = null;
     return dateEmotionVMs;
   }
 }

@@ -26,6 +26,20 @@ class _CalendarDialogState extends State<_CalendarDialog> {
           onValueChanged: (dates) {
             if (dates.length == 1) {
               Date date = Date.fromDateTime(dates[0]!);
+              Date currentDate = Date.now();
+              if (date.isSameWeek(currentDate) && currentDate <= currentDate.friday) {
+                setState(() {
+                  _dates.clear();
+                });
+                MySnackBar.show("이번 주 리포트는 금요일 이후 확인할 수 있습니다");
+                return;
+              } else if (date > currentDate.lastDayOfWeek) {
+                setState(() {
+                  _dates.clear();
+                });
+                MySnackBar.show("미래의 주는 확인할 수 없습니다");
+                return;
+              }
               setState(
                 () {
                   _dates = [
@@ -60,7 +74,8 @@ class _CalendarDialogState extends State<_CalendarDialog> {
                   if (_dates.isEmpty) {
                     MySnackBar.show("주를 선택해주세요");
                   } else {
-                    MyNavigator.pop((Date.fromDateTime(_dates[0]), Date.fromDateTime(_dates[1])));
+                    MyNavigator.pop(
+                        (Date.fromDateTime(_dates[0]), Date.fromDateTime(_dates[1]).friday));
                   }
                 },
                 child: Padding(

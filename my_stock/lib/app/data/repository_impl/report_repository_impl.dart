@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:my_stock/app/data/dto/report_dto.dart';
 import 'package:my_stock/app/data/util/http_util.dart';
+import 'package:my_stock/app/domain/model/emotion_return_rate.dart';
 import 'package:my_stock/app/domain/model/report.dart';
 import 'package:my_stock/app/domain/repository_interface/report_repository.dart';
 import 'package:my_stock/app/domain/result.dart';
@@ -23,6 +24,11 @@ class ReportRepositoryImpl implements ReportRepository {
     } on DioException catch (e) {
       return Fail(DefaultIssue.badRequest);
     }
+  }
+
+  @override
+  Future<Result<List<EmotionReturnRate>, DefaultIssue>> getEmotionReturnRates() async {
+    return Success([]);
   }
 }
 

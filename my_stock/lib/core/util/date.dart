@@ -32,6 +32,10 @@ class Date extends Equatable {
     return this.year > other.year;
   }
 
+  bool operator <=(covariant Date other) {
+    return !(this > other);
+  }
+
   @override
   List<Object?> get props => [year, month, day];
 
