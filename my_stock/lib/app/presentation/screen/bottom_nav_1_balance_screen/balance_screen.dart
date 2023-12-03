@@ -75,7 +75,7 @@ class BalanceScreen extends StatelessWidget {
                           Text(_numberFormat.format(viewModel.stockBalanceListVM.totalBalance),
                               style: HeaderTextStyle.nanum18.black),
                           Text(
-                            "${viewModel.stockBalanceListVM.totalProfitAndLossRate}% (${viewModel.stockBalanceListVM.totalProfitAndLoss.abs()}원)",
+                            "${viewModel.stockBalanceListVM.totalProfitAndLossRate}% (${_numberFormat.format(viewModel.stockBalanceListVM.totalProfitAndLoss.abs())}원)",
                             style: BodyTextStyle.nanum12.copyWith(
                                 color: viewModel.stockBalanceListVM.isProfit
                                     ? EmotionColor.happier
@@ -143,14 +143,28 @@ class BalanceScreen extends StatelessWidget {
                         ),
                         color: BackgroundColor.white,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Emostock만의 주식 분석", style: PretendardTextStyle.semiBold15),
-                          const SizedBox(height: 20),
-                          Text("대충 텍스트"),
-                        ],
-                      ),
+                      child: viewModel.isReportLoading
+                          ? CupertinoActivityIndicator()
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Emostock만의 주식 분석", style: PretendardTextStyle.semiBold15),
+                                const SizedBox(height: 30),
+                                GapColumn(
+                                  gap: 30,
+                                  children: viewModel.reportList.map((e) {
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(e.title, style: PretendardTextStyle.semiBold14.black),
+                                        const SizedBox(height: 10),
+                                        Text(e.body, style: PretendardTextStyle.light13.black),
+                                      ],
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
                     ),
                   ],
                 ),

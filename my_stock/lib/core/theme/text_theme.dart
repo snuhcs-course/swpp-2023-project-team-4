@@ -89,6 +89,12 @@ abstract class PretendardTextStyle {
         fontFamily: 'Pretendard',
       );
 
+  static TextStyle get semiBold14 => TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Pretendard',
+      );
+
   static TextStyle get light13 => TextStyle(
         fontSize: 13,
         fontWeight: FontWeight.w300,
