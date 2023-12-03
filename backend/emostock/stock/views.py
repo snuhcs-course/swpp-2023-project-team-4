@@ -105,6 +105,8 @@ class UserBalanceView(viewsets.ModelViewSet):
             if sdate and edate:
                 result = MyStock.calculate_return(self.request.user, sdate, edate)
                 for k, v in result.items():
+                    if v[1] == 0:
+                        continue
                     serialized_data.append(
                         {
                             "emotion": k,
