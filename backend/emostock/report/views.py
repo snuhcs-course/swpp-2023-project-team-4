@@ -27,10 +27,12 @@ class ReportView(viewsets.ModelViewSet):
                     }
                 )
         if len(serialized_data) == 0:
-            serialized_data.append(
-                {
-                    "title": "시가총액 TOP 5",
-                    "body": "1. 삼성전자 \n2. LG에너지솔루션\n3. SK하이닉스\n4. 삼성바이오로직스\n5. 삼성전자우",
-                }
-            )
+            for i in ('005930', '373220', '000660', '207940', '005490'):
+                tmp = queryset.filter(stock=i).order_by("-date")[0]
+                serialized_data.append(
+                    {
+                        "title": tmp.title,
+                        "body": tmp.summary,
+                    }
+                )
         return Response(serialized_data)
