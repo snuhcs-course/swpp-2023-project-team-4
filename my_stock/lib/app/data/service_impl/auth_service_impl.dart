@@ -71,6 +71,23 @@ class AuthServiceImpl implements AuthService {
     }
     return Success(null);
   }
+
+  @override
+  Future<Result<void, Enum>> testSignIn() async {
+    try {
+      final result = await _httpUtil.post("/api/user/signin/", data: {"google_id": "guest"});
+      final TokenDTO tokenDto = TokenDTO.fromJson(result.data);
+      await _httpUtil.saveAccessToken(tokenDto.accessToken);
+      _googleSignIn.signOut();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401) {
+        return Fail(SignInIssue.notRegistered);
+      }
+      _googleSignIn.signOut();
+      return Fail(SignInIssue.badRequest);
+    }
+    return Success(null);
+  }
 }
 
 class AuthServiceFactoryImpl implements AuthServiceFactory {

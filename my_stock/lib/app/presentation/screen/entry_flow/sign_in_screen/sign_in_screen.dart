@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_stock/app/presentation/screen/entry_flow/sign_in_screen/sign_in_view_model.dart';
+import 'package:my_stock/app/presentation/util/my_snackbar.dart';
+import 'package:my_stock/core/theme/text_theme.dart';
 import 'package:provider/provider.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -66,6 +68,22 @@ class SignInScreen extends StatelessWidget {
                     ),
                   );
                 }),
+                const SizedBox(height: 5),
+                Builder(
+                  builder: (context) {
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: context.read<SignInViewModel>().testSignIn,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "테스트 계정으로 로그인 >",
+                          style: BodyTextStyle.nanum14.copyWith(color: Colors.grey),
+                        ),
+                      ),
+                    );
+                  }
+                ),
               ],
             ),
           ),
