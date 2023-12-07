@@ -16,6 +16,12 @@ class MockEmotionRepositoryImpl implements EmotionRepository {
       {required int year, required int month}) async {
     return Success([]);
   }
+
+  @override
+  Future<Result<List<DayRecord>, DefaultIssue>> getEmotionRecordsByDateRange(
+      {required Date startDate, required Date endDate}) async {
+    return Success([]);
+  }
 }
 
 class MockEmotionRepositoryImplFactory implements EmotionRepositoryFactory {

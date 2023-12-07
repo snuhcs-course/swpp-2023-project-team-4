@@ -11,6 +11,8 @@ class StockBalanceListVM {
     );
   }
 
+  bool get isEmpty => stockBalanceList.isEmpty;
+
   int get totalBalance =>
       stockBalanceList.fold(0, (previousValue, element) => previousValue + element.balance);
 

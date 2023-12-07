@@ -1,4 +1,5 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_stock/app/domain/model/user.dart';
@@ -183,8 +184,40 @@ class ReportScreen extends StatelessWidget {
                           );
                         }),
                         const SizedBox(height: 30),
-                        Text("${GetIt.I<User>().nickname}님을 위한 주간 분석",
-                            style: HeaderTextStyle.nanum16),
+                        Consumer<ReportScreenViewModel>(
+                          builder: (_, viewModel, __) {
+                            if (viewModel.isEmotionReturnRateLoading) {
+                              return Center(child: CupertinoActivityIndicator());
+                            }
+                            List<double?> emotionReturnRates = [
+                              viewModel.map[EmotionVMEnum.happier.number],
+                              viewModel.map[EmotionVMEnum.happy.number],
+                              viewModel.map[EmotionVMEnum.neutral.number],
+                              viewModel.map[EmotionVMEnum.sad.number],
+                              viewModel.map[EmotionVMEnum.sadder.number],
+                            ];
+                            if (emotionReturnRates.every((element) => element == null)) {
+                              return Center(
+                                child:
+                                    Text("해당 기간 중 거래내역이 없습니다!", style: BodyTextStyle.nanum12Light),
+                              );
+                            }
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("${GetIt.I<User>().nickname}님을 위한 주간 분석",
+                                    style: HeaderTextStyle.nanum16),
+                                const SizedBox(height: 10),
+                                for (int i = 0; i < emotionReturnRates.length; i++)
+                                  if (emotionReturnRates[i] != null)
+                                    Text(
+                                      "기분 ${i + 1}일 때, 수익률이 평균적으로 ${emotionReturnRates[i]}% ${emotionReturnRates[i]! > 0 ? "상승합니다" : "떨어집니다"}",
+                                      style: BodyTextStyle.nanum13.black,
+                                    )
+                              ],
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),

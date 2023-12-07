@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:my_stock/app/data/dto/day_record_dto.dart';
+import 'package:my_stock/app/data/dto/day_record_dto_2.dart';
 import 'package:my_stock/app/data/util/http_util.dart';
 import 'package:my_stock/app/domain/model/day_record.dart';
 import 'package:my_stock/app/domain/model/emotion.dart';
@@ -69,6 +70,39 @@ class EmotionRepositoryImpl implements EmotionRepository {
       }
       return Success(dayRecords);
     } on DioException catch (e) {
+      return Fail(DefaultIssue.badRequest);
+    }
+  }
+
+  @override
+  Future<Result<List<DayRecord>, DefaultIssue>> getEmotionRecordsByDateRange(
+      {required Date startDate, required Date endDate}) async {
+    try {
+      final response = await _httpUtil.get("/api/emotions/", queryParameters: {
+        "sdate": startDate.toDashString,
+        "edate": endDate.toDashString,
+      });
+      List<DayRecordDTO2> dtos = response.data.map((e) => DayRecordDTO2.fromJson(e)).toList();
+      List<DayRecord> dayRecords = [];
+      for (var dto in dtos) {
+        Emotion emotion;
+        if (dto.value == -2) {
+          emotion = Emotion.sadder;
+        } else if (dto.value == -1) {
+          emotion = Emotion.sad;
+        } else if (dto.value == 0) {
+          emotion = Emotion.neutral;
+        } else if (dto.value == 1) {
+          emotion = Emotion.happy;
+        } else {
+          emotion = Emotion.happier;
+        }
+        dayRecords.add(DayRecord(
+            date: Date.fromDateTime(DateTime.parse(dto.date)), emotion: emotion, text: ""));
+      }
+      print(response);
+      return Success([]);
+    } on DioException {
       return Fail(DefaultIssue.badRequest);
     }
   }

@@ -14,6 +14,11 @@ abstract class EmotionRepository {
     required int year,
     required int month,
   });
+
+  Future<Result<List<DayRecord>, DefaultIssue>> getEmotionRecordsByDateRange({
+    required Date startDate,
+    required Date endDate,
+  });
 }
 
 enum CreateEmotionIssue {

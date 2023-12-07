@@ -72,65 +72,70 @@ class BalanceScreen extends StatelessWidget {
                         children: [
                           Text("보유 주식", style: PretendardTextStyle.semiBold15.black),
                           const SizedBox(height: 10),
-                          Text(_numberFormat.format(viewModel.stockBalanceListVM.totalBalance),
-                              style: HeaderTextStyle.nanum18.black),
-                          Text(
-                            "${viewModel.stockBalanceListVM.totalProfitAndLossRate}% (${_numberFormat.format(viewModel.stockBalanceListVM.totalProfitAndLoss.abs())}원)",
-                            style: BodyTextStyle.nanum12.copyWith(
-                                color: viewModel.stockBalanceListVM.isProfit
-                                    ? EmotionColor.happier
-                                    : EmotionColor.sadder),
-                          ),
+                          if (viewModel.stockBalanceListVM.isEmpty)
+                            Text("보유 주식이 없습니다.", style: BodyTextStyle.nanum12.black),
+                          if (!viewModel.stockBalanceListVM.isEmpty)
+                            Text(_numberFormat.format(viewModel.stockBalanceListVM.totalBalance),
+                                style: HeaderTextStyle.nanum18.black),
+                          if (!viewModel.stockBalanceListVM.isEmpty)
+                            Text(
+                              "${viewModel.stockBalanceListVM.totalProfitAndLoss >= 0 ? "+" : ""}${viewModel.stockBalanceListVM.totalProfitAndLossRate}% (${_numberFormat.format(viewModel.stockBalanceListVM.totalProfitAndLoss.abs())}원)",
+                              style: BodyTextStyle.nanum12.copyWith(
+                                  color: viewModel.stockBalanceListVM.isProfit
+                                      ? EmotionColor.happier
+                                      : EmotionColor.sadder),
+                            ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 15),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: StrokeColor.writeText,
-                          width: 1,
-                        ),
-                        color: BackgroundColor.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("가나다 순", style: PretendardTextStyle.semiBold15),
-                          const SizedBox(height: 20),
-                          GapColumn(
-                            gap: 10,
-                            children: viewModel.stockBalanceListVM.stockBalanceList
-                                .map(
-                                  (e) => Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(e.name, style: HeaderTextStyle.nanum16),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Text("${_numberFormat.format(e.balance)}원",
-                                              style: HeaderTextStyle.nanum16),
-                                          Text(
-                                            "${e.profitAndLossRate}% (${_numberFormat.format(e.profitAndLoss.abs())}원)",
-                                            style: BodyTextStyle.nanum12.copyWith(
-                                                color: e.isProfit
-                                                    ? EmotionColor.happier
-                                                    : EmotionColor.sadder),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                )
-                                .toList(),
+                    if (!viewModel.stockBalanceListVM.isEmpty)
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: StrokeColor.writeText,
+                            width: 1,
                           ),
-                        ],
+                          color: BackgroundColor.white,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("가나다 순", style: PretendardTextStyle.semiBold15),
+                            const SizedBox(height: 20),
+                            GapColumn(
+                              gap: 10,
+                              children: viewModel.stockBalanceListVM.stockBalanceList
+                                  .map(
+                                    (e) => Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(e.name, style: HeaderTextStyle.nanum16),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            Text("${_numberFormat.format(e.balance)}원",
+                                                style: HeaderTextStyle.nanum16),
+                                            Text(
+                                              "${e.profitAndLossRate >= 0 ? "+${e.profitAndLossRate}" : "${e.profitAndLossRate}"}% (${_numberFormat.format(e.profitAndLoss.abs())}원)",
+                                              style: BodyTextStyle.nanum12.copyWith(
+                                                  color: e.isProfit
+                                                      ? EmotionColor.happier
+                                                      : EmotionColor.sadder),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
                     const SizedBox(height: 15),
                     Container(
                       width: double.infinity,
@@ -149,6 +154,9 @@ class BalanceScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Emostock만의 주식 분석", style: PretendardTextStyle.semiBold15),
+                                const SizedBox(height: 3),
+                                Text("관련 레포트가 없을 경우, 시가총액 TOP5의 레포트가 노출됩니다!",
+                                    style: BodyTextStyle.nanum12),
                                 const SizedBox(height: 30),
                                 GapColumn(
                                   gap: 30,
