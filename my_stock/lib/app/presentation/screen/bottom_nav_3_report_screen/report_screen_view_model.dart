@@ -29,6 +29,7 @@ Date getEndDate() {
 class ReportScreenViewModel with ChangeNotifier {
   ReportScreenViewModel() {
     _fetchEmotionReturnRates();
+    _fetchEmotionRecords();
   }
 
   Date startDate = getStartDate();
@@ -41,6 +42,7 @@ class ReportScreenViewModel with ChangeNotifier {
     this.startDate = startDate;
     this.endDate = endDate;
     _fetchEmotionReturnRates();
+    _fetchEmotionRecords();
     notifyListeners();
   }
 
@@ -80,23 +82,30 @@ class ReportScreenViewModel with ChangeNotifier {
     );
   }
 
-  List<DateEmotionVM> get dateEmotions {
-    List<DateEmotionVM> dateEmotionVMs = [];
-    for (Date date in dates) {
-      dateEmotionVMs.add(DateEmotionVM(date: date, emotion: EmotionVMEnum.values[date.day % 5]));
-    }
-    dateEmotionVMs[endDate.day % 5].emotion = null;
-    return dateEmotionVMs;
-  }
+  List<DateEmotionVM> dateEmotions = [];
+
+  // List<DateEmotionVM> get dateEmotions {
+  //   List<DateEmotionVM> dateEmotionVMs = [];
+  //   for (Date date in dates) {
+  //     dateEmotionVMs.add(DateEmotionVM(date: date, emotion: EmotionVMEnum.values[date.day % 5]));
+  //   }
+  //   dateEmotionVMs[endDate.day % 5].emotion = null;
+  //   return dateEmotionVMs;
+  // }
 
   final FetchEmotionRecordsUseCase _fetchEmotionRecordsUseCase =
       FetchEmotionRecordsUseCase(GetIt.I<EmotionRepository>());
 
   void _fetchEmotionRecords() {
+    dateEmotions.clear();
+    notifyListeners();
     _fetchEmotionRecordsUseCase(
       startDate: startDate,
       endDate: endDate,
       onSuccess: (List<DayRecord> dayRecords) {
+        for (Date date in dates) {
+          dateEmotions.add(DateEmotionVM(date: date, emotion: null));
+        }
         for (DayRecord dayRecord in dayRecords) {
           DateEmotionVM dateEmotionVM =
               dateEmotions.firstWhere((dateEmotionVM) => dateEmotionVM.date == dayRecord.date);

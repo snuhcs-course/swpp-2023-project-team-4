@@ -82,9 +82,10 @@ class EmotionRepositoryImpl implements EmotionRepository {
         "sdate": startDate.toDashString,
         "edate": endDate.toDashString,
       });
-      List<DayRecordDTO2> dtos = response.data.map((e) => DayRecordDTO2.fromJson(e)).toList();
+      print(response);
       List<DayRecord> dayRecords = [];
-      for (var dto in dtos) {
+      for (var json in response.data) {
+        DayRecordDTO2 dto = DayRecordDTO2.fromJson(json);
         Emotion emotion;
         if (dto.value == -2) {
           emotion = Emotion.sadder;
@@ -100,8 +101,24 @@ class EmotionRepositoryImpl implements EmotionRepository {
         dayRecords.add(DayRecord(
             date: Date.fromDateTime(DateTime.parse(dto.date)), emotion: emotion, text: ""));
       }
-      print(response);
-      return Success([]);
+      //
+      // for (var dto in dtos) {
+      //   Emotion emotion;
+      //   if (dto.value == -2) {
+      //     emotion = Emotion.sadder;
+      //   } else if (dto.value == -1) {
+      //     emotion = Emotion.sad;
+      //   } else if (dto.value == 0) {
+      //     emotion = Emotion.neutral;
+      //   } else if (dto.value == 1) {
+      //     emotion = Emotion.happy;
+      //   } else {
+      //     emotion = Emotion.happier;
+      //   }
+      //   dayRecords.add(DayRecord(
+      //       date: Date.fromDateTime(DateTime.parse(dto.date)), emotion: emotion, text: ""));
+      // }
+      return Success(dayRecords);
     } on DioException {
       return Fail(DefaultIssue.badRequest);
     }
