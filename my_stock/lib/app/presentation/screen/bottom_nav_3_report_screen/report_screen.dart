@@ -45,9 +45,8 @@ class ReportScreen extends StatelessWidget {
                           context.read<ReportScreenViewModel>().setDate;
                       return GestureDetector(
                         onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (_) => Dialog(child: _CalendarDialog())).then((value) {
+                          showDialog(context: context, builder: (_) => _CalendarDialog())
+                              .then((value) {
                             if (value == null) return;
                             setDate(value.$1, value.$2);
                           });
