@@ -6,6 +6,7 @@ import 'package:my_stock/app/domain/service_interface/auth_service.dart';
 import 'package:my_stock/app/domain/use_case/sign_up_use_case.dart';
 import 'package:my_stock/app/presentation/screen/bottom_nav_0_main_indexed_stack_screen/main_indexed_stack_screen.dart';
 import 'package:my_stock/app/presentation/util/my_navigator.dart';
+import 'package:my_stock/app/presentation/util/my_snackbar.dart';
 
 class NicknameScreenViewModel extends ChangeNotifier {
   final TextEditingController controller = TextEditingController();
@@ -27,6 +28,9 @@ class NicknameScreenViewModel extends ChangeNotifier {
   }
 
   void onArrowButtonClicked() {
+    if (!boxActive) {
+      MySnackBar.show("닉네임을 입력해주세요!");
+    }
     EasyLoading.show(status: 'loading...');
     _signUpUseCase
         .call(

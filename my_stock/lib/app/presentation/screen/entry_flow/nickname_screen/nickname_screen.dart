@@ -65,9 +65,7 @@ class _NicknameScreenState extends State<NicknameScreen> {
               Spacer(),
               Consumer<NicknameScreenViewModel>(builder: (context, viewModel, __) {
                 return GestureDetector(
-                  onTap: viewModel.boxActive
-                      ? context.read<NicknameScreenViewModel>().onArrowButtonClicked
-                      : null,
+                  onTap: context.read<NicknameScreenViewModel>().onArrowButtonClicked,
                   child: Image.asset(
                     viewModel.boxActive
                         ? 'assets/images/active_arrow_box.png'
