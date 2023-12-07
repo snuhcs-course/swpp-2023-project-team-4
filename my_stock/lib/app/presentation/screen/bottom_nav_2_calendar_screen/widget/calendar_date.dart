@@ -18,7 +18,7 @@ class _CalendarDate extends StatelessWidget {
       onTap: () {
         if (dateEmotionVM.date == null) return;
         if (dateEmotionVM.emotion == null) {
-          MySnackBar.show("미래의 주는 선택할 수 없습니다");
+          MySnackBar.show("미래는 선택할 수 없습니다");
           return;
         }
         onTap(dateEmotionVM.date!);

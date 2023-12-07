@@ -29,7 +29,7 @@ class NicknameScreenViewModel extends ChangeNotifier {
 
   void onArrowButtonClicked() {
     if (!boxActive) {
-      MySnackBar.show("닉네임을 입력해주세요!");
+      MySnackBar.show("닉네임을 설정하세요");
     }
     EasyLoading.show(status: 'loading...');
     _signUpUseCase

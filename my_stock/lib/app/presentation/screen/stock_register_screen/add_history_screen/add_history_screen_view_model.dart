@@ -58,7 +58,12 @@ class AddHistoryScreenViewModel with ChangeNotifier {
   }
 
   void onTap() {
-    if (priceController.text.isEmpty || quantityController.text.isEmpty) {
+    if (priceController.text.isEmpty) {
+      MySnackBar.show("가격을 입력하세요");
+      return;
+    }
+    if (quantityController.text.isEmpty) {
+      MySnackBar.show("수량을 입력하세요");
       return;
     }
     StockTransactionVM transactionVM = StockTransactionVM(
