@@ -1,0 +1,49 @@
+flutter_native_splash:
+  # 필수 파라미터 2개 color 혹은 background_image
+  # 둘 중 하나만 활성화할 수 있다. 백그라운드 png는 알아서 앱 사이즈로 stretch 된다고 한다.
+  color: "#FFFFFF"
+  #background_image: "assets/background.png"
+
+  # 아래는 optional 파라미터들.
+
+  # image 파라미터는 스플래시 화면 가운데 이미지이다. 사이즈 관련 제약은 아래와 같다고 한다.
+  # 다만, 이 파라미터는 안드로이드 12에서 적용이 안된다. 이 말인 즉슨, 이 부분은 설정을 해도
+  # ios와 낮은 버전의 안드로이드에만 적용된다.
+  # png file and should be sized for 4x pixel density.
+  image: assets/images/logo1024.png
+
+  # 아래 3개의 파라미터는 다크모드일 때 사용할 파라미터를 말한다.
+  # color_dark 와 background_dark 는 동시 설정이 불가능하다.
+  #color_dark: "#042a49"
+  #background_image_dark: "assets/dark-background.png"
+  #image_dark: assets/splash-invert.png
+
+  # 아래는 안드로이드 12와 관련된 설정이다. 안드로이드 12는 요즘 안드로이드 os에서 일괄적용되는 것
+  # 앱 디자인 템플릿이다. 화면 가운데 아이콘, 앱 배경색, 아이콘 자체 배경색 3가지만 커스텀이 가능하다.
+  android_12:
+    # 왜 이런식으로 했는지 모르겠는데 사이즈 제약이 명확하다.
+    # 배경이 있는 icon: 960×960 pixel의 정사각형, 그리고 실질적 로고는 가운데 지름 640pixel짜리 원
+    # 안에 다 들어가야 함.
+    # 배경이 없는 icon: 1152×1152 pixel의 정사각형, 그리고 실질적 로고는 가운데 지름 768pixel짜리 원
+    # 안에 다 들어가야 함.
+    image: assets/images/logo960.png
+
+    # 배경색.
+    color: "#FFFFFF"
+
+    # 아이콘의 배경색, 아마 아이콘 내부 원 과 정사각형 사이를 채워주는 색 같다.
+    #icon_background_color: "#111111"
+
+    # 얘네는 그냥 다크모드일 때 추가 설정
+    #image_dark: assets/android12splash-invert.png
+    #color_dark: "#042a49"
+    #icon_background_color_dark: "#eeeeee"
+
+  # 플랫폼 별로 적용 끄고 싶으면 주석 해제하면 됨.
+  #android: false
+  #ios: false
+  #web: false
+
+  # Platform specific으로 커스터마이징하고 싶으면 아래 참고. 사이트 참고
+
+  # 기본 스플래시 이미지는 가운데 정렬이고. 추가로 설정하고 싶으면 사이트 참고
