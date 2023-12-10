@@ -16,8 +16,9 @@ class AuthServiceImpl implements AuthService {
     try {
       _googleUser = await _googleSignIn.signIn();
       googleId = _googleUser!.id;
-      print("googleId: $googleId");
+      // print("googleId: $googleId");
     } catch (e) {
+      // MySnackBar.show(e.toString());
       return Fail(SignInIssue.badRequest);
     }
     try {
@@ -26,10 +27,14 @@ class AuthServiceImpl implements AuthService {
       await _httpUtil.saveAccessToken(tokenDto.accessToken);
       _googleSignIn.signOut();
     } on DioException catch (e) {
+      // MySnackBar.show(e.response?.data['message'] ?? "로그인에 실패했습니다.");
       if (e.response?.statusCode == 401) {
         return Fail(SignInIssue.notRegistered);
       }
       _googleSignIn.signOut();
+      return Fail(SignInIssue.badRequest);
+    } catch (e) {
+      // MySnackBar.show(e.toString());
       return Fail(SignInIssue.badRequest);
     }
     return Success(null);
