@@ -123,4 +123,8 @@ extension DateExtension on Date {
     int weekday = this.weekday;
     return this.add(Duration(days: 5 - weekday));
   }
+
+  String get toDashString {
+    return "${year}-${month}-${day}";
+  }
 }

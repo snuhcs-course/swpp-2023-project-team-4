@@ -29,6 +29,8 @@ enum EmotionVMEnum {
     }
   }
 
+  int get number => EmotionEnum.values.indexOf(this.toEmotionEnum);
+
   Color get color {
     if (this == EmotionVMEnum.happier) {
       return EmotionColor.happier;

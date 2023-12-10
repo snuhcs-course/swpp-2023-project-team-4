@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:my_stock/app/domain/repository_interface/user_repository.dart';
 import 'package:my_stock/app/domain/service_interface/auth_service.dart';
 import 'package:my_stock/app/domain/use_case/auto_sign_in_use_case.dart';
@@ -34,7 +35,9 @@ class _SplashScreenState extends State<SplashScreen> {
         onFail: () {
           MyNavigator.pushReplacementNamed(SignInScreen.routeName);
         },
-      );
+      ).then((value) {
+        FlutterNativeSplash.remove();
+      });
     });
   }
 

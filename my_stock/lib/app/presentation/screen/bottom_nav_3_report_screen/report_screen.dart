@@ -1,4 +1,5 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_stock/app/domain/model/user.dart';
@@ -27,171 +28,209 @@ class ReportScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: BackgroundColor.defaultColor,
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                children: [
-                  const SizedBox(height: 30),
-                  Builder(builder: (context) {
-                    void Function(Date, Date) setDate =
-                        context.read<ReportScreenViewModel>().setDate;
-                    return GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (_) => Dialog(child: _CalendarDialog())).then((value) {
-                          if (value == null) return;
-                          setDate(value.$1, value.$2);
-                        });
-                      },
-                      behavior: HitTestBehavior.opaque,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Consumer<ReportScreenViewModel>(
-                              builder: (_, viewModel, __) {
-                                (int, int, int) selectedNthWeek = viewModel.selectedNthWeek;
-                                int year = selectedNthWeek.$1;
-                                int month = selectedNthWeek.$2;
-                                int week = selectedNthWeek.$3;
-                                return Text(
-                                  "$year년 $month월 $week주차",
-                                  style: HeaderTextStyle.nanum16.writeText,
-                                );
-                              },
-                            ),
-                            const SizedBox(width: 10),
-                            Image.asset("assets/images/downward_arrow.png"),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-                  const SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 29.5).copyWith(
-                      top: 15,
-                      bottom: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.black),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      children: [
-                        Text("기분 흐름 그래프", style: BodyTextStyle.nanum12),
-                        const SizedBox(height: 9),
-                        Container(width: double.infinity, height: 1, color: Colors.black),
-                        const SizedBox(height: 11),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(width: 4),
-                            Column(
-                              children: [
-                                _Circle(EmotionColor.happier),
-                                const SizedBox(height: 10),
-                                _Circle(EmotionColor.happy),
-                                const SizedBox(height: 10),
-                                _Circle(EmotionColor.neutral),
-                                const SizedBox(height: 10),
-                                _Circle(EmotionColor.sad),
-                                const SizedBox(height: 10),
-                                _Circle(EmotionColor.sadder),
-                              ],
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              child: LayoutBuilder(
-                                builder: (context, constraints) {
-                                  double maxWidth = constraints.maxWidth;
-                                  double width = (maxWidth - 1) / 5;
-                                  return Consumer<ReportScreenViewModel>(
-                                      builder: (_, viewModel, __) {
-                                    return Stack(
-                                      children: [
-                                        Row(
-                                          children: viewModel.dates.map((date) {
-                                            return _ColumnElement(
-                                              date: date,
-                                              width: width,
-                                            );
-                                          }).toList(),
-                                        ),
-                                        _graphLine(maxWidth, viewModel.dateEmotions),
-                                        ..._graphCircles(viewModel.dateEmotions, width),
-                                      ],
-                                    );
-                                  });
+          child: Consumer<ReportScreenViewModel>(builder: (context, viewModel, _) {
+            if (viewModel.dateEmotions.isEmpty) {
+              return Center(
+                child: CupertinoActivityIndicator(),
+              );
+            }
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 30),
+                    Builder(builder: (context) {
+                      void Function(Date, Date) setDate =
+                          context.read<ReportScreenViewModel>().setDate;
+                      return GestureDetector(
+                        onTap: () {
+                          showDialog(context: context, builder: (_) => _CalendarDialog())
+                              .then((value) {
+                            if (value == null) return;
+                            setDate(value.$1, value.$2);
+                          });
+                        },
+                        behavior: HitTestBehavior.opaque,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Consumer<ReportScreenViewModel>(
+                                builder: (_, viewModel, __) {
+                                  (int, int, int) selectedNthWeek = viewModel.selectedNthWeek;
+                                  int year = selectedNthWeek.$1;
+                                  int month = selectedNthWeek.$2;
+                                  int week = selectedNthWeek.$3;
+                                  return Text(
+                                    "$year년 $month월 $week주차",
+                                    style: HeaderTextStyle.nanum16.writeText,
+                                  );
                                 },
                               ),
-                            ),
-                            const SizedBox(width: 3),
-                          ],
+                              const SizedBox(width: 10),
+                              Image.asset("assets/images/downward_arrow.png"),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: 9),
-                        Container(width: double.infinity, height: 1, color: Colors.black),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30).copyWith(
-                      top: 15,
-                      bottom: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.black),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text("Emostock만의 주식 분석", style: BodyTextStyle.nanum12.black),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(width: double.infinity, height: 1, color: Colors.black),
-                        const SizedBox(height: 20),
-                        Builder(builder: (context) {
-                          List<EmotionVMEnum> emotions = [
-                            EmotionVMEnum.happier,
-                            EmotionVMEnum.happy,
-                            EmotionVMEnum.neutral,
-                            EmotionVMEnum.sad,
-                            EmotionVMEnum.sadder,
-                          ];
-                          List<Widget> widgets = [];
-                          for (int i = 0; i < emotions.length; i++) {
-                            widgets.add(
+                      );
+                    }),
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 29.5).copyWith(
+                        top: 15,
+                        bottom: 20,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.black),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          Text("기분 흐름 그래프", style: BodyTextStyle.nanum12),
+                          const SizedBox(height: 9),
+                          Container(width: double.infinity, height: 1, color: Colors.black),
+                          const SizedBox(height: 11),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(width: 4),
+                              Column(
+                                children: [
+                                  _Circle(EmotionColor.happier),
+                                  const SizedBox(height: 10),
+                                  _Circle(EmotionColor.happy),
+                                  const SizedBox(height: 10),
+                                  _Circle(EmotionColor.neutral),
+                                  const SizedBox(height: 10),
+                                  _Circle(EmotionColor.sad),
+                                  const SizedBox(height: 10),
+                                  _Circle(EmotionColor.sadder),
+                                ],
+                              ),
+                              const SizedBox(width: 20),
                               Expanded(
-                                child: _EmotionExample(
-                                  index: i + 1,
-                                  emotion: emotions[i],
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    double maxWidth = constraints.maxWidth;
+                                    double width = (maxWidth - 1) / 5;
+                                    return Consumer<ReportScreenViewModel>(
+                                        builder: (_, viewModel, __) {
+                                      return Stack(
+                                        children: [
+                                          Row(
+                                            children: viewModel.dates.map((date) {
+                                              return _ColumnElement(
+                                                date: date,
+                                                width: width,
+                                              );
+                                            }).toList(),
+                                          ),
+                                          _graphLine(maxWidth, viewModel.dateEmotions),
+                                          ..._graphCircles(viewModel.dateEmotions, width),
+                                        ],
+                                      );
+                                    });
+                                  },
                                 ),
                               ),
-                            );
-                          }
-                          return Row(
-                            children: widgets,
-                          );
-                        }),
-                        const SizedBox(height: 30),
-                        Text("${GetIt.I<User>().nickname}님을 위한 주간 분석",
-                            style: HeaderTextStyle.nanum16),
-                      ],
+                              const SizedBox(width: 3),
+                            ],
+                          ),
+                          const SizedBox(height: 9),
+                          Container(width: double.infinity, height: 1, color: Colors.black),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 30).copyWith(
+                        top: 15,
+                        bottom: 20,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.black),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text("Emostock만의 주식 분석", style: BodyTextStyle.nanum12.black),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(width: double.infinity, height: 1, color: Colors.black),
+                          const SizedBox(height: 20),
+                          Builder(builder: (context) {
+                            List<EmotionVMEnum> emotions = [
+                              EmotionVMEnum.happier,
+                              EmotionVMEnum.happy,
+                              EmotionVMEnum.neutral,
+                              EmotionVMEnum.sad,
+                              EmotionVMEnum.sadder,
+                            ];
+                            List<Widget> widgets = [];
+                            for (int i = 0; i < emotions.length; i++) {
+                              widgets.add(
+                                Expanded(
+                                  child: _EmotionExample(
+                                    index: i + 1,
+                                    emotion: emotions[i],
+                                  ),
+                                ),
+                              );
+                            }
+                            return Row(
+                              children: widgets,
+                            );
+                          }),
+                          const SizedBox(height: 30),
+                          Consumer<ReportScreenViewModel>(
+                            builder: (_, viewModel, __) {
+                              if (viewModel.isEmotionReturnRateLoading) {
+                                return Center(child: CupertinoActivityIndicator());
+                              }
+                              List<double?> emotionReturnRates = [
+                                viewModel.map[EmotionVMEnum.happier.number],
+                                viewModel.map[EmotionVMEnum.happy.number],
+                                viewModel.map[EmotionVMEnum.neutral.number],
+                                viewModel.map[EmotionVMEnum.sad.number],
+                                viewModel.map[EmotionVMEnum.sadder.number],
+                              ];
+                              if (emotionReturnRates.every((element) => element == null)) {
+                                return Center(
+                                  child: Text("해당 기간 중 거래내역이 없습니다!",
+                                      style: BodyTextStyle.nanum12Light),
+                                );
+                              }
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("${GetIt.I<User>().nickname}님을 위한 주간 분석",
+                                      style: HeaderTextStyle.nanum16),
+                                  const SizedBox(height: 10),
+                                  for (int i = 0; i < emotionReturnRates.length; i++)
+                                    if (emotionReturnRates[i] != null)
+                                      Text(
+                                        "기분 ${i + 1}일 때, 수익률이 평균적으로 ${emotionReturnRates[i]}% ${emotionReturnRates[i]! > 0 ? "상승합니다" : "떨어집니다"}",
+                                        style: BodyTextStyle.nanum13.black,
+                                      )
+                                ],
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
+            );
+          }),
         ),
       ),
     );

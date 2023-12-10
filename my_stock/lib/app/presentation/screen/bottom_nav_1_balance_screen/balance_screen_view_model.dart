@@ -34,6 +34,7 @@ class BalanceScreenViewModel with ChangeNotifier {
     });
     BalanceUpdateStream.stream.listen((event) {
       _fetchBalance();
+      _fetchRecords();
     });
   }
 
@@ -47,7 +48,8 @@ class BalanceScreenViewModel with ChangeNotifier {
 
   void _fetchRecords() async {
     _fetchReportsUseCase(onSuccess: (reports) {
-      reportList = reports.map((e) => ReportVM.fromDomain(e)).toList();
+      reportList.clear();
+      reportList.addAll(reports.map((e) => ReportVM.fromDomain(e)));
       isReportLoading = false;
       notifyListeners();
     });
